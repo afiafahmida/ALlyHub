@@ -26,5 +26,16 @@ namespace ALlyHub.Controllers
 
             return View();
         }
+        public ActionResult FindTalent()
+        {             
+            ViewBag.Message = "Find Talent";
+        
+            return View();
+        }
+        public ActionResult FindJobs()
+        {
+            ViewBag.Message = "Find Jobs";
+            return View();
+        }
     }
 }
