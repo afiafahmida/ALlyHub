@@ -1,0 +1,21 @@
+﻿/*Variables*/
+:root {
+    --navBg: #DCF2F1;
+    --first-color: #7AB2B2;
+    --second-color: #135D66;
+    --third-color: #003C43;
+}
+.logBtn {
+    background: transparent !important;
+    border: 1px solid var(--second-color) !important;
+    color: black !important;
+    transition:all 0.5s;
+}
+.logBtn:hover {
+    background: var(--second-color) !important;
+    color: white !important;
+}
+.title {
+    color: var(--second-color) !important;
+    font-weight: 700 !important;
+}

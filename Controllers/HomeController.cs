@@ -37,5 +37,10 @@ namespace ALlyHub.Controllers
             ViewBag.Message = "Find Jobs";
             return View();
         }
+        public ActionResult Login()
+        {
+            
+            return View();
+        }
     }
 }
