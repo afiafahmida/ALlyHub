@@ -140,10 +140,25 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\client-1.png" />
+    <Content Include="Images\client-2.png" />
+    <Content Include="Images\client-3.png" />
+    <Content Include="Images\client-4.png" />
+    <Content Include="Images\client-5.png" />
+    <Content Include="Images\client-6.png" />
+    <Content Include="Images\client-7.png" />
+    <Content Include="Images\client-8.png" />
+    <Content Include="Images\collaboration.gif" />
+    <Content Include="Images\communications.gif" />
     <Content Include="Images\handshake.ico" />
     <Content Include="Images\hero-img.png" />
+    <Content Include="Images\job-offer.gif" />
     <Content Include="Images\Logo2.png" />
     <Content Include="Images\Logo.png" />
+    <Content Include="Images\payment-app.gif" />
+    <Content Include="Images\why.gif" />
+    <Content Include="Images\Why_choose_us.jpg" />
+    <Content Include="Images\work.gif" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -178,6 +193,7 @@
     <Content Include="Views\Home\FindTalent.cshtml" />
     <Content Include="Views\Home\FindJobs.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -32,7 +32,7 @@
 
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("FInd Talent", "FindTalent", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Find Talent", "FindTalent", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Find Job", "FindJobs", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Why AllyHub", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
@@ -40,7 +40,7 @@
                     <input class="nav-search form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 </form>
                 <a href="@Url.RouteUrl(new {controller="Home" , Action="Login"})" class="navLogin">Login</a>
-                <a href="#" class="navSignup">SignUp</a>
+                <a href="@Url.RouteUrl(new {controller="Home" , Action="Register"})" class="navSignup">SignUp</a>
             </div>
         </div>
     </nav>
@@ -121,7 +121,7 @@
                 <!-- You can delete the links only if you've purchased the pro version. -->
                 <!-- Licensing information: https://bootstrapmade.com/license/ -->
                 <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                Designed by <a href="">AllyHub</a>
             </div>
         </div>
 

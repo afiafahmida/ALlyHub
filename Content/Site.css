@@ -1,4 +1,8 @@
-﻿/* Set padding to keep content from hitting the edges */
+﻿
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Set padding to keep content from hitting the edges */
+
 .body-content {
     margin-top: 15px;
     padding-left: 15px;
@@ -17,6 +21,7 @@
     --first-color: #7AB2B2;
     --second-color: #135D66;
     --third-color: #003C43;
+    --main-font: 'Kanit', sans-serif;
 }
 
 a{
@@ -24,7 +29,7 @@ a{
 }
 /**Navbar CSS*/
 .navbar {
-    background: #DCF2F1 !important;
+    background: var(--navBg) !important;
 }
 
 .navlogo {
@@ -42,10 +47,12 @@ a{
 }
 
 .nav-link {
+    font-family: var(--main-font) !important;
     font-weight: 400;
 }
 
 .navbar-brand {
+    font-family: var(--main-font) !important;
     font-weight: 600;
 }
 
@@ -73,6 +80,8 @@ a{
     text-decoration: none;
     color: snow;
     transition: 0.5s;
+    font-family: var(--main-font);
+    font-weight: 400;
 }
 
 .navLogin {
@@ -186,12 +195,19 @@ a{
 }
 
     .footer .footer-newsletter {
-        background-color: var(--first-color);
+        background-color: var(--navBg);
         padding: 50px 0;
     }
 
         .footer .footer-newsletter h4 {
             font-size: 24px;
+            font-family: var(--main-font);
+            font-weight: 500;
+        }
+        .footer .footer-newsletter p{
+            font-family: var(--main-font);
+            font-weight: 400;
+            color: black;
         }
 
         .footer .footer-newsletter .newsletter-form {
@@ -201,7 +217,7 @@ a{
             display: flex;
             transition: 0.3s;
             border-radius: 50px;
-            justify-content:space-around
+            justify-content: space-around
         }
 
             .footer .footer-newsletter .newsletter-form:focus-within {
@@ -215,6 +231,7 @@ a{
                 background-color: white;
                 border-radius:30px;
                 color: var(--default-color);
+                margin-right:20px;
             }
 
                 .footer .footer-newsletter .newsletter-form input[type=email]:focus-visible {
@@ -290,6 +307,7 @@ a{
 }
 
 .footer .footer-top {
+    font-family: var(--main-font);
     padding-top: 50px;
 }
 
@@ -300,16 +318,14 @@ a{
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 1px solid color-mix(in srgb, var(--default-color), transparent 50%);
     font-size: 16px;
-    color: color-mix(in srgb, var(--default-color), transparent 20%);
+    color: black;
     margin-right: 10px;
     transition: 0.3s;
 }
 
     .footer .social-links a:hover {
-        color: var(--accent-color);
-        border-color: var(--accent-color);
+        color: var(--second-color);
     }
 
 .footer h4 {
@@ -347,13 +363,15 @@ a{
             }
 
         .footer .footer-links ul a {
+            font-family: var(--main-font);
+            font-weight: 300;
             display: inline-block;
-            color: color-mix(in srgb, var(--default-color), transparent 20%);
+            color: black;
             line-height: 1;
         }
 
             .footer .footer-links ul a:hover {
-                color: var(--accent-color);
+                color: var(--second-color);
             }
 
 .footer .footer-about a {
@@ -382,3 +400,6 @@ a{
     margin-top: 6px;
     font-size: 13px;
 }
+
+
+/*--------------------------Catagory------------------------------------*/

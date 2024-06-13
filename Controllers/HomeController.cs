@@ -42,5 +42,9 @@ namespace ALlyHub.Controllers
             
             return View();
         }
+        public ActionResult Register()
+        {
+            return View();
+        }
     }
 }
