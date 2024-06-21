@@ -1,0 +1,691 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AllyhubModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Certification">
+          <Key>
+            <PropertyRef Name="CertificateID" />
+          </Key>
+          <Property Name="CertificateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="DeveloperID" Type="int" Nullable="false" />
+          <Property Name="Provider" Type="varchar" MaxLength="100" />
+          <Property Name="CertificationLink" Type="varchar" MaxLength="100" />
+          <Property Name="DateEarned" Type="date" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="50" />
+          <Property Name="ClientLocation" Type="varchar" MaxLength="100" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Developer">
+          <Key>
+            <PropertyRef Name="DeveloperID" />
+          </Key>
+          <Property Name="DeveloperID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="PortfolioLink" Type="varchar" MaxLength="100" />
+          <Property Name="LinkedIn" Type="varchar" MaxLength="100" />
+          <Property Name="DevDescription" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="DeveloperSkill">
+          <Key>
+            <PropertyRef Name="SkillID" />
+          </Key>
+          <Property Name="SkillID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SkillName" Type="varchar" MaxLength="100" />
+          <Property Name="DeveloperID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Handshake">
+          <Key>
+            <PropertyRef Name="HandshakeID" />
+          </Key>
+          <Property Name="HandshakeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectID" Type="int" Nullable="false" />
+          <Property Name="DeveloperID" Type="int" Nullable="false" />
+          <Property Name="HandshakeDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HandshakeID" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="PaymentDate" Type="date" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Allyhub.dbo.PaymentDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PaymentDetails">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="int" Nullable="false" />
+          <Property Name="PaymentMethod" Type="varchar" MaxLength="100" />
+          <Property Name="Merchant" Type="varchar" MaxLength="100" />
+          <Property Name="AccountNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="ProgramUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="UserEmail" Type="varchar" MaxLength="50" />
+          <Property Name="UserPassword" Type="varchar" MaxLength="100" />
+          <Property Name="UserPhone" Type="varchar" MaxLength="20" />
+          <Property Name="UserAddress" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectTitle" Type="varchar" MaxLength="100" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="PaymentAmount" Type="int" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="Level" Type="int" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="SkillSet" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="ReviewID" />
+          </Key>
+          <Property Name="ReviewID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="Date" Type="date" />
+          <Property Name="GivenBy" Type="varchar" MaxLength="100" />
+          <Property Name="GivenTo" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK__Certifica__Devel__5441852A">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="1" />
+          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="DeveloperID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="DeveloperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Client__UserId__4BAC3F29">
+          <End Role="ProgramUser" Type="Self.ProgramUser" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProgramUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Developer__Devel__5165187F">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="1" />
+          <End Role="DeveloperSkill" Type="Self.DeveloperSkill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="DeveloperID" />
+            </Principal>
+            <Dependent Role="DeveloperSkill">
+              <PropertyRef Name="DeveloperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Developer__UserI__4E88ABD4">
+          <End Role="ProgramUser" Type="Self.ProgramUser" Multiplicity="1" />
+          <End Role="Developer" Type="Self.Developer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProgramUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Developer">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Handshake__Devel__5CD6CB2B">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="1" />
+          <End Role="Handshake" Type="Self.Handshake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="DeveloperID" />
+            </Principal>
+            <Dependent Role="Handshake">
+              <PropertyRef Name="DeveloperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Handshake__Proje__5BE2A6F2">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Handshake" Type="Self.Handshake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="Handshake">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payment__Handsha__5FB337D6">
+          <End Role="Handshake" Type="Self.Handshake" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Handshake">
+              <PropertyRef Name="HandshakeID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="HandshakeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PaymentDe__Payme__619B8048">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="PaymentDetails" Type="Self.PaymentDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentID" />
+            </Principal>
+            <Dependent Role="PaymentDetails">
+              <PropertyRef Name="PaymentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Project__ClientI__59063A47">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AllyhubModelStoreContainer">
+          <EntitySet Name="Certification" EntityType="Self.Certification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Developer" EntityType="Self.Developer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeveloperSkill" EntityType="Self.DeveloperSkill" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Handshake" EntityType="Self.Handshake" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProgramUser" EntityType="Self.ProgramUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentDetails" EntityType="Self.PaymentDetails" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PaymentDetails].[PaymentID] AS [PaymentID], 
+    [PaymentDetails].[PaymentMethod] AS [PaymentMethod], 
+    [PaymentDetails].[Merchant] AS [Merchant], 
+    [PaymentDetails].[AccountNumber] AS [AccountNumber]
+    FROM [dbo].[PaymentDetails] AS [PaymentDetails]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Certifica__Devel__5441852A" Association="Self.FK__Certifica__Devel__5441852A">
+            <End Role="Developer" EntitySet="Developer" />
+            <End Role="Certification" EntitySet="Certification" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Client__UserId__4BAC3F29" Association="Self.FK__Client__UserId__4BAC3F29">
+            <End Role="ProgramUser" EntitySet="ProgramUser" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Developer__Devel__5165187F" Association="Self.FK__Developer__Devel__5165187F">
+            <End Role="Developer" EntitySet="Developer" />
+            <End Role="DeveloperSkill" EntitySet="DeveloperSkill" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Developer__UserI__4E88ABD4" Association="Self.FK__Developer__UserI__4E88ABD4">
+            <End Role="ProgramUser" EntitySet="ProgramUser" />
+            <End Role="Developer" EntitySet="Developer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Handshake__Devel__5CD6CB2B" Association="Self.FK__Handshake__Devel__5CD6CB2B">
+            <End Role="Developer" EntitySet="Developer" />
+            <End Role="Handshake" EntitySet="Handshake" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Handshake__Proje__5BE2A6F2" Association="Self.FK__Handshake__Proje__5BE2A6F2">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Handshake" EntitySet="Handshake" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payment__Handsha__5FB337D6" Association="Self.FK__Payment__Handsha__5FB337D6">
+            <End Role="Handshake" EntitySet="Handshake" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaymentDe__Payme__619B8048" Association="Self.FK__PaymentDe__Payme__619B8048">
+            <End Role="Payment" EntitySet="Payment" />
+            <End Role="PaymentDetails" EntitySet="PaymentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Project__ClientI__59063A47" Association="Self.FK__Project__ClientI__59063A47">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AllyhubModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Certification">
+          <Key>
+            <PropertyRef Name="CertificateID" />
+          </Key>
+          <Property Name="CertificateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeveloperID" Type="Int32" Nullable="false" />
+          <Property Name="Provider" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CertificationLink" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DateEarned" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Developer" Relationship="Self.FK__Certifica__Devel__5441852A" FromRole="Certification" ToRole="Developer" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ClientLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProgramUser" Relationship="Self.FK__Client__UserId__4BAC3F29" FromRole="Client" ToRole="ProgramUser" />
+          <NavigationProperty Name="Projects" Relationship="Self.FK__Project__ClientI__59063A47" FromRole="Client" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="Developer">
+          <Key>
+            <PropertyRef Name="DeveloperID" />
+          </Key>
+          <Property Name="DeveloperID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="PortfolioLink" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LinkedIn" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DevDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Certifications" Relationship="Self.FK__Certifica__Devel__5441852A" FromRole="Developer" ToRole="Certification" />
+          <NavigationProperty Name="DeveloperSkills" Relationship="Self.FK__Developer__Devel__5165187F" FromRole="Developer" ToRole="DeveloperSkill" />
+          <NavigationProperty Name="ProgramUser" Relationship="Self.FK__Developer__UserI__4E88ABD4" FromRole="Developer" ToRole="ProgramUser" />
+          <NavigationProperty Name="Handshakes" Relationship="Self.FK__Handshake__Devel__5CD6CB2B" FromRole="Developer" ToRole="Handshake" />
+        </EntityType>
+        <EntityType Name="DeveloperSkill">
+          <Key>
+            <PropertyRef Name="SkillID" />
+          </Key>
+          <Property Name="SkillID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SkillName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DeveloperID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Developer" Relationship="Self.FK__Developer__Devel__5165187F" FromRole="DeveloperSkill" ToRole="Developer" />
+        </EntityType>
+        <EntityType Name="Handshake">
+          <Key>
+            <PropertyRef Name="HandshakeID" />
+          </Key>
+          <Property Name="HandshakeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectID" Type="Int32" Nullable="false" />
+          <Property Name="DeveloperID" Type="Int32" Nullable="false" />
+          <Property Name="HandshakeDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Developer" Relationship="Self.FK__Handshake__Devel__5CD6CB2B" FromRole="Handshake" ToRole="Developer" />
+          <NavigationProperty Name="Project" Relationship="Self.FK__Handshake__Proje__5BE2A6F2" FromRole="Handshake" ToRole="Project" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK__Payment__Handsha__5FB337D6" FromRole="Handshake" ToRole="Payment" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HandshakeID" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Handshake" Relationship="Self.FK__Payment__Handsha__5FB337D6" FromRole="Payment" ToRole="Handshake" />
+          <NavigationProperty Name="PaymentDetail" Relationship="Self.FK__PaymentDe__Payme__619B8048" FromRole="Payment" ToRole="PaymentDetails" />
+        </EntityType>
+        <EntityType Name="ProgramUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UserAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Clients" Relationship="Self.FK__Client__UserId__4BAC3F29" FromRole="ProgramUser" ToRole="Client" />
+          <NavigationProperty Name="Developers" Relationship="Self.FK__Developer__UserI__4E88ABD4" FromRole="ProgramUser" ToRole="Developer" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectID" />
+          </Key>
+          <Property Name="ProjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentAmount" Type="Int32" />
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
+          <Property Name="Level" Type="Int32" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="SkillSet" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Client" Relationship="Self.FK__Project__ClientI__59063A47" FromRole="Project" ToRole="Client" />
+          <NavigationProperty Name="Handshakes" Relationship="Self.FK__Handshake__Proje__5BE2A6F2" FromRole="Project" ToRole="Handshake" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="ReviewID" />
+          </Key>
+          <Property Name="ReviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="GivenBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GivenTo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PaymentDetail">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" />
+          <Property Name="PaymentMethod" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Merchant" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AccountNumber" Type="Int32" />
+          <NavigationProperty Name="Payment" Relationship="Self.FK__PaymentDe__Payme__619B8048" FromRole="PaymentDetails" ToRole="Payment" />
+        </EntityType>
+        <Association Name="FK__Certifica__Devel__5441852A">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="1" />
+          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="DeveloperID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="DeveloperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Client__UserId__4BAC3F29">
+          <End Role="ProgramUser" Type="Self.ProgramUser" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProgramUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Project__ClientI__59063A47">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Developer__Devel__5165187F">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="1" />
+          <End Role="DeveloperSkill" Type="Self.DeveloperSkill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="DeveloperID" />
+            </Principal>
+            <Dependent Role="DeveloperSkill">
+              <PropertyRef Name="DeveloperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Developer__UserI__4E88ABD4">
+          <End Role="ProgramUser" Type="Self.ProgramUser" Multiplicity="1" />
+          <End Role="Developer" Type="Self.Developer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProgramUser">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Developer">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Handshake__Devel__5CD6CB2B">
+          <End Role="Developer" Type="Self.Developer" Multiplicity="1" />
+          <End Role="Handshake" Type="Self.Handshake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Developer">
+              <PropertyRef Name="DeveloperID" />
+            </Principal>
+            <Dependent Role="Handshake">
+              <PropertyRef Name="DeveloperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Handshake__Proje__5BE2A6F2">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Handshake" Type="Self.Handshake" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectID" />
+            </Principal>
+            <Dependent Role="Handshake">
+              <PropertyRef Name="ProjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payment__Handsha__5FB337D6">
+          <End Role="Handshake" Type="Self.Handshake" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Handshake">
+              <PropertyRef Name="HandshakeID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="HandshakeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PaymentDe__Payme__619B8048">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="PaymentDetails" Type="Self.PaymentDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentID" />
+            </Principal>
+            <Dependent Role="PaymentDetails">
+              <PropertyRef Name="PaymentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AllyhubEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Certifications" EntityType="Self.Certification" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Developers" EntityType="Self.Developer" />
+          <EntitySet Name="DeveloperSkills" EntityType="Self.DeveloperSkill" />
+          <EntitySet Name="Handshakes" EntityType="Self.Handshake" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="ProgramUsers" EntityType="Self.ProgramUser" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="Reviews" EntityType="Self.Review" />
+          <EntitySet Name="PaymentDetails" EntityType="Self.PaymentDetail" />
+          <AssociationSet Name="FK__Certifica__Devel__5441852A" Association="Self.FK__Certifica__Devel__5441852A">
+            <End Role="Developer" EntitySet="Developers" />
+            <End Role="Certification" EntitySet="Certifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Client__UserId__4BAC3F29" Association="Self.FK__Client__UserId__4BAC3F29">
+            <End Role="ProgramUser" EntitySet="ProgramUsers" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Project__ClientI__59063A47" Association="Self.FK__Project__ClientI__59063A47">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Developer__Devel__5165187F" Association="Self.FK__Developer__Devel__5165187F">
+            <End Role="Developer" EntitySet="Developers" />
+            <End Role="DeveloperSkill" EntitySet="DeveloperSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Developer__UserI__4E88ABD4" Association="Self.FK__Developer__UserI__4E88ABD4">
+            <End Role="ProgramUser" EntitySet="ProgramUsers" />
+            <End Role="Developer" EntitySet="Developers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Handshake__Devel__5CD6CB2B" Association="Self.FK__Handshake__Devel__5CD6CB2B">
+            <End Role="Developer" EntitySet="Developers" />
+            <End Role="Handshake" EntitySet="Handshakes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Handshake__Proje__5BE2A6F2" Association="Self.FK__Handshake__Proje__5BE2A6F2">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="Handshake" EntitySet="Handshakes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payment__Handsha__5FB337D6" Association="Self.FK__Payment__Handsha__5FB337D6">
+            <End Role="Handshake" EntitySet="Handshakes" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaymentDe__Payme__619B8048" Association="Self.FK__PaymentDe__Payme__619B8048">
+            <End Role="Payment" EntitySet="Payments" />
+            <End Role="PaymentDetails" EntitySet="PaymentDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AllyhubModelStoreContainer" CdmEntityContainer="AllyhubEntities">
+          <EntitySetMapping Name="Certifications">
+            <EntityTypeMapping TypeName="AllyhubModel.Certification">
+              <MappingFragment StoreEntitySet="Certification">
+                <ScalarProperty Name="CertificateID" ColumnName="CertificateID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DeveloperID" ColumnName="DeveloperID" />
+                <ScalarProperty Name="Provider" ColumnName="Provider" />
+                <ScalarProperty Name="CertificationLink" ColumnName="CertificationLink" />
+                <ScalarProperty Name="DateEarned" ColumnName="DateEarned" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="AllyhubModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="ClientLocation" ColumnName="ClientLocation" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Developers">
+            <EntityTypeMapping TypeName="AllyhubModel.Developer">
+              <MappingFragment StoreEntitySet="Developer">
+                <ScalarProperty Name="DeveloperID" ColumnName="DeveloperID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PortfolioLink" ColumnName="PortfolioLink" />
+                <ScalarProperty Name="LinkedIn" ColumnName="LinkedIn" />
+                <ScalarProperty Name="DevDescription" ColumnName="DevDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeveloperSkills">
+            <EntityTypeMapping TypeName="AllyhubModel.DeveloperSkill">
+              <MappingFragment StoreEntitySet="DeveloperSkill">
+                <ScalarProperty Name="SkillID" ColumnName="SkillID" />
+                <ScalarProperty Name="SkillName" ColumnName="SkillName" />
+                <ScalarProperty Name="DeveloperID" ColumnName="DeveloperID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Handshakes">
+            <EntityTypeMapping TypeName="AllyhubModel.Handshake">
+              <MappingFragment StoreEntitySet="Handshake">
+                <ScalarProperty Name="HandshakeID" ColumnName="HandshakeID" />
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="DeveloperID" ColumnName="DeveloperID" />
+                <ScalarProperty Name="HandshakeDate" ColumnName="HandshakeDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="AllyhubModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="HandshakeID" ColumnName="HandshakeID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProgramUsers">
+            <EntityTypeMapping TypeName="AllyhubModel.ProgramUser">
+              <MappingFragment StoreEntitySet="ProgramUser">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="UserPhone" ColumnName="UserPhone" />
+                <ScalarProperty Name="UserAddress" ColumnName="UserAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="AllyhubModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="ProjectID" ColumnName="ProjectID" />
+                <ScalarProperty Name="ProjectTitle" ColumnName="ProjectTitle" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PaymentAmount" ColumnName="PaymentAmount" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="SkillSet" ColumnName="SkillSet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="AllyhubModel.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="GivenBy" ColumnName="GivenBy" />
+                <ScalarProperty Name="GivenTo" ColumnName="GivenTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentDetails">
+            <EntityTypeMapping TypeName="AllyhubModel.PaymentDetail">
+              <MappingFragment StoreEntitySet="PaymentDetails">
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="Merchant" ColumnName="Merchant" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
