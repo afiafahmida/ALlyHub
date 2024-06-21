@@ -190,6 +190,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\index.css" />
     <Content Include="Content\Login.css" />
+    <Content Include="Content\Profile.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -264,6 +265,9 @@
     <Content Include="Views\Home\FindJobs.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Home\Profile.cshtml" />
+    <Content Include="Views\Home\Task.cshtml" />
+    <Content Include="Views\Home\Team.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

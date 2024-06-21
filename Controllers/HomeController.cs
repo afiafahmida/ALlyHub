@@ -71,5 +71,19 @@ namespace ALlyHub.Controllers
            
         }
 
+        public ActionResult Profile()
+        {
+            return View();
+        }
+
+        public ActionResult Task()
+        {
+            return View();
+        }
+        public ActionResult Team()
+        {
+            return View();
+        }
+
     }
 }
