@@ -120,6 +120,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -166,6 +167,7 @@
     <Compile Include="Models\Project.cs">
       <DependentUpon>DBmodel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\Review.cs">
       <DependentUpon>DBmodel.tt</DependentUpon>
     </Compile>
@@ -188,6 +190,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\FintTalent.css" />
     <Content Include="Content\index.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\Profile.css" />

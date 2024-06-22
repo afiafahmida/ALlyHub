@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ALlyHub.Data;
 using ALlyHub.Models;
 
 
@@ -50,25 +51,21 @@ namespace ALlyHub.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Register(ProgramUser programUser)
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterModel model)
         {
-            if (db.ProgramUsers.Any(x => x.UserEmail == programUser.UserEmail))
+            if (ModelState.IsValid)
             {
-                ViewBag.Notification = "This Email is already Taken";
-                return View();  
+                if (DatabaseHelper.RegisterUser(model.FirstName, model.LastName, model.Email, model.Password, model.Address, model.Phone))
+                {
+                    return RedirectToAction("Index","Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Registration failed");
+                }
             }
-            else
-            {   
-                db.ProgramUsers.Add(programUser); 
-                db.SaveChanges();
-
-                Session["IDUsSS"] =programUser.UserId.ToString();
-                Session["UsernameSS"]=programUser.UserName.ToString();
-
-                return RedirectToAction("Index","Home");
-
-            }
-           
+            return View(model);
         }
 
         public ActionResult Profile()
