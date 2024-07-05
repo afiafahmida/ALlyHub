@@ -10,8 +10,8 @@
                 <h1 class="">Better Solutions For Your Business</h1>
                 <p class="">Connecting Idea with Innovation.Empowering IT Dreams</p>
                 <div class="d-flex">
-                    <a href="#about" class="btn-get-started">Get Started</a>
-                    <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+                    <a href="@Url.Action("Register","Home")" class="btn-get-started">Get Started</a>
+                    <a href="#" onclick="lightbox_open();" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
                 </div>
             </div>
             <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="200">
@@ -20,8 +20,15 @@
         </div>
     </div>
 </section>
+<div id="light" class="light">
+    <a class="boxclose" id="boxclose" onclick="lightbox_close();"></a>
+    <video id="VisaChipCardVideo" width="600" controls>
+        <source src="~/Video/AllyHub (1).mp4" type="video/mp4">
+        <!--Browser does not support <video> tag -->
+    </video>
+</div>
+<div id="fade" class="fade" onClick="lightbox_close();"></div>
 <!-- /Hero Section -->
-
 <!-- About Section -->
 <section class="work-game">
     <div class="content">
@@ -109,7 +116,6 @@
     </div>
 </section>
 <!-- /About Section -->
-
 <!-----------------Why Choose us---------------------->
 <div class="container whychooseus">
     <div class="text-center mb-2-8 mb-lg-6">
@@ -161,3 +167,28 @@
         </div>
     </div>
 </div>
+<script>
+    window.document.onkeydown = function (e) {
+        if (!e) {
+            e = event;
+        }
+        if (e.keyCode == 27) {
+            lightbox_close();
+        }
+    }
+
+    function lightbox_open() {
+        var lightBoxVideo = document.getElementById("VisaChipCardVideo");
+        window.scrollTo(0, 0);
+        document.getElementById('light').style.display = 'block';
+        document.getElementById('fade').style.display = 'block';
+        lightBoxVideo.play();
+    }
+
+    function lightbox_close() {
+        var lightBoxVideo = document.getElementById("VisaChipCardVideo");
+        document.getElementById('light').style.display = 'none';
+        document.getElementById('fade').style.display = 'none';
+        lightBoxVideo.pause();
+    }
+</script>

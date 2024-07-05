@@ -43,5 +43,10 @@ namespace ALlyHub.Models
         [DataType(DataType.Text)]
         [Display(Name = "Phone")]
         public string Phone { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name="You are using for ")]
+        public string UserType { get; set; }
     }
 }

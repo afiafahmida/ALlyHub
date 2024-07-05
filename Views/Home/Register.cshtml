@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Register";
 }
-<link rel="stylesheet" href="~/Content/Login.css"/>
+<link rel="stylesheet" href="~/Content/Login.css" />
 <section class="py-3 py-md-5 py-xl-8">
     <div class="container">
         <div class="row">
@@ -21,56 +21,65 @@
                         @using (Html.BeginForm("Register", "Home", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
-                        <div class="row gy-3 overflow-hidden">
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "First Name", required = "required" })
-                                    @Html.LabelFor(m => m.FirstName, new { @class = "form-label" })
+                            <div class="row gy-3 overflow-hidden">
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "First Name", required = "required" })
+                                        @Html.LabelFor(m => m.FirstName, new { @class = "form-label" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Last Name", required = "required" })
-                                    @Html.LabelFor(m => m.LastName, new { @class = "form-label" })
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Last Name", required = "required" })
+                                        @Html.LabelFor(m => m.LastName, new { @class = "form-label" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "name@example.com", required = "required" })
-                                    @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "name@example.com", required = "required" })
+                                        @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Password", required = "required" })
-                                    @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Password", required = "required" })
+                                        @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Password", required = "required" })
-                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "form-label" })
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Password", required = "required" })
+                                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "form-label" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Password", required = "required" })
-                                    @Html.LabelFor(m => m.Address, new { @class = "form-label" })
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Password", required = "required" })
+                                        @Html.LabelFor(m => m.Address, new { @class = "form-label" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Password", required = "required" })
-                                    @Html.LabelFor(m => m.Phone, new { @class = "form-label" })
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Password", required = "required" })
+                                        @Html.LabelFor(m => m.Phone, new { @class = "form-label" })
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        @Html.DropDownListFor(m => m.UserType, new SelectList(new[] {
+                                                new { Value = "Client", Text = "I want to Hire" },
+                                                new { Value = "Developer", Text = "Wrok a Freelancer" }
+                                            }, "Value", "Text"), new { @class = "form-control border-0 border-bottom rounded-0", @required = "required" })
+                                        @Html.LabelFor(m => m.UserType, new { @class = "form-label" })
+                                    </div>
+                                </div>
 
-                            <div class="col-12">
-                                <div class="d-grid">
-                                    <button class="btn btn-lg btn-dark rounded-0 fs-6 logBtn" type="submit">Sign up</button>
+                                <div class="col-12">
+                                    <div class="d-grid">
+                                        <button class="btn btn-lg btn-dark rounded-0 fs-6 logBtn" type="submit">Sign up</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         }
                     </div>
                     <div class="col-12 col-lg-2 d-flex align-items-center justify-content-center gap-3 flex-lg-column">

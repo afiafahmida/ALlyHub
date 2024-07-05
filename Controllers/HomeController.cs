@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.EnterpriseServices;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,7 +12,7 @@ namespace ALlyHub.Controllers
 {
     public class HomeController : Controller
     {
-        AllyhubEntities db = new AllyhubEntities();
+        DatabaseHelper databaseHelper=new DatabaseHelper();
         public ActionResult Index()
         {
             return View();
@@ -46,6 +47,29 @@ namespace ALlyHub.Controllers
             
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                int userId;
+                bool isLoggedIn = DatabaseHelper.AuthenticateUser(model.Email,model.Password,out userId);
+                if(isLoggedIn)
+                {
+                    Session["userID"]=userId.ToString();
+
+                    return RedirectToAction("Profile", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid Credentials");
+                }
+                
+            }
+            return View(model);
+        }
+        [HttpGet]
         public ActionResult Register()
         {
             return View();
@@ -56,14 +80,16 @@ namespace ALlyHub.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (DatabaseHelper.RegisterUser(model.FirstName, model.LastName, model.Email, model.Password, model.Address, model.Phone))
+                int userId = DatabaseHelper.RegisterUser(model.FirstName, model.LastName, model.Email, model.Password, model.Address, model.Phone);
+                if(model.UserType== "Client")
                 {
-                    return RedirectToAction("Index","Home");
+                    databaseHelper.RegisterClient(userId);
                 }
-                else
+                else if(model.UserType== "Developer")
                 {
-                    ModelState.AddModelError("", "Registration failed");
+                    databaseHelper.RegisterDeveloper(userId);
                 }
+                return RedirectToAction("Login", "Home");
             }
             return View(model);
         }

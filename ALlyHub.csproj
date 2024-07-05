@@ -124,53 +124,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Certification.cs">
-      <DependentUpon>DBmodel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Client.cs">
-      <DependentUpon>DBmodel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBmodel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBmodel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBmodel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBmodel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DBmodel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBmodel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Developer.cs">
-      <DependentUpon>DBmodel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\DeveloperSkill.cs">
-      <DependentUpon>DBmodel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Handshake.cs">
-      <DependentUpon>DBmodel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Payment.cs">
-      <DependentUpon>DBmodel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PaymentDetail.cs">
-      <DependentUpon>DBmodel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\PracticeModel.cs" />
-    <Compile Include="Models\ProgramUser.cs">
-      <DependentUpon>DBmodel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Project.cs">
-      <DependentUpon>DBmodel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Models\Review.cs">
-      <DependentUpon>DBmodel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -216,29 +172,12 @@
     <Content Include="Images\why.gif" />
     <Content Include="Images\Why_choose_us.jpg" />
     <Content Include="Images\work.gif" />
-    <Content Include="Models\DBmodel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DBmodel.Context.cs</LastGenOutput>
-      <DependentUpon>DBmodel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\DBmodel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DBmodel.edmx</DependentUpon>
-      <LastGenOutput>DBmodel.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\DBmodel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DBmodel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\DBmodel.edmx.diagram">
-      <DependentUpon>DBmodel.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -250,6 +189,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Video\AllyHub %281%29.mp4" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
