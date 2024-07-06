@@ -107,6 +107,11 @@ namespace ALlyHub.Controllers
         {
             return View();
         }
+
+        public ActionResult Edit_Profile()
+        {
+            return View();
+        }
         public ActionResult Logout()
         {
             // Clear session on logout

@@ -211,6 +211,7 @@
     <Content Include="Views\Home\Profile.cshtml" />
     <Content Include="Views\Home\Task.cshtml" />
     <Content Include="Views\Home\Team.cshtml" />
+    <Content Include="Views\Home\Edit_Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
