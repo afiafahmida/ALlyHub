@@ -8,7 +8,7 @@ namespace ALlyHub.Data
 {
     public class DatabaseHelper
     {
-        private static readonly string connectionString = "Data Source=ASHIK\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
+        private static readonly string connectionString = "Data Source=DESKTOP-EH3RJHQ\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
         public static int RegisterUser(string FirstName,string LastName, string email, string password, string address, string phone)
         {
             int newUserId = 0;

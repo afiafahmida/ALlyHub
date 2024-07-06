@@ -11,7 +11,7 @@
                 <p class="">Connecting Idea with Innovation.Empowering IT Dreams</p>
                 <div class="d-flex">
                     <a href="@Url.Action("Register","Home")" class="btn-get-started">Get Started</a>
-                    <a href="#" onclick="lightbox_open();" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+                    <button class="btn-watch-video">Watch Now</button>
                 </div>
             </div>
             <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="200">
@@ -19,15 +19,12 @@
             </div>
         </div>
     </div>
+    <div class="popup-video">
+        <span class="close-video">&times;</span>
+        <video src="~/Video/AllyHub (1).mp4" muted controls></video>
+    </div>
 </section>
-<div id="light" class="light">
-    <a class="boxclose" id="boxclose" onclick="lightbox_close();"></a>
-    <video id="VisaChipCardVideo" width="600" controls>
-        <source src="~/Video/AllyHub (1).mp4" type="video/mp4">
-        <!--Browser does not support <video> tag -->
-    </video>
-</div>
-<div id="fade" class="fade" onClick="lightbox_close();"></div>
+
 <!-- /Hero Section -->
 <!-- About Section -->
 <section class="work-game">
@@ -168,6 +165,32 @@
     </div>
 </div>
 <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const watchButton = document.querySelector('.btn-watch-video');
+        const popupVideo = document.querySelector('.popup-video');
+        const closeVideo = document.querySelector('.close-video');
+        const videoElement = popupVideo.querySelector('video');
+
+        watchButton.addEventListener('click', () => {
+            popupVideo.style.display = 'flex';
+            videoElement.play();
+        });
+
+        closeVideo.addEventListener('click', () => {
+            popupVideo.style.display = 'none';
+            videoElement.pause();
+            videoElement.currentTime = 0;
+        });
+
+        popupVideo.addEventListener('click', (event) => {
+            if (event.target === popupVideo) {
+                popupVideo.style.display = 'none';
+                videoElement.pause();
+                videoElement.currentTime = 0;
+            }
+        });
+    });
+
     window.document.onkeydown = function (e) {
         if (!e) {
             e = event;
@@ -177,18 +200,5 @@
         }
     }
 
-    function lightbox_open() {
-        var lightBoxVideo = document.getElementById("VisaChipCardVideo");
-        window.scrollTo(0, 0);
-        document.getElementById('light').style.display = 'block';
-        document.getElementById('fade').style.display = 'block';
-        lightBoxVideo.play();
-    }
 
-    function lightbox_close() {
-        var lightBoxVideo = document.getElementById("VisaChipCardVideo");
-        document.getElementById('light').style.display = 'none';
-        document.getElementById('fade').style.display = 'none';
-        lightBoxVideo.pause();
-    }
 </script>

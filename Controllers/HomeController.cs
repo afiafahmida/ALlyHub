@@ -107,6 +107,12 @@ namespace ALlyHub.Controllers
         {
             return View();
         }
+        public ActionResult Logout()
+        {
+            // Clear session on logout
+            Session.Clear();
+            return RedirectToAction("Index");
+        }
 
     }
 }

@@ -34,14 +34,22 @@
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Find Talent", "FindTalent", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Find Job", "FindJobs", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("My Profile", "Profile", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <!--<li>@Html.ActionLink("My Profile", "Profile", "Home", new { area = "" }, new { @class = "nav-link" })</li>-->
                     <li>@Html.ActionLink("Why AllyHub", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="nav-search form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 </form>
-                <a href="@Url.RouteUrl(new {controller="Home" , Action="Login"})" class="navLogin">Login</a>
-                <a href="@Url.RouteUrl(new {controller="Home" , Action="Register"})" class="navSignup">SignUp</a>
+                @if (Session["userID"] == null)
+                {
+                    <a href="@Url.RouteUrl(new { controller = "Home", Action = "Login" })" class="navLogin">Login</a>
+                    <a href="@Url.RouteUrl(new { controller = "Home", Action = "Register" })" class="navSignup">SignUp</a>
+                }
+                else
+                {
+                    <a href="@Url.RouteUrl(new { controller = "Home", Action = "Profile" })" class="navLogin">My Profile</a>
+                    <a href="@Url.RouteUrl(new { controller = "Home", Action = "Logout" })" class="navSignup">Logout</a>
+                }
             </div>
         </div>
     </nav>
