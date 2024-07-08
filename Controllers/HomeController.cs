@@ -78,18 +78,26 @@ namespace ALlyHub.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
+            
             if (ModelState.IsValid)
             {
-                int userId = DatabaseHelper.RegisterUser(model.FirstName, model.LastName, model.Email, model.Password, model.Address, model.Phone);
-                if(model.UserType== "Client")
+                if(databaseHelper.CheckUserExists(model.Email))
                 {
-                    databaseHelper.RegisterClient(userId);
+                    ModelState.AddModelError("", "User Already Exists");
                 }
-                else if(model.UserType== "Developer")
+                else
                 {
-                    databaseHelper.RegisterDeveloper(userId);
+                    int userId = DatabaseHelper.RegisterUser(model.FirstName, model.LastName, model.Email, model.Password, model.Address, model.Phone);
+                    if (model.UserType == "Client")
+                    {
+                        databaseHelper.RegisterClient(userId);
+                    }
+                    else if (model.UserType == "Developer")
+                    {
+                        databaseHelper.RegisterDeveloper(userId);
+                    }
+                    return RedirectToAction("Login", "Home");
                 }
-                return RedirectToAction("Login", "Home");
             }
             return View(model);
         }
@@ -117,6 +125,10 @@ namespace ALlyHub.Controllers
             // Clear session on logout
             Session.Clear();
             return RedirectToAction("Index");
+        }
+        public ActionResult ForgotPassword()
+        {
+            return View();
         }
 
     }

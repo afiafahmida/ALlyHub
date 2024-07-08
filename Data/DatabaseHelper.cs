@@ -8,7 +8,9 @@ namespace ALlyHub.Data
 {
     public class DatabaseHelper
     {
-        private static readonly string connectionString = "Data Source=USER\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
+        //private static readonly string connectionString = "Data Source=USER\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
+        private static readonly string connectionString = "Data Source=ASHIK\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
+        
         public static int RegisterUser(string FirstName,string LastName, string email, string password, string address, string phone)
         {
             int newUserId = 0;
@@ -27,6 +29,20 @@ namespace ALlyHub.Data
                 connection.Close();
             }
             return newUserId;
+        }
+        public bool CheckUserExists(string email)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT COUNT(1) FROM Users WHERE UserEmail = @Email";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
         }
         public void RegisterClient(int userID)
         {

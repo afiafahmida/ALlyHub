@@ -21,6 +21,10 @@
                         @using (Html.BeginForm("Register", "Home", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
+
+                            // Display validation summary
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
                             <div class="row gy-3 overflow-hidden">
                                 <div class="col-12">
                                     <div class="form-floating mb-3">

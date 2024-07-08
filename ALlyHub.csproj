@@ -147,9 +147,12 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\FintTalent.css" />
+    <Content Include="Content\ForgotPassword.css" />
     <Content Include="Content\index.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\Profile.css" />
+    <Content Include="Content\swiper-bundle.min.css" />
+    <Content Include="Content\swiper-bundle.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -168,6 +171,7 @@
     <Content Include="Images\job-offer.gif" />
     <Content Include="Images\Logo2.png" />
     <Content Include="Images\Logo.png" />
+    <Content Include="Images\Microsoft.png" />
     <Content Include="Images\payment-app.gif" />
     <Content Include="Images\why.gif" />
     <Content Include="Images\Why_choose_us.jpg" />
@@ -212,6 +216,7 @@
     <Content Include="Views\Home\Task.cshtml" />
     <Content Include="Views\Home\Team.cshtml" />
     <Content Include="Views\Home\Edit_Profile.cshtml" />
+    <Content Include="Views\Home\ForgotPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

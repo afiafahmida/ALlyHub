@@ -1,7 +1,8 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "AllyHub";
 }
 <link rel="stylesheet" href="~/Content/index.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- Hero Section -->
 <section id="hero" class="hero section">
     <div class="container">
@@ -164,7 +165,91 @@
         </div>
     </div>
 </div>
+
+
+<!-- Faq 2 Section -->
+<section id="faq-2" class="faq-2 section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2 class="text-center">Discover Everything You Need to Know</h2>
+        <p class="text-center">Dive into our comprehensive FAQ section where we've gathered answers to your most pressing questions. Whether you're a client looking to connect with top-notch developers or a developer in search of exciting projects, our FAQs are designed to help you navigate and thrive on AllyHub.</p>
+    </div><!-- End Section Title -->
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-10">
+
+                <div class="faq-container">
+
+                    <div class="faq-item faq-active" data-aos="fade-up" data-aos-delay="200">
+                        <i class="fa-solid fa-circle-question faq-icon"></i>
+                        <h3>How do I create an account on AllyHub?</h3>
+                        <div class="faq-content">
+                            <p>To create an account on AllyHub, click on the "Sign Up" button on the homepage. Fill in your details, choose your user type (Client or Developer), and follow the instructions to complete the registration process. Once registered, you can start exploring the platform and connecting with other users.</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right faq-toggle"></i>
+                    </div><!-- End Faq item-->
+
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                        <i class="fa-solid fa-circle-question faq-icon"></i>
+                        <h3>What types of projects can I find on AllyHub?</h3>
+                        <div class="faq-content">
+                            <p>AllyHub features a wide range of projects across various industries and technologies. Whether you're looking for web development, mobile app development, data science, or any other type of technical project, you'll find opportunities that match your skills and interests.</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right faq-toggle"></i>
+                    </div><!-- End Faq item-->
+
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
+                        <i class="fa-solid fa-circle-question faq-icon"></i>
+                        <h3>How does AllyHub ensure secure transactions?</h3>
+                        <div class="faq-content">
+                            <p>AllyHub uses a reliable payment gateway to handle all transactions securely. We implement robust security measures to protect your financial information and ensure that payments between clients and developers are safe and secure.</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right faq-toggle"></i>
+                    </div><!-- End Faq item-->
+
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="500">
+                        <i class="fa-solid fa-circle-question faq-icon"></i>
+                        <h3>How can I build my profile and reputation on AllyHub?</h3>
+                        <div class="faq-content">
+                            <p>On AllyHub, you can build your profile by showcasing your skills, experience, and previous work. Completing projects successfully and receiving positive feedback from clients will enhance your reputation. Engaging with the community and participating in discussions can also help you establish yourself as a reputable professional on the platform.</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right faq-toggle"></i>
+                    </div><!-- End Faq item-->
+
+                    <div class="faq-item" data-aos="fade-up" data-aos-delay="600">
+                        <i class="fa-solid fa-circle-question faq-icon"></i>
+                        <h3>How can I trust the developers or clients on AllyHub?</h3>
+                        <div class="faq-content">
+                            <p>AllyHub employs a thorough vetting process for both developers and clients, including background checks and reviews. Additionally, our rating and feedback system ensures that you can see the experiences of others before making any commitments, fostering a trustworthy and transparent community.</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right faq-toggle"></i>
+                    </div><!-- End Faq item-->
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- /Faq 2 Section -->
+
 <script>
+    /**
+   * Frequently Asked Questions Toggle
+   */
+    document.querySelectorAll('.faq-item h3, .faq-item .faq-toggle').forEach((faqItem) => {
+        faqItem.addEventListener('click', () => {
+            faqItem.parentNode.classList.toggle('faq-active');
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', (event) => {
         const watchButton = document.querySelector('.btn-watch-video');
         const popupVideo = document.querySelector('.popup-video');
@@ -199,6 +284,5 @@
             lightbox_close();
         }
     }
-
-
 </script>
+<script src="~/Content/swiper-bundle.min.js"></script>
