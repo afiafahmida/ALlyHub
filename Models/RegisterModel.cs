@@ -46,7 +46,7 @@ namespace ALlyHub.Models
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name="You are using for ")]
+        [Display(Name="userType ")]
         public string UserType { get; set; }
     }
 }

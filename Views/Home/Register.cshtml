@@ -23,7 +23,7 @@
                             @Html.AntiForgeryToken()
 
                             // Display validation summary
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger errorMsg" })
 
                             <div class="row gy-3 overflow-hidden">
                                 <div class="col-12">
@@ -72,7 +72,7 @@
                                     <div class="form-floating mb-3">
                                         @Html.DropDownListFor(m => m.UserType, new SelectList(new[] {
                                                 new { Value = "Client", Text = "I want to Hire" },
-                                                new { Value = "Developer", Text = "Wrok a Freelancer" }
+                                                new { Value = "Developer", Text = "Work as a Freelancer" }
                                             }, "Value", "Text"), new { @class = "form-control border-0 border-bottom rounded-0", @required = "required" })
                                         @Html.LabelFor(m => m.UserType, new { @class = "form-label" })
                                     </div>

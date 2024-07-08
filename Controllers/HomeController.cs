@@ -54,11 +54,12 @@ namespace ALlyHub.Controllers
             if(ModelState.IsValid)
             {
                 int userId;
-                bool isLoggedIn = DatabaseHelper.AuthenticateUser(model.Email,model.Password,out userId);
+                string UserType;
+                bool isLoggedIn = DatabaseHelper.AuthenticateUser(model.Email,model.Password,out userId , out UserType);
                 if(isLoggedIn)
                 {
                     Session["userID"]=userId.ToString();
-
+                    Session["UserType"] = UserType;
                     return RedirectToAction("Profile", "Home");
                 }
                 else
@@ -87,7 +88,7 @@ namespace ALlyHub.Controllers
                 }
                 else
                 {
-                    int userId = DatabaseHelper.RegisterUser(model.FirstName, model.LastName, model.Email, model.Password, model.Address, model.Phone);
+                    int userId = DatabaseHelper.RegisterUser(model.FirstName, model.LastName, model.Email, model.Password, model.Address, model.Phone , model.UserType);
                     if (model.UserType == "Client")
                     {
                         databaseHelper.RegisterClient(userId);

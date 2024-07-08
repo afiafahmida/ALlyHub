@@ -11,12 +11,12 @@ namespace ALlyHub.Data
         //private static readonly string connectionString = "Data Source=USER\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
         private static readonly string connectionString = "Data Source=ASHIK\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
         
-        public static int RegisterUser(string FirstName,string LastName, string email, string password, string address, string phone)
+        public static int RegisterUser(string FirstName,string LastName, string email, string password, string address, string phone , string UserType)
         {
             int newUserId = 0;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO Users (FirstName, LastName, UserEmail, UserPassword, UserPhone, UserAddress) OUTPUT INSERTED.UserId VALUES (@FirstName, @LastName, @Email, @Password, @Address, @Phone)";
+                string query = "INSERT INTO Users (FirstName, LastName, UserEmail, UserPassword, UserPhone, UserAddress , UserType) OUTPUT INSERTED.UserId VALUES (@FirstName, @LastName, @Email, @Password, @Address, @Phone ,@UserType)";
                 SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@FirstName", FirstName);
                 cmd.Parameters.AddWithValue("@LastName", LastName);
@@ -24,6 +24,7 @@ namespace ALlyHub.Data
                 cmd.Parameters.AddWithValue("@Password", password);
                 cmd.Parameters.AddWithValue("@Address", address);
                 cmd.Parameters.AddWithValue("@Phone", phone);
+                cmd.Parameters.AddWithValue("@UserType", UserType);
                 connection.Open();
                 newUserId=(int)cmd.ExecuteScalar();
                 connection.Close();
@@ -67,14 +68,14 @@ namespace ALlyHub.Data
             }
         }
 
-        public static bool AuthenticateUser(string email, string password , out int userId)
+        public static bool AuthenticateUser(string email, string password , out int userId , out string UserType)
         {
-            
             userId= 0;
+            UserType = string.Empty;
             using(SqlConnection connection = new SqlConnection(connectionString))
             {
                 //Query to Check Credentials
-                string query = "SELECT UserID FROM Users WHERE UserEmail = @email AND UserPassword = @password";
+                string query = "SELECT UserID,UserType FROM Users WHERE UserEmail = @email AND UserPassword = @password";
                 SqlCommand command= new SqlCommand(query, connection);
 
                 //Add Parameters to Prevent SQL Injection
@@ -85,6 +86,7 @@ namespace ALlyHub.Data
                 if (reader.Read())
                 {
                     userId = reader.GetInt32(0);
+                    UserType=reader.GetString(1);
                     connection.Close();
                     return true;
                 }

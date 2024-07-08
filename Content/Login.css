@@ -29,3 +29,13 @@
     font-weight: 700 !important;
     font-family: var(--main-font) !important;
 }
+.errorMsg {
+    background: rgb(250, 112, 112 , 0.2);
+    font-family: var(--main-font);
+}
+.errorMsg li {
+        list-style-type: none;
+        text-align:center;
+        padding:10px;
+        font-size:16px;
+}
