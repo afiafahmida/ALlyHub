@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "ProjectDetails";
+}
+@model ALlyHub.Models.Project
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details - @Model.ProjectTitle</title>
+    <link rel="stylesheet" href="~/Content/ProjectDetails.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Project Details</h1>
+        <div class="project-details">
+            <img src="~/Images/undraw_website_u6x8.svg" alt="Project Photo" class="project-photo">
+
+            <h2>@Model.ProjectTitle</h2>
+            <p class="description"><span class="detail-label">Description:</span> @Model.Description</p>
+            <p class="payment"><span class="detail-label">Payment:</span> $@Model.PaymentAmount</p>
+            <p class="client"><span class="detail-label">Client:</span> @Model.ClientName</p>
+            <p class="location"><span class="detail-label">Location:</span> @Model.ClientLocation</p>
+            <p class="level"><span class="detail-label">Level:</span> @Model.Level</p>
+            <p class="duration"><span class="detail-label">Duration:</span> @Model.Duration weeks</p>
+            <p class="skillset"><span class="detail-label">Skills:</span> @Model.SkillSet</p>
+
+            <!-- Add more details as needed -->
+
+            <a href="@Url.Action("ApplyForProject", "Home", new { projectId = Model.ProjectID })" class="apply-button">Apply Now</a>
+        </div>
+    </div>
+</body>
+</html>

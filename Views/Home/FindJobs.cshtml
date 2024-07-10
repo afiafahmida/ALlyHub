@@ -2,6 +2,43 @@
 @{
     ViewBag.Title = "FindJobs";
 }
+@model IEnumerable<ALlyHub.Models.Project>
 
-<h2>FindJobs</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Jobs</title>
+    <link rel="stylesheet" href="~/Content/FindProjects.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Find Jobs</h1>
+        <div id="project-listings" class="project-listings">
+            @foreach (var project in Model)
+            {
+                <div class="project-card">
+                    <div class="card-header">
+                        <img src="~/Images/undraw_website_u6x8.svg" alt="Project Image" class="project-image">
+                        <div class="project-info">
+                            <h2>@project.ProjectTitle</h2>
+                            <p class="payment">$@project.PaymentAmount</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="level"><strong>Level:</strong> @project.Level</p>
+                        <p class="duration"><strong>Duration:</strong> @project.Duration weeks</p>
+                        <p class="skillset"><strong>Skills:</strong> @project.SkillSet</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="@Url.Action("ProjectDetails", "Home", new { projectId = project.ProjectID })" class="apply-button">Details</a>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
 

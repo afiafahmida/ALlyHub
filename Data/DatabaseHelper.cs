@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
+using ALlyHub.Models;
 
 namespace ALlyHub.Data
 {
     public class DatabaseHelper
     {
         //private static readonly string connectionString = "Data Source=USER\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
-        private static readonly string connectionString = "Data Source=ASHIK\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
+        private static readonly string connectionString = "Data Source=DESKTOP-EH3RJHQ\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
         
         public static int RegisterUser(string FirstName,string LastName, string email, string password, string address, string phone , string UserType)
         {
@@ -45,17 +46,20 @@ namespace ALlyHub.Data
                 }
             }
         }
-        public void RegisterClient(int userID)
+        public void RegisterClient(int userID, string companyName, string clientLocation)
         {
-            using(SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO Client (UserId) VALUES (@userID)";
+                string query = "INSERT INTO Client (UserId, CompanyName, ClientLocation) VALUES (@UserId, @CompanyName, @ClientLocation)";
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@UserId", userID);
+                command.Parameters.AddWithValue("@CompanyName", companyName);
+                command.Parameters.AddWithValue("@ClientLocation", clientLocation);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
         }
+
         public void RegisterDeveloper(int userId)
         {
             using( SqlConnection connection = new SqlConnection( connectionString))
@@ -94,5 +98,94 @@ namespace ALlyHub.Data
                 return false;
             }
         }
+
+        public static List<Project> GrabProjects()
+        {
+            List<Project> projects = new List<Project>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM Project";
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Project project = new Project
+                        {
+                            ProjectID = Convert.ToInt32(reader["ProjectID"]),
+                            ProjectTitle = reader["ProjectTitle"].ToString(),
+                            Description = reader["Description"].ToString(),
+                            PaymentAmount = Convert.ToInt32(reader["PaymentAmount"]),
+                            ClientID = Convert.ToInt32(reader["ClientID"]),
+                            Level = Convert.ToInt32(reader["Level"]),
+                            Duration = Convert.ToInt32(reader["Duration"]),
+                            SkillSet = reader["SkillSet"].ToString()
+                        };
+
+                        projects.Add(project);
+                    }
+                }
+
+                connection.Close();
+            }
+
+            return projects;
+        }
+        public static Project GetProjectById(int projectId)
+        {
+            Project project = null;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = @"
+            SELECT 
+                p.ProjectID, 
+                p.ProjectTitle, 
+                p.Description, 
+                p.PaymentAmount, 
+                p.ClientID, 
+                p.Level, 
+                p.Duration, 
+                p.SkillSet,
+                c.CompanyName,
+                c.ClientLocation
+            FROM Project p
+            INNER JOIN Client c ON p.ClientID = c.ClientID
+            WHERE p.ProjectID = @ProjectID";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@ProjectID", projectId);
+
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    project = new Project
+                    {
+                        ProjectID = Convert.ToInt32(reader["ProjectID"]),
+                        ProjectTitle = reader["ProjectTitle"].ToString(),
+                        Description = reader["Description"].ToString(),
+                        PaymentAmount = Convert.ToInt32(reader["PaymentAmount"]),
+                        ClientID = Convert.ToInt32(reader["ClientID"]),
+                        Level = Convert.ToInt32(reader["Level"]),
+                        Duration = Convert.ToInt32(reader["Duration"]),
+                        SkillSet = reader["SkillSet"].ToString(),
+                        // Client details
+                        ClientName = reader["CompanyName"].ToString(),
+                        ClientLocation = reader["ClientLocation"].ToString()
+                    };
+                }
+
+                connection.Close();
+            }
+
+            return project;
+        }
+
+
     }
 }

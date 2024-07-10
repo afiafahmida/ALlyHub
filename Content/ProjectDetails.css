@@ -1,0 +1,82 @@
+﻿
+/* Additional styles specific to ProjectDetails */
+.container {
+    max-width: 90%;
+}
+
+.project-photo {
+    float: right;
+    width: 200px;
+    height: auto;
+    margin-left: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .project-photo {
+        float: none;
+        margin: 10px auto;
+        display: block;
+    }
+}
+
+
+.project-details {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .project-details h2 {
+        font-size: 2em;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .project-details p {
+        margin: 10px 0;
+    }
+
+    .project-details .detail-label {
+        font-weight: bold;
+    }
+
+    .project-details .detail-value {
+        margin-left: 10px;
+    }
+
+    .project-details .apply-button {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .project-details .apply-button:hover {
+            background-color: #218838;
+        }
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-details {
+        padding: 15px;
+        margin: 10px 0;
+    }
+}
+
+
