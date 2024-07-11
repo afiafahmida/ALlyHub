@@ -132,6 +132,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\About.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -161,18 +162,24 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Afia Fahmida.jpg" />
+    <Content Include="Images\Ashik.jpg" />
     <Content Include="Images\collaboration.gif" />
     <Content Include="Images\communications.gif" />
+    <Content Include="Images\f1.jpg" />
+    <Content Include="Images\f2.jpg" />
     <Content Include="Images\handshake.ico" />
     <Content Include="Images\hero-img.png" />
     <Content Include="Images\job-offer.gif" />
     <Content Include="Images\Logo2.png" />
     <Content Include="Images\Logo.png" />
     <Content Include="Images\payment-app.gif" />
+    <Content Include="Images\task-management.gif" />
     <Content Include="Images\undraw_website_u6x8.svg" />
     <Content Include="Images\why.gif" />
     <Content Include="Images\Why_choose_us.jpg" />
     <Content Include="Images\work.gif" />
+    <Content Include="Images\Zenun.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
