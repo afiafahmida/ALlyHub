@@ -98,14 +98,17 @@ namespace ALlyHub.Data
                 return false;
             }
         }
-
         public static List<Project> GrabProjects()
         {
             List<Project> projects = new List<Project>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Project";
+                string query = @"
+                SELECT p.ProjectID, p.ProjectTitle, p.Description, p.PaymentAmount, p.ClientID, p.Level, p.Duration, p.SkillSet, c.CompanyName
+                FROM Project p
+                JOIN Client c ON p.ClientID = c.ClientID";
+
                 SqlCommand command = new SqlCommand(query, connection);
                 connection.Open();
 
@@ -122,7 +125,8 @@ namespace ALlyHub.Data
                             ClientID = Convert.ToInt32(reader["ClientID"]),
                             Level = Convert.ToInt32(reader["Level"]),
                             Duration = Convert.ToInt32(reader["Duration"]),
-                            SkillSet = reader["SkillSet"].ToString()
+                            SkillSet = reader["SkillSet"].ToString(),
+                            CompanyName = reader["CompanyName"].ToString() // New field
                         };
 
                         projects.Add(project);
@@ -134,6 +138,7 @@ namespace ALlyHub.Data
 
             return projects;
         }
+
         public static Project GetProjectById(int projectId)
         {
             Project project = null;
@@ -141,20 +146,10 @@ namespace ALlyHub.Data
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string query = @"
-            SELECT 
-                p.ProjectID, 
-                p.ProjectTitle, 
-                p.Description, 
-                p.PaymentAmount, 
-                p.ClientID, 
-                p.Level, 
-                p.Duration, 
-                p.SkillSet,
-                c.CompanyName,
-                c.ClientLocation
-            FROM Project p
-            INNER JOIN Client c ON p.ClientID = c.ClientID
-            WHERE p.ProjectID = @ProjectID";
+                SELECT p.ProjectID, p.ProjectTitle, p.Description, p.PaymentAmount, p.ClientID, p.Level, p.Duration, p.SkillSet, c.CompanyName
+                FROM Project p
+                INNER JOIN Client c ON p.ClientID = c.ClientID
+                WHERE p.ProjectID = @ProjectID";
 
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@ProjectID", projectId);
@@ -174,9 +169,7 @@ namespace ALlyHub.Data
                         Level = Convert.ToInt32(reader["Level"]),
                         Duration = Convert.ToInt32(reader["Duration"]),
                         SkillSet = reader["SkillSet"].ToString(),
-                        // Client details
-                        ClientName = reader["CompanyName"].ToString(),
-                        ClientLocation = reader["ClientLocation"].ToString()
+                        CompanyName = reader["CompanyName"].ToString() // New field
                     };
                 }
 
@@ -185,7 +178,6 @@ namespace ALlyHub.Data
 
             return project;
         }
-
 
     }
 }

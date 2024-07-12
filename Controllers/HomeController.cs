@@ -92,7 +92,7 @@ namespace ALlyHub.Controllers
                     if (model.UserType == "Client")
                     {
                         // Assuming you have companyName and clientLocation fields in your RegisterModel
-                        databaseHelper.RegisterClient(userId,"abc","Dhaka");
+                        databaseHelper.RegisterClient(userId, "abc", "Dhaka");
                     }
                     else if (model.UserType == "Developer")
                     {
@@ -103,7 +103,6 @@ namespace ALlyHub.Controllers
             }
             return View(model);
         }
-
 
         public ActionResult Profile()
         {
@@ -149,6 +148,6 @@ namespace ALlyHub.Controllers
 
             return View(project);
         }
-
     }
+
 }
