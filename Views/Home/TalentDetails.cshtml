@@ -1,0 +1,173 @@
+﻿
+@{
+    ViewBag.Title = "TalentDetails";
+}
+@model ALlyHub.Models.FindTalentModel
+
+<link rel="stylesheet" href="~/Content/TalentDetails.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="layout-content">
+    <!-- Content -->
+    <div class="container flex-grow-1 container-p-y">
+
+        <!-- Header -->
+        <div class="container-m-nx container-m-ny theme-bg-white mb-4">
+            <div class="media col-md-10 col-lg-8 col-xl-7 py-5 mx-auto">
+                <img src="~/Images/@Model.UserPhoto" alt="" class="d-block ui-w-100 rounded-circle">
+                <div class="media-body ml-5">
+                    <h4 class="mb-4">@Model.FirstName @Model.LastName</h4>
+                    <div class="mb-4">
+                        <p>@Model.DevDescription</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="m-0">
+        </div>
+        <!-- Header -->
+
+        <div class="row">
+            <div class="col">
+
+                <!-- Info -->
+                <div class="card mb-4">
+                    <div class="card-body">
+
+                        <h6 class="my-3">Personal Info</h6>
+                        <div class="row mb-2">
+                            <div class="col-md-3">Date of Birth:</div>
+                            <div class="col-md-9">
+                                @Model.DOB
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3">Expertise Area:</div>
+                            <div class="col-md-9">
+                                @Model.AreaofExpertise
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3">Location:</div>
+                            <div class="col-md-9">
+                                @Model.UserAddress
+                            </div>
+                        </div>
+                      
+                        <div class="row mb-2">
+                            <div class="col-md-3">Country:</div>
+                            <div class="col-md-9">
+                                <a href="javascript:void(0)" class="text-body">@Model.Country</a>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-3">Languages:</div>
+                            <div class="col-md-9">
+                                <a href="javascript:void(0)" class="text-body">@Model.Languagee</a>
+                            </div>
+                        </div>
+
+                        <h6 class="my-3">Contacts</h6>
+
+                        <div class="row mb-2">
+                            <div class="col-md-3">Phone:</div>
+                            <div class="col-md-9">
+                                @Model.UserPhone
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-3">Email:</div>
+                            <div class="col-md-9">
+                                @Model.UserEmail
+                            </div>
+                        </div>
+
+                        <h6 class="my-3">Interests</h6>
+
+                        <div class="row mb-2">
+                            <div class="col-md-3 text-muted">Favorite music:</div>
+                            <div class="col-md-9">
+                                <a href="javascript:void(0)" class="text-body">Rock</a>,
+                                <a href="javascript:void(0)" class="text-body">Alternative</a>,
+                                <a href="javascript:void(0)" class="text-body">Electro</a>,
+                                <a href="javascript:void(0)" class="text-body">Drum &amp; Bass</a>,
+                                <a href="javascript:void(0)" class="text-body">Dance</a>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 text-muted">Favorite movies:</div>
+                            <div class="col-md-9">
+                                <a href="javascript:void(0)" class="text-body">The Green Mile</a>,
+                                <a href="javascript:void(0)" class="text-body">Pulp Fiction</a>,
+                                <a href="javascript:void(0)" class="text-body">Back to the Future</a>,
+                                <a href="javascript:void(0)" class="text-body">WALL·E</a>,
+                                <a href="javascript:void(0)" class="text-body">Django Unchained</a>,
+                                <a href="javascript:void(0)" class="text-body">The Truman Show</a>,
+                                <a href="javascript:void(0)" class="text-body">Home Alone</a>,
+                                <a href="javascript:void(0)" class="text-body">Seven Pounds</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- / Info -->
+            </div>
+            <div class="col-xl-4">
+
+                <!-- Side info -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3>Social Links</h3>
+                    </div>
+                    <hr class="border-light m-0">
+                    <div class="card-body">
+                        <a href="@Model.Facebook" target="_blank" class="d-block mb-2">
+                            <i class="fa-brands fa-facebook"></i> @Model.FirstName @Model.LastName
+                        </a>
+                        <a href="@Model.LinkedIn" target="_blank" class="d-block mb-2">
+                            <i class="fa-brands fa-linkedin"></i> @Model.FirstName @Model.LastName
+                        </a>
+                        <p class="mb-0">
+                            <i class="fa-solid fa-globe"></i>
+                            <a href="@Model.PortfolioLink" target="_blank" class="">Portfolio</a>
+                        </p>
+                    </div>
+                </div>
+                <!-- / Side info -->
+                <!-- Skills -->
+                <div class="card mb-4">
+                    <div class="card-header">Skills</div>
+                    <div class="card-body">
+
+                        <div class="mb-1">HTML - <small class="text-muted">80%</small></div>
+                        <div class="progress mb-3" style="height: 4px;">
+                            <div class="progress-bar bg-secondary" style="width: 80%;"></div>
+                        </div>
+
+                        <div class="mb-1">CSS - <small class="text-muted">95%</small></div>
+                        <div class="progress mb-3" style="height: 4px;">
+                            <div class="progress-bar bg-success" style="width: 95%;"></div>
+                        </div>
+
+                        <div class="mb-1">Javascript - <small class="text-muted">90%</small></div>
+                        <div class="progress mb-3" style="height: 4px;">
+                            <div class="progress-bar bg-warning" style="width: 90%;"></div>
+                        </div>
+
+                        <div class="mb-1">UI/UX - <small class="text-muted">80%</small></div>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar bg-danger" style="width: 80%;"></div>
+                        </div>
+
+                    </div>
+                    <a href="javascript:void(0)" class="card-footer d-block text-center text-body small font-weight-semibold">SHOW ALL SKILLS</a>
+                </div>
+                <!-- / Skills -->
+            </div>
+        </div>
+
+    </div>
+    <!-- / Content -->
+</div>
+
+

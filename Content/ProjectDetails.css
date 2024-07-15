@@ -1,70 +1,76 @@
 ﻿
 /* Additional styles specific to ProjectDetails */
-.container {
-    max-width: 90%;
+:root {
+    --navBg: #DCF2F1;
+    --first-color: #7AB2B2;
+    --second-color: #135D66;
+    --third-color: #003C43;
+    --main-font: 'Kanit', sans-serif;
 }
 
-.project-photo {
-    float: right;
-    width: 200px;
-    height: auto;
-    margin-left: 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.description h4 {
+    font-family: var(--main-font);
+    font-weight: 400;
+    font-size: 24px;
+    color:var(--second-color);
 }
-
-@media (max-width: 768px) {
-    .project-photo {
-        float: none;
-        margin: 10px auto;
-        display: block;
-    }
+.jobSummary h4 {
+    font-family: var(--main-font) !important;
+    color: var(--second-color) !important;
+    font-weight: 500 !important;
 }
-
-
-.project-details {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.jobSummary p{
+    font-family:var(--main-font);
+    font-weight:300;
 }
-
-    .project-details h2 {
-        font-size: 2em;
-        color: #333;
-        margin-bottom: 10px;
-    }
-
-    .project-details p {
-        margin: 10px 0;
-    }
-
-    .project-details .detail-label {
-        font-weight: bold;
-    }
-
-    .project-details .detail-value {
-        margin-left: 10px;
-    }
-
-    .project-details .apply-button {
-        background-color: #28a745;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        text-decoration: none;
-        display: inline-block;
-    }
-
-        .project-details .apply-button:hover {
-            background-color: #218838;
-        }
-
+.jobSummary i{
+    color:var(--second-color) !important;
+}
+.jobHeading h3{
+    font-family:var(--main-font);
+    color:var(--second-color);
+    font-weight:500;
+}
+.jobHeading span {
+    font-family: var(--main-font);
+    font-weight: 300;
+}
+.jobHeading span i{
+    color:var(--second-color);
+}
+.application h4{
+    font-family:var(--main-font) !important;
+    font-weight:400 !important;
+    color:var(--second-color) !important;
+}
+.form-control{
+    border:1px solid var(--second-color) !important;
+    font-family:var(--main-font);
+    font-weight:300;
+}
+.jobSummary, .companyDetail {
+    background: var(--navBg);
+    border-radius: 20px;
+}
+.companyDetail{
+    font-family:var(--main-font);
+}
+.companyDetail h4{
+    font-weight:500;
+    font-size:24px;
+    color:var(--second-color);
+}
+.applyBtn{
+    background:var(--second-color);
+    color:white;
+    padding:10px;
+    font-family:var(--main-font);
+    border:none;
+    border-radius:30px;
+}
+.companyDetail p {
+    font-weight: 300;
+}
 @media (max-width: 768px) {
     .container {
         width: 90%;

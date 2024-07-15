@@ -1,0 +1,109 @@
+﻿
+/*Variables*/
+:root {
+    --navBg: #DCF2F1;
+    --first-color: #7AB2B2;
+    --second-color: #135D66;
+    --third-color: #003C43;
+    --main-font: 'Kanit', sans-serif;
+}
+
+
+.ui-w-100 {
+    width: 200px !important;
+    height: 180px;
+    margin-right: 20px;
+}
+.card-body h6{
+    font-size:22px;
+    font-family:var(--main-font);
+    color:var(--second-color);
+    font-weight:400;
+}
+.card-body h3{
+    font-family:var(--main-font);
+    color:var(--second-color);
+    font-weight:400;
+}
+.card-body i{
+    color:var(--second-color);
+}
+.card-body a{
+    text-decoration:underline;
+    color:black !important;
+    transition : 0.4s ;
+}
+.card-body a:hover{
+    color:var(--second-color) !important;
+}
+
+.ui-w-40 {
+    width: 40px !important;
+    height: auto;
+}
+.media{
+    display:flex;
+    justify-content:space-around;
+}
+.row-bordered > .col::before, .row-bordered > [class^="col-"]::before, .row-bordered > [class*=" col-"]::before, .row-bordered > [class^="col "]::before, .row-bordered > [class*=" col "]::before, .row-bordered > [class$=" col"]::before, .row-bordered > [class="col"]::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    display: block;
+    height: 0;
+    border-top: 1px solid rgba(24,28,33,0.06);
+}
+
+.row-bordered > .col::after, .row-bordered > [class^="col-"]::after, .row-bordered > [class*=" col-"]::after, .row-bordered > [class^="col "]::after, .row-bordered > [class*=" col "]::after, .row-bordered > [class$=" col"]::after, .row-bordered > [class="col"]::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1px;
+    display: block;
+    width: 0;
+    border-left: 1px solid rgba(24,28,33,0.06);
+}
+
+.ui-bg-cover {
+    background-color: rgba(0,0,0,0);
+    background-position: center center;
+    background-size: cover;
+}
+
+.ui-square {
+    padding-top: 100% !important;
+}
+
+.ui-square, .ui-rect, .ui-rect-30, .ui-rect-60, .ui-rect-67, .ui-rect-75 {
+    position: relative !important;
+    display: block !important;
+    padding-top: 100% !important;
+    width: 100% !important;
+}
+
+.media-body h4{
+    font-family:var(--main-font) !important;
+    color:var(--second-color) !important;
+    font-weight:500 !important;
+}
+.media-body p{
+    font-family:var(--main-font);
+    color:black;
+    font-weight:300;
+}
+
+@media screen and (max-width: 600px) {
+    .media{
+        display:flex;
+        flex-direction:column;
+    }
+    .media-body{
+        margin-top:30px;
+    }
+    .ui-w-100{
+        height:200px;
+    }
+}

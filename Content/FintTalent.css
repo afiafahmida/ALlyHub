@@ -10,9 +10,12 @@
     padding: 20px;
     border-radius: 3px;
     margin-bottom: 30px;
-    background-color: #fff;
+    transition: 0.3s ease-in;
 }
-
+.card-box:hover{
+    background:var(--navBg) !important;
+    border-radius:20px;
+}
 .social-links li a {
     border-radius: 50%;
     color: var(--third-color);
@@ -25,8 +28,8 @@
 }
 
     .social-links li a:hover {
-        color: #797979;
-        border: 2px solid #797979
+        color: white !important;
+        background:var(--second-color) !important;
     }
 
 .thumb-lg {
@@ -39,8 +42,8 @@
     background-color: #fff;
     border: 1px solid #dee2e6;
     border-radius: .25rem;
-    max-width: 100%;
-    height: auto;
+    width: 90px;
+    height: 90px;
 }
 
 .text-pink {

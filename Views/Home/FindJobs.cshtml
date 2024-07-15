@@ -2,50 +2,50 @@
     ViewBag.Title = "FindJobs";
 }
 @model IEnumerable<ALlyHub.Models.Project>
-
-
-
 <link rel="stylesheet" href="~/Content/FindProjects.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <section class="post-area section-gap">
     <div class="container">
-        <div class="row justify-content-center d-flex">
+        <div class="row d-flex">
             <div class="col-lg-8 post-list">
                 @foreach (var project in Model)
                 {
-                    <div class="single-post d-flex flex-row">
-                        <div class="thumb">
-                            <img src="img/post.png" alt="">
-                            <ul class="tags">
-                                <li>
-                                    <a href="#">@project.SkillSet</a> <!-- Example tag based on SkillSet field -->
-                                </li>
-                                <!-- Add more tags as needed -->
-                            </ul>
-                        </div>
+                    <div class="single-post">
                         <div class="details">
                             <div class="title d-flex flex-row justify-content-between">
                                 <div class="titles">
-                                    <a href="single.html"><h4>@project.ProjectTitle</h4></a>
-                                    <h6>@project.CompanyName</h6>
+                                    <a href="@Url.Action("ProjectDetails", "Home", new { projectId = project.ProjectID })"><h4>@project.ProjectTitle</h4></a>
+                                    <h6>Posted On : @project.PostedOn</h6>
+                                    <h5>@project.CompanyName</h5>
                                 </div>
-                                <ul class="btns">
-                                    <li><a href="@Url.Action("ProjectDetails", "Home", new { projectId = project.ProjectID })">Apply</a></li>
-
-                                </ul>
                             </div>
                             <p>
-                                @project.Description <!-- Display project description -->
+                                @project.ShortDescription <!-- Display project description -->
                             </p>
                             <h5>Job Nature: Full time</h5>
-                            <p class="address"><span class="lnr lnr-map"></span> Your Address</p>
-                            <p class="address"><span class="lnr lnr-database"></span> @project.PaymentAmount</p> <!-- Display payment amount -->
+                            <div class="details2">
+                                <p class="address" style="margin-right:20px;"><i class="fa-solid fa-location-dot"></i> Your Address</p>
+                                <p class="address"><i class="fa-regular fa-money-bill-1"></i> @project.PaymentAmount</p>
+                            </div>
+                            <!-- Display payment amount -->
                         </div>
+                        <h6>Required Skills</h6>
+                        <div class="thumb">
+                            <div>
+                                <ul class="tags">
+                                    <li>
+                                        <a href="#">@project.SkillSet</a> <!-- Example tag based on SkillSet field -->
+                                    </li>
+                                    <!-- Add more tags as needed -->
+                                </ul>
+                            </div>
+                            <div>
+                                <!----  <a href="@Url.Action("ProjectDetails", "Home", new { projectId = project.ProjectID })" class="btns">Apply</a> -->
+                            </div>
+                        </div>
+
                     </div>
                 }
-
-
-                <a class="text-uppercase loadmore-btn mx-auto d-block" href="category.html">Load More job Posts</a>
-
             </div>
             <div class="col-lg-4 sidebar">
                 <div class="single-slidebar">
@@ -115,70 +115,6 @@
                         <li><a class="justify-content-between d-flex" href="category.html"><p>Accounting</p><span>17</span></a></li>
                     </ul>
                 </div>
-
-                <div class="single-slidebar">
-                    <h4>Carrer Advice Blog</h4>
-                    <div class="blog-list">
-                        <div class="single-blog " style="background:#000 url(img/blog1.jpg);">
-                            <a href="single.html">
-                                <h4>
-                                    Home Audio Recording <br>
-                                    For Everyone
-                                </h4>
-                            </a>
-                            <div class="meta justify-content-between d-flex">
-                                <p>
-                                    02 Hours ago
-                                </p>
-                                <p>
-                                    <span class="lnr lnr-heart"></span>
-                                    06
-                                    <span class="lnr lnr-bubble"></span>
-                                    02
-                                </p>
-                            </div>
-                        </div>
-                        <div class="single-blog " style="background:#000 url(img/blog2.jpg);">
-                            <a href="single.html">
-                                <h4>
-                                    Home Audio Recording <br>
-                                    For Everyone
-                                </h4>
-                            </a>
-                            <div class="meta justify-content-between d-flex">
-                                <p>
-                                    02 Hours ago
-                                </p>
-                                <p>
-                                    <span class="lnr lnr-heart"></span>
-                                    06
-                                    <span class="lnr lnr-bubble"></span>
-                                    02
-                                </p>
-                            </div>
-                        </div>
-                        <div class="single-blog " style="background:#000 url(img/blog1.jpg);">
-                            <a href="single.html">
-                                <h4>
-                                    Home Audio Recording <br>
-                                    For Everyone
-                                </h4>
-                            </a>
-                            <div class="meta justify-content-between d-flex">
-                                <p>
-                                    02 Hours ago
-                                </p>
-                                <p>
-                                    <span class="lnr lnr-heart"></span>
-                                    06
-                                    <span class="lnr lnr-bubble"></span>
-                                    02
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>

@@ -32,7 +32,17 @@ namespace ALlyHub.Controllers
         public ActionResult FindTalent()
         {
             ViewBag.Message = "Find Talent";
-            return View();
+            List<FindTalentModel> findTalents = FindtalentHelper.FetchTalents();
+            return View(findTalents);
+        }
+        public ActionResult TalentDetails(int DeveloperID)
+        {
+            FindTalentModel find = FindtalentHelper.FetchTalentByID(DeveloperID);
+            if(find== null)
+            {
+                return HttpNotFound();
+            }
+            return View(find);
         }
 
         public ActionResult FindJobs()
