@@ -21,9 +21,10 @@ namespace ALlyHub.Models
         public string ExpertiseLevel { get; set; }
         public string Duration { get; set; }
         public string SkillSet { get; set; }
-        public string PostedOn { get; set; }
-        public string ClientName { get; set; }
+        public DateTime PostedOn { get; set; }
         public string CompanyName { get; set; }
+        public string ClientName { get; set; }
         public string ClientLocation { get; set; }
+
     }
 }

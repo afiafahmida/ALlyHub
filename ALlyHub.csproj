@@ -227,6 +227,7 @@
     <Content Include="Views\Home\ForgotPassword.cshtml" />
     <Content Include="Views\Home\ProjectDetails.cshtml" />
     <Content Include="Views\Home\TalentDetails.cshtml" />
+    <Content Include="Views\Home\PostJobs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

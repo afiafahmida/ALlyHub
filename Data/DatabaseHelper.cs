@@ -9,7 +9,7 @@ namespace ALlyHub.Data
 {
     public class DatabaseHelper
     {
-        private static readonly string connectionString = "Data Source=ASHIK\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
+        private static readonly string connectionString = "Data Source=DESKTOP-EH3RJHQ\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
         //private static readonly string connectionString = "Data Source=DESKTOP-EH3RJHQ\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
         
         public static int RegisterUser(string FirstName,string LastName, string email, string password, string address, string phone , string UserType)
@@ -127,7 +127,7 @@ namespace ALlyHub.Data
                             Duration = reader["Duration"].ToString(),
                             SkillSet = reader["SkillSet"].ToString(),
                             CompanyName = reader["CompanyName"].ToString(), // New field
-                            PostedOn = reader["PostedOn"].ToString()
+                           // PostedOn = reader["PostedOn"].ToString()
                         };
 
                         projects.Add(project);
@@ -171,7 +171,7 @@ namespace ALlyHub.Data
                         Duration = reader["Duration"].ToString(),
                         SkillSet = reader["SkillSet"].ToString(),
                         CompanyName = reader["CompanyName"].ToString(), // New field
-                        PostedOn = reader["PostedOn"].ToString()
+                       // PostedOn = reader["PostedOn"].ToString()
                     };
                 }
 
@@ -179,6 +179,52 @@ namespace ALlyHub.Data
             }
 
             return project;
+        }
+        public static void InsertProject(Project project)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = @"
+            INSERT INTO Project 
+            (ProjectTitle, ShortDescription, Description, PaymentAmount, ClientID, ExpertiseLevel, Duration, SkillSet, CompanyName) 
+            VALUES 
+            (@ProjectTitle, @ShortDescription, @Description, @PaymentAmount, @ClientID, @ExpertiseLevel, @Duration, @SkillSet, @CompanyName)";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@ProjectTitle", project.ProjectTitle);
+                command.Parameters.AddWithValue("@ShortDescription", project.ShortDescription);
+                command.Parameters.AddWithValue("@Description", project.Description);
+                command.Parameters.AddWithValue("@PaymentAmount", project.PaymentAmount);
+                command.Parameters.AddWithValue("@ClientID", project.ClientID);
+                command.Parameters.AddWithValue("@ExpertiseLevel", project.ExpertiseLevel);
+                command.Parameters.AddWithValue("@Duration", project.Duration);
+                command.Parameters.AddWithValue("@SkillSet", project.SkillSet);
+                command.Parameters.AddWithValue("@CompanyName", project.CompanyName);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+        public int GetClientIdByUserId(int userId)
+        {
+            int clientId = 0;
+            string query = "SELECT ClientID FROM Client WHERE UserID = @UserID";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserID", userId);
+
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    clientId = Convert.ToInt32(result);
+                }
+            }
+
+            return clientId;
         }
 
     }

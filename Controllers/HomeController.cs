@@ -158,6 +158,44 @@ namespace ALlyHub.Controllers
 
             return View(project);
         }
+
+
+
+        public ActionResult PostJobs()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PostJobs(Project project)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Retrieve the UserID from the session
+                    int userId = Convert.ToInt32(Session["userID"]);
+
+                    // Fetch the ClientID using the UserID
+                    int clientId = databaseHelper.GetClientIdByUserId(userId);
+
+                    // Set the ClientID and PostedOn fields
+                    project.ClientID = clientId;
+                    project.PostedOn = DateTime.Now;
+
+                    // Save the project to the database
+                    DatabaseHelper.InsertProject(project);
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+            }
+            return View(project);
+        }
     }
 
 }
