@@ -122,6 +122,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\FindtalentHelper.cs" />
+    <Compile Include="Data\ProfileHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -129,6 +130,7 @@
     <Compile Include="Models\FindTalentModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\PracticeModel.cs" />
+    <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -231,6 +233,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ProfileHelper\" />
     <Folder Include="Views\Projects\" />
   </ItemGroup>
   <ItemGroup>

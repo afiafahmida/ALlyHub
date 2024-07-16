@@ -1,4 +1,4 @@
-﻿
+﻿@model ALlyHub.Models.ProfileModel
 @{
     ViewBag.Title = "Task";
 }
@@ -13,9 +13,9 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="text-center border-end">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-fluid avatar-xxl rounded-circle" alt="">
-                            <h4 class="text-primary font-size-20 mt-3 mb-2">Your Name</h4>
-                            <h5 class="text-muted font-size-13 mb-0">Web Designer</h5>
+                            <img src="~/Images/Afia Fahmida.jpg" class="img-fluid avatar-xxl rounded-circle" alt="Profile Photo">
+                            <h4 class="text-primary font-size-20 mt-3 mb-2">@Model.FirstName @Model.LastName</h4>
+                            <p class="text-muted font-size-13 mb-0">@Model.AreaofExpertise</p>
                         </div>
                     </div><!-- end col -->
                     <div class="col-md-9">
@@ -23,17 +23,17 @@
                             <div>
                                 <h4 class="card-title mb-2">Biography</h4>
                                 <p class="mb-0 text-muted">
-                                    This is ---- ----. I am a CSE Undergrad.
+                                    @Model.DevDescription
                                 </p>
                             </div>
                             <div class="row my-4">
                                 <div class="col-md-12">
                                     <div>
                                         <p class="text-muted mb-2 fw-medium">
-                                            <i class="mdi mdi-email-outline me-2"></i>abcd@probic.com
+                                            <i class="mdi mdi-email-outline me-2"></i>@Model.UserEmail
                                         </p>
                                         <p class="text-muted fw-medium mb-0">
-                                            <i class="mdi mdi-phone-in-talk-outline me-2"></i>+880XXXXXXXXXX
+                                            <i class="mdi mdi-phone-in-talk-outline me-2"></i>@Model.UserPhone
                                         </p>
                                     </div>
                                 </div><!-- end col -->
@@ -46,10 +46,10 @@
                                         <span class="d-block d-sm-none"><i class="mdi mdi-menu-open"></i></span>
                                         <span class="d-none d-sm-block">Review</span>
                                     </a>
-                             
+
                                 <li>@Html.ActionLink("Team", "Team", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                                 <li>@Html.ActionLink("Edit Profile", "Edit_Profile", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                              
+
                                 <!-- end li -->
 
                             </ul><!-- end ul -->
@@ -58,9 +58,6 @@
                 </div><!-- end row -->
             </div><!-- end card body -->
         </div><!-- end card -->
-
-
-
         <!-------------------Task Body------------->
         <div class="card">
             <div class="tab-content p-4">
@@ -72,107 +69,107 @@
                     </div>
 
                     <div class="row" id="all-projects">
-                        
-                            <section id="testimonials">
-                                
-                                <div class="testimonial-box-container">
-                                    <div class="testimonial-box">
-                                        <div class="box-top">
-                                            <div class="profile">
-                                                <div class="profile-img">
-                                                    <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
-                                                </div>
-                                                <div class="name-user">
-                                                    <strong>Liam mendes</strong>
-                                                    <span>Liam mendes</span>
-                                                </div>
+
+                        <section id="testimonials">
+
+                            <div class="testimonial-box-container">
+                                <div class="testimonial-box">
+                                    <div class="box-top">
+                                        <div class="profile">
+                                            <div class="profile-img">
+                                                <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
                                             </div>
-                                            <div class="reviews">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="far fa-star"></i>
+                                            <div class="name-user">
+                                                <strong>Liam mendes</strong>
+                                                <span>Liam mendes</span>
                                             </div>
                                         </div>
-                                        <div class="client-comment">
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat quis? Provident temporibus architecto asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur voluptates incidunt blanditiis sed atque cumque.</p>
+                                        <div class="reviews">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
                                         </div>
                                     </div>
-                                    <div class="testimonial-box">
-                                        <div class="box-top">
-                                            <div class="profile">
-                                                <div class="profile-img">
-                                                    <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
-                                                </div>
-                                                <div class="name-user">
-                                                    <strong>Noah Wood</strong>
-                                                    <span>Noah Wood</span>
-                                                </div>
-                                            </div>
-                                            <div class="reviews">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <div class="client-comment">
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat quis? Provident temporibus architecto asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur voluptates incidunt blanditiis sed atque cumque.</p>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-box">
-                                        <div class="box-top">
-                                            <div class="profile">
-                                                <div class="profile-img">
-                                                    <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
-                                                </div>
-                                                <div class="name-user">
-                                                    <strong>Oliver Queen</strong>
-                                                    <span>Oliver Queen</span>
-                                                </div>
-                                            </div>
-                                            <div class="reviews">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <div class="client-comment">
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat quis? Provident temporibus architecto asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur voluptates incidunt blanditiis sed atque cumque.</p>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-box">
-                                        <div class="box-top">
-                                            <div class="profile">
-                                                <div class="profile-img">
-                                                    <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
-                                                </div>
-                                                <div class="name-user">
-                                                    <strong>Barry Allen</strong>
-                                                    <span>Barry Allen</span>
-                                                </div>
-                                            </div>
-                                            <div class="reviews">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <div class="client-comment">
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat quis? Provident temporibus architecto asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur voluptates incidunt blanditiis sed atque cumque.</p>
-                                        </div>
+                                    <div class="client-comment">
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat quis? Provident temporibus architecto asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur voluptates incidunt blanditiis sed atque cumque.</p>
                                     </div>
                                 </div>
-                            </section>
-                            <script src='https://kit.fontawesome.com/c8e4d183c2.js'></script>
-                     
-                        
+                                <div class="testimonial-box">
+                                    <div class="box-top">
+                                        <div class="profile">
+                                            <div class="profile-img">
+                                                <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
+                                            </div>
+                                            <div class="name-user">
+                                                <strong>Noah Wood</strong>
+                                                <span>Noah Wood</span>
+                                            </div>
+                                        </div>
+                                        <div class="reviews">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="client-comment">
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat quis? Provident temporibus architecto asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur voluptates incidunt blanditiis sed atque cumque.</p>
+                                    </div>
+                                </div>
+                                <div class="testimonial-box">
+                                    <div class="box-top">
+                                        <div class="profile">
+                                            <div class="profile-img">
+                                                <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
+                                            </div>
+                                            <div class="name-user">
+                                                <strong>Oliver Queen</strong>
+                                                <span>Oliver Queen</span>
+                                            </div>
+                                        </div>
+                                        <div class="reviews">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="client-comment">
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat quis? Provident temporibus architecto asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur voluptates incidunt blanditiis sed atque cumque.</p>
+                                    </div>
+                                </div>
+                                <div class="testimonial-box">
+                                    <div class="box-top">
+                                        <div class="profile">
+                                            <div class="profile-img">
+                                                <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
+                                            </div>
+                                            <div class="name-user">
+                                                <strong>Barry Allen</strong>
+                                                <span>Barry Allen</span>
+                                            </div>
+                                        </div>
+                                        <div class="reviews">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="client-comment">
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem, quaerat quis? Provident temporibus architecto asperiores nobis maiores nisi a. Quae doloribus ipsum aliquam tenetur voluptates incidunt blanditiis sed atque cumque.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <script src='https://kit.fontawesome.com/c8e4d183c2.js'></script>
+
+
                     </div><!-- end row -->
                 </div><!-- end tab pane -->
 

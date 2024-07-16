@@ -68,7 +68,7 @@ namespace ALlyHub.Controllers
                 bool isLoggedIn = DatabaseHelper.AuthenticateUser(model.Email, model.Password, out userId, out UserType);
                 if (isLoggedIn)
                 {
-                    Session["userID"] = userId.ToString();
+                    Session["userID"] = userId;
                     Session["UserType"] = UserType;
                     return RedirectToAction("Profile", "Home");
                 }
@@ -114,25 +114,85 @@ namespace ALlyHub.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        
         public ActionResult Profile()
         {
-            return View();
+            if (Session["userID"] == null)
+            {
+                return RedirectToAction("Login", "Home"); // Redirect to Login if user is not logged in
+            }
+
+            int userId = (int)Session["userID"];
+            ProfileModel profile = ProfileHelper.GetProfileById(userId);
+
+            if (profile == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(profile);
         }
+
+
 
         public ActionResult Task()
         {
-            return View();
+            if (Session["userID"] == null)
+            {
+                return RedirectToAction("Login", "Home"); // Redirect to Login if user is not logged in
+            }
+
+            int userId = (int)Session["userID"];
+            ProfileModel profile = ProfileHelper.GetProfileById(userId);
+
+            if (profile == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(profile);
         }
 
         public ActionResult Team()
         {
-            return View();
+            if (Session["userID"] == null)
+            {
+                return RedirectToAction("Login", "Home"); // Redirect to Login if user is not logged in
+            }
+
+            int userId = (int)Session["userID"];
+            ProfileModel profile = ProfileHelper.GetProfileById(userId);
+
+            if (profile == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(profile);
         }
 
         public ActionResult Edit_Profile()
         {
-            return View();
+            if (Session["userID"] == null)
+            {
+                return RedirectToAction("Login", "Home"); // Redirect to Login if user is not logged in
+            }
+
+            int userId = (int)Session["userID"];
+            ProfileModel profile = ProfileHelper.GetProfileById(userId);
+
+            if (profile == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(profile);
         }
+
+
+        //profile showcase
+        
 
         public ActionResult Logout()
         {
