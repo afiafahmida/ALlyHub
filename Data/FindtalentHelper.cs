@@ -9,7 +9,10 @@ namespace ALlyHub.Data
 {
     public class FindtalentHelper
     {
-        private static readonly string connectionString = "Data Source=USER\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
+        ConnectDB db= new ConnectDB();
+
+        private static readonly string connectionString = ConnectDB.connect;
+
         public static List<FindTalentModel> FetchTalents()
         {
             List<FindTalentModel> findTalents = new List<FindTalentModel>();

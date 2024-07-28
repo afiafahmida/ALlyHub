@@ -1,173 +1,264 @@
 ﻿
 @{
-    ViewBag.Title = "TalentDetails";
+    ViewBag.Title = Model.FirstName;
+    ViewBag.Subtitle = "Details";
 }
 @model ALlyHub.Models.FindTalentModel
 
-<link rel="stylesheet" href="~/Content/TalentDetails.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<div class="layout-content">
-    <!-- Content -->
-    <div class="container flex-grow-1 container-p-y">
+<link rel="stylesheet" href="~/Content/Profile.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.2.96/css/materialdesignicons.min.css" integrity="sha512-LX0YV/MWBEn2dwXCYgQHrpa9HJkwB+S+bnBpifSOTO1No27TqNMKYoAn6ff2FBh03THAzAiiCwQ+aPX+/Qt/Ow==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-        <!-- Header -->
-        <div class="container-m-nx container-m-ny theme-bg-white mb-4">
-            <div class="media col-md-10 col-lg-8 col-xl-7 py-5 mx-auto">
-                <img src="~/Images/@Model.UserPhoto" alt="" class="d-block ui-w-100 rounded-circle">
-                <div class="media-body ml-5">
-                    <h4 class="mb-4">@Model.FirstName @Model.LastName</h4>
-                    <div class="mb-4">
-                        <p>@Model.DevDescription</p>
+
+<div class="row">
+    <div class="col-xl-8">
+        <div class="card">
+            <div class="card-body pb-0">
+                <div class="row align-items-center">
+                    <div class="col-md-3">
+                        <div class="text-center border-end">
+                            <img src="~/Images/@Model.UserPhoto"
+                                 class="img-fluid avatar-xxl rounded-circle" alt="" />
+                            <h4 class="name">
+                                @Model.FirstName @Model.LastName
+                            </h4>
+                            <h5 class="text-muted designation">@Model.AreaofExpertise</h5>
+                        </div>
                     </div>
+                    <!-- end col -->
+                    <div class="col-md-9">
+                        <div class="ms-3">
+                            <div>
+                                <h4 class="card-title mb-2">Biography</h4>
+                                <p class="paragraph mb-0" style="font-family: 'Kanit', sans-serif; font-weight:300">
+                                    @Model.DevDescription
+                                </p>
+                            </div>
+                            <div class="row my-4">
+                                <div class="col-md-12">
+                                    <div>
+                                        <p class="paragraph mb-2" style="font-family: 'Kanit', sans-serif; font-weight:300">
+                                            <i class="mdi mdi-email-outline me-2" style="color: #135D66"></i>@Model.UserEmail
+                                        </p>
+                                        <p class="paragraph mb-0" style="font-family: 'Kanit', sans-serif; font-weight:300">
+                                            <i class="mdi mdi-phone-in-talk-outline me-2" style="color: #135D66"></i>@Model.UserPhone
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                            <!-- end row -->
+
+                            <ul class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justfied" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link px-4" id="projectBtn" href="">
+                                        <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                        <span class="d-none d-sm-block">Projects</span>
+                                    </a>
+                                </li>
+                                <!-- end li -->
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link px-4" id="reviewsBtn" href="">
+                                        <span class="d-block d-sm-none"><i class="mdi mdi-menu-open"></i></span>
+                                        <span class="d-none d-sm-block">Reviews</span>
+                                    </a>
+                                </li>
+                                <!-- end li -->
+                            </ul>
+                            <!-- end ul -->
+                        </div>
+                    </div>
+                    <!-- end col -->
                 </div>
+                <!-- end row -->
             </div>
-            <hr class="m-0">
+            <!-- end card body -->
         </div>
-        <!-- Header -->
+        <!-- end card -->
 
-        <div class="row">
-            <div class="col">
+        <div class="card hideTab" id="projects">
+            <div class="tab-content p-4">
+                <div class="tab-pane active" id="team-tab">
+                    <h4 class="card-title mb-4">Projects</h4>
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6" id="team-1">
+                            <div class="card projectCard">
+                                <div class="card-body">
+                                    <div class="d-flex mb-4">
+                                        <div class="flex-grow-1 align-items-start">
+                                            <h5>Project Title</h5>
+                                        </div>
 
-                <!-- Info -->
-                <div class="card mb-4">
-                    <div class="card-body">
-
-                        <h6 class="my-3">Personal Info</h6>
-                        <div class="row mb-2">
-                            <div class="col-md-3">Date of Birth:</div>
-                            <div class="col-md-9">
-                                @Model.DOB
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1 font-size-14">Short Description</h6>
+                                        <p class="text-muted font-size-13 mb-0">Date</p>
+                                    </div>
+                                </div>
+                                <!-- end card-body -->
                             </div>
+                            <!-- end card -->
                         </div>
-                        <div class="row mb-2">
-                            <div class="col-md-3">Expertise Area:</div>
-                            <div class="col-md-9">
-                                @Model.AreaofExpertise
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-3">Location:</div>
-                            <div class="col-md-9">
-                                @Model.UserAddress
-                            </div>
-                        </div>
-                      
-                        <div class="row mb-2">
-                            <div class="col-md-3">Country:</div>
-                            <div class="col-md-9">
-                                <a href="javascript:void(0)" class="text-body">@Model.Country</a>
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="col-md-3">Languages:</div>
-                            <div class="col-md-9">
-                                <a href="javascript:void(0)" class="text-body">@Model.Languagee</a>
-                            </div>
-                        </div>
-
-                        <h6 class="my-3">Contacts</h6>
-
-                        <div class="row mb-2">
-                            <div class="col-md-3">Phone:</div>
-                            <div class="col-md-9">
-                                @Model.UserPhone
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-3">Email:</div>
-                            <div class="col-md-9">
-                                @Model.UserEmail
-                            </div>
-                        </div>
-
-                        <h6 class="my-3">Interests</h6>
-
-                        <div class="row mb-2">
-                            <div class="col-md-3 text-muted">Favorite music:</div>
-                            <div class="col-md-9">
-                                <a href="javascript:void(0)" class="text-body">Rock</a>,
-                                <a href="javascript:void(0)" class="text-body">Alternative</a>,
-                                <a href="javascript:void(0)" class="text-body">Electro</a>,
-                                <a href="javascript:void(0)" class="text-body">Drum &amp; Bass</a>,
-                                <a href="javascript:void(0)" class="text-body">Dance</a>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-3 text-muted">Favorite movies:</div>
-                            <div class="col-md-9">
-                                <a href="javascript:void(0)" class="text-body">The Green Mile</a>,
-                                <a href="javascript:void(0)" class="text-body">Pulp Fiction</a>,
-                                <a href="javascript:void(0)" class="text-body">Back to the Future</a>,
-                                <a href="javascript:void(0)" class="text-body">WALL·E</a>,
-                                <a href="javascript:void(0)" class="text-body">Django Unchained</a>,
-                                <a href="javascript:void(0)" class="text-body">The Truman Show</a>,
-                                <a href="javascript:void(0)" class="text-body">Home Alone</a>,
-                                <a href="javascript:void(0)" class="text-body">Seven Pounds</a>
-                            </div>
-                        </div>
-
+                        <!-- end col -->
                     </div>
+                    <!-- end row -->
                 </div>
-                <!-- / Info -->
-            </div>
-            <div class="col-xl-4">
-
-                <!-- Side info -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h3>Social Links</h3>
-                    </div>
-                    <hr class="border-light m-0">
-                    <div class="card-body">
-                        <a href="@Model.Facebook" target="_blank" class="d-block mb-2">
-                            <i class="fa-brands fa-facebook"></i> @Model.FirstName @Model.LastName
-                        </a>
-                        <a href="@Model.LinkedIn" target="_blank" class="d-block mb-2">
-                            <i class="fa-brands fa-linkedin"></i> @Model.FirstName @Model.LastName
-                        </a>
-                        <p class="mb-0">
-                            <i class="fa-solid fa-globe"></i>
-                            <a href="@Model.PortfolioLink" target="_blank" class="">Portfolio</a>
-                        </p>
-                    </div>
-                </div>
-                <!-- / Side info -->
-                <!-- Skills -->
-                <div class="card mb-4">
-                    <div class="card-header">Skills</div>
-                    <div class="card-body">
-
-                        <div class="mb-1">HTML - <small class="text-muted">80%</small></div>
-                        <div class="progress mb-3" style="height: 4px;">
-                            <div class="progress-bar bg-secondary" style="width: 80%;"></div>
-                        </div>
-
-                        <div class="mb-1">CSS - <small class="text-muted">95%</small></div>
-                        <div class="progress mb-3" style="height: 4px;">
-                            <div class="progress-bar bg-success" style="width: 95%;"></div>
-                        </div>
-
-                        <div class="mb-1">Javascript - <small class="text-muted">90%</small></div>
-                        <div class="progress mb-3" style="height: 4px;">
-                            <div class="progress-bar bg-warning" style="width: 90%;"></div>
-                        </div>
-
-                        <div class="mb-1">UI/UX - <small class="text-muted">80%</small></div>
-                        <div class="progress" style="height: 4px;">
-                            <div class="progress-bar bg-danger" style="width: 80%;"></div>
-                        </div>
-
-                    </div>
-                    <a href="javascript:void(0)" class="card-footer d-block text-center text-body small font-weight-semibold">SHOW ALL SKILLS</a>
-                </div>
-                <!-- / Skills -->
+                <!-- end tab pane -->
             </div>
         </div>
+        <!-- end card -->
+        <div class="card hideTab" id="reviews">
+            <div class="tab-content p-4">
+                <div class="tab-pane active" id="team-tab">
+                    <h4 class="card-title mb-4">Reviews</h4>
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6" id="team-1">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex mb-4">
+                                        <div class="flex-grow-1 align-items-start">
+                                            Project Title
+                                        </div>
 
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-1 font-size-17">Short Description</h5>
+                                        <p class="text-muted font-size-13 mb-0">Date</p>
+                                    </div>
+                                </div>
+                                <!-- end card-body -->
+                            </div>
+                            <!-- end card -->
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                </div>
+                <!-- end tab pane -->
+            </div>
+        </div>
+        <!-- end card -->
     </div>
-    <!-- / Content -->
+    <!-- end col -->
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="pb-2">
+                    <h4 class="card-title mb-3">Personal Info</h4>
+                    <p style="font-family: 'Kanit', sans-serif; font-weight:300">
+                        
+                    </p>
+                    <ul class="ps-3 mb-0" style="font-family: 'Kanit', sans-serif; font-weight:300">
+                        <li>Country : @Model.Country</li>
+                        <li>Location : @Model.UserAddress</li>
+                        <li>
+                            Prefereed Language : @Model.Languagee
+                        </li>
+                        <li>DOB : @Model.DOB</li>
+                    </ul>
+                    <!-- end ul -->
+                </div>
+                <hr />
+                <div class="pt-2">
+                    <h4 class="card-title mb-4">My Skill</h4>
+                    <div class="d-flex gap-2 flex-wrap" style="font-family: 'Kanit', sans-serif; font-weight:200">
+                        <span class="badge badge-soft-secondary p-2">HTML</span>
+                        <span class="badge badge-soft-secondary p-2">Bootstrap</span>
+                        <span class="badge badge-soft-secondary p-2">Scss</span>
+                        <span class="badge badge-soft-secondary p-2">Javascript</span>
+                        <span class="badge badge-soft-secondary p-2">React</span>
+                        <span class="badge badge-soft-secondary p-2">Angular</span>
+                    </div>
+                </div>
+            </div>
+            <!-- end cardbody -->
+        </div>
+        <!-- end card -->
+
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <h4 class="card-title mb-4">Connect With Me</h4>
+                    <div class="table-responsive">
+                        <div class="social-links d-flex">
+                            <a href="@Model.Facebook" class="social-icon" target="_blank" style="margin-right:10px; color:black; font-size:20px;"><i class="fa-brands fa-facebook"></i></a>
+                            <a href="@Model.LinkedIn" class="social-icon" target="_blank" style="margin-right:10px; color:black; font-size:20px"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="@Model.PortfolioLink" class="social-icon" target="_blank" style="margin-right:10px; color:black; font-size:20px"><i class="fa-solid fa-globe"></i></a>
+                        </div>
+                        <!-- end table -->
+                    </div>
+                </div>
+            </div>
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <h4 class="card-title mb-4">Work Experince</h4>
+                    <ul class="list-unstyled work-activity mb-0">
+                        <li class="work-item" data-date="2020-21">
+                            <h6 class="lh-base mb-0">ABCD Company</h6>
+                            <p class="font-size-13 mb-2">Web Designer</p>
+                            <p>
+                                To achieve this, it would be necessary to have uniform
+                                grammar, and more common words.
+                            </p>
+                        </li>
+                        <li class="work-item" data-date="2019-20">
+                            <h6 class="lh-base mb-0">XYZ Company</h6>
+                            <p class="font-size-13 mb-2">Graphic Designer</p>
+                            <p class="mb-0">
+                                It will be as simple as occidental in fact, it will be
+                                Occidental person, it will seem like simplified.
+                            </p>
+                        </li>
+                    </ul>
+                    <!-- end ul -->
+                </div>
+            </div>
+            <!-- end card-body -->
+        </div>
+        <!-- end card -->
+    </div>
+    <!-- end col -->
 </div>
+<!-- end row -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const projectBtn = document.getElementById('projectBtn');
+        const reviewsBtn = document.getElementById('reviewsBtn');
+        const editProfileBtn = document.getElementById('editProfileBtn');
+
+        const projectsTab = document.getElementById('projects');
+        const reviewsTab = document.getElementById('reviews');
+        const editProfileTab = document.getElementById('editProfile');
+
+        projectBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            projectsTab.style.display = 'block';
+            reviewsTab.style.display = 'none';
+            editProfileTab.style.display = 'none';
+        });
+
+        reviewsBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            projectsTab.style.display = 'none';
+            reviewsTab.style.display = 'block';
+            editProfileTab.style.display = 'none';
+        });
+
+        editProfileBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            projectsTab.style.display = 'none';
+            reviewsTab.style.display = 'none';
+            editProfileTab.style.display = 'block';
+        });
+    });
+</script>
+
+<script src="~/JS/Profile.js"></script>
 
 

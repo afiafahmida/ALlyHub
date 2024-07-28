@@ -1,4 +1,14 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+:root {
+    --navBg: #DCF2F1;
+    --first-color: #7AB2B2;
+    --second-color: #135D66;
+    --third-color: #003C43;
+    --main-font: 'Kanit', sans-serif;
+}
+.container {
+    max-width: 1170px;
+}
 
 .avatar-xxl {
     height: 7rem;
@@ -45,7 +55,7 @@
 }
 
 .nav-tabs-custom .nav-item .nav-link.active {
-    color: #038edc;
+    color: var(--second-color);
 }
 
 .nav-tabs-custom .nav-item .nav-link {
@@ -53,7 +63,7 @@
 }
 
     .nav-tabs-custom .nav-item .nav-link.active {
-        color: #038edc;
+        color: var(--second-color);
     }
 
 .avatar-group {
@@ -113,7 +123,7 @@
 
     .nav-tabs-custom .nav-item .nav-link::after {
         content: "";
-        background: #038edc;
+        background: var(--second-color);
         height: 2px;
         position: absolute;
         width: 100%;
@@ -172,7 +182,7 @@
             top: -3px;
             text-align: right;
             font-weight: 500;
-            color: #74788d;
+            color: var(--second-color);
             font-size: 12px;
             min-width: 120px
         }
@@ -185,19 +195,72 @@
             left: -26px;
             top: 3px;
             background-color: #fff;
-            border: 2px solid #038edc
+            border: 2px solid var(--second-color);
         }
 
-
-
-
-
-
-
-
-a {
-    text-decoration: none;
+.hideTab {
+    display: none !important;
 }
+
+.showTab {
+    display: block;
+}
+
+.cardTabs {
+    display: none;
+}
+.name {
+    font-family: var(--main-font) !important;
+    color: var(--second-color) !important;
+    font-weight: 500 !important;
+    margin-top:10px;
+}
+.designation {
+    font-family: var(--main-font) !important;
+    color: var(--second-color) !important;
+    font-weight: 300 !important;
+    font-size:18px;
+    margin-bottom:20px;
+}
+.card-title{
+    color:var(--second-color);
+    font-family:var(--main-font);
+    font-weight:500;
+}
+.row .card .card-body .table-responsive .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    color: black;
+    margin-right: 10px !important;
+    transition: 0.4s;
+}
+.social-icon:hover {
+    color: var(--second-color) !important;
+}
+.paragraph i{
+    color:var(--second-color);
+}
+.lh-base{
+    color:var(--second-color);
+    font-family:var(--main-font);
+    font-weight:500;
+}
+.work-item p{
+    font-family:var(--main-font);
+    font-weight:300;
+}
+.card.projectCard {
+    background: var(--navBg) !important;
+    border:none;
+    font-family:var(--main-font);
+}
+
+/*Review CSS*/
 
 #testimonials {
     display: flex;
@@ -230,19 +293,16 @@ a {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 16px;
+    width: 100%;
 }
 
 .testimonial-box {
     width: 500px;
     box-shadow: 2px 2px 30px rgba(0,0,0,0.1);
-    background-color: #ffffff;
+    background-color: var(--navBg);
     padding: 20px;
     margin: 15px;
     cursor: pointer;
-    flex: 1 1 calc(50% - 16px); /* Two columns, adjust the calculation based on gap */
-    box-sizing: border-box;
-    margin-bottom: 16px;
 }
 
 .profile-img {
@@ -330,22 +390,163 @@ a {
     }
 }
 
-@media (max-width: 768px) {
-    .testimonial-box {
-        flex: 1 1 100%; /* Stack columns on smaller screens */
-    }
-}
-
 ::selection {
     color: #ffffff;
     background-color: #252525;
 }
 
 
+/*====================================================*/
 
+.custom-select {
+    position: relative;
+    width: 100%;
+    margin-bottom: 50px;
+}
 
+.select-box {
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    padding: 0 10px;
+    cursor: pointer;
+}
 
+.selected-options {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0;
+}
 
+.tag {
+    background-color: #f2f2f2;
+    color: #000;
+    border-radius: 5px;
+    margin-right: 5px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+}
 
+.remove-tag {
+    margin-left: 6px;
+    cursor: pointer;
+}
 
+.arrow {
+    margin: 0 10px;
+}
 
+.fa-angle-down {
+    color: #404040;
+    font-size: 30px;
+}
+
+.options {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-top: none;
+    max-height: 225px;
+    overflow-y: auto;
+    z-index: 1;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.open .options {
+    display: block;
+}
+
+.option-search-tags {
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    padding: 8px 0px;
+    margin: 8px;
+}
+
+.search-tags {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.tags {
+    padding: 5px;
+    border: 1px solid rgb(110, 110, 110);
+    margin-right: 5px;
+}
+
+.clear {
+    position: absolute;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0;
+    color: #000;
+    top: 26px;
+    left: auto;
+    right: 15px;
+}
+
+.option {
+    padding: 12px;
+    cursor: pointer;
+}
+
+    .option.active {
+        color: #000;
+        background-color: #f2f2f2;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+    .tag:hover, .option:hover {
+        background-color: #eaeaea;
+    }
+
+.no-result-message {
+    padding: 0px 0px 12px 12px;
+}
+
+.error {
+    color: #ff1a2a;
+    margin-top: 8px;
+}
+
+.btn_submit {
+    padding: 17px 24px;
+    background-color: #4caf50;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+    .btn_submit:hover {
+        background-color: #4caf50;
+    }
+
+.placeholder {
+    background-color: transparent !important;
+}
+.logBtn {
+    background: transparent !important;
+    border: 1px solid var(--second-color) !important;
+    color: black !important;
+    transition: all 0.5s;
+    font-family: var(--main-font) !important;
+}
+
+    .logBtn:hover {
+        background: var(--second-color) !important;
+        color: white !important;
+    }

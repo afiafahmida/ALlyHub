@@ -11,25 +11,39 @@ create table Users(
     UserPhone varchar(20),
     UserAddress varchar(100),
 	UserType varchar(100),
-	UserPhoto varchar(255)
+	UserPhoto varchar(255),
+	Country varchar(255),
+	DOB varchar(255),
+	Languagee varchar(255)
 );
-update Users SET UserPhoto='Zenun.jpg' where UserId=2
+
+select * from Users
+
 create table Client(
 	ClientID int not null primary key identity(1,1),
 	CompanyName varchar(50),
 	ClientLocation varchar(100),
+	ClientDescription varchar(1000),
 	UserId int not null,
-	foreign key (UserId) references Users (UserId)
+	foreign key (UserId) references Users (UserId),
+	Facebook varchar(255),
+	Linkedin varchar(255)
 );
+select * from Client
+
+select u.UserId , c.ClientID , u.FirstName , u.LastName , u.UserEmail , u.UserPhone , u.UserAddress , u.UserType , u.UserPhoto ,
+c.CompanyName , c.ClientDescription , u.Country , u.DOB , c.Facebook , c.Linkedin , u.Languagee from Users u JOIN Client c ON u.UserId=c.UserId where u.UserId=2
+
+select u.FirstName , u.LastName, u.UserAddress , u.UserPhone , u.UserEmail, u.UserPhoto , d.DeveloperID, d.UserId ,d.DevDescription , 
+                    d.AreaofExpertise , d.PortfolioLink , d.LinkedIn ,d.Facebook, d.Country , d.Languagee , d.DOB from Developer d 
+                    JOIN Users u ON d.UserId = u.UserId where u.UserId=1
+
+
 select * from Project;
 select * from Developer;
 select* from Users;
 select * from Client
 drop table Developer
-
-insert into Developer(UserID , PortfolioLink , LinkedIn , Facebook , DevDescription , AreaofExpertise) VALUES (3 , 'https://github.com/afiafahmida' ,'https://www.linkedin.com/in/afia-fahmida-1b1b65243/','https://www.facebook.com/afiafahmida.dona','Hello! I am Afia Fahmida from Bangladesh, a full stuck developer, a tech enthusiast','ASP .NET Developer')
-
-select u.FirstName , u.LastName, u.UserAddress , u.UserPhone , u.UserEmail , d.DeveloperID, d.UserId ,d.DevDescription , d.AreaofExpertise , d.PortfolioLink , d.LinkedIn ,d.Facebook, d.Country , d.Languagee , d.DOB from Developer d JOIN Users u ON d.UserId = u.UserId where DeveloperID=3
 
 create table Developer(
 	DeveloperID int not null primary key identity(1,1),
@@ -39,18 +53,45 @@ create table Developer(
 	LinkedIn varchar(255),
 	Facebook varchar(255),
 	DevDescription varchar(1000),
-	AreaofExpertise varchar(255),
-	Country varchar(255),
-	Languagee varchar(255),
-	DOB varchar(255)
+	AreaofExpertise varchar(255)
 );
 
-create table DeveloperSkill (
-	SkillID int not null primary key identity(1,1),
-	SkillName varchar(100),
-	DeveloperID int not null,
-	foreign key (DeveloperID) references Developer (DeveloperID)
+create table Skills(
+SkillID int not null primary key identity(1,1),
+SkillName varchar(255)
 );
+
+select * from Skills
+insert into Skills (SkillName) VALUES ('HTML')
+insert into Skills (SkillName) VALUES ('CSS')
+insert into Skills (SkillName) VALUES ('JavaScript')
+insert into Skills (SkillName) VALUES ('PHP')
+insert into Skills (SkillName) VALUES ('C#')
+insert into Skills (SkillName) VALUES ('React Js')
+insert into Skills (SkillName) VALUES ('Python')
+insert into Skills (SkillName) VALUES ('Django')
+insert into Skills (SkillName) VALUES ('React Native')
+insert into Skills (SkillName) VALUES ('Bootstrap')
+
+create table DeveloperSkill (
+	SkillID int not null ,
+	foreign key (SkillID) references Skills (SkillID),
+	UserId int not null,
+	foreign key (UserId) references Users (UserId)
+);
+
+insert into DeveloperSkill(SkillID , UserId) VALUES (1,1)
+insert into DeveloperSkill(SkillID , UserId) VALUES (2,1)
+insert into DeveloperSkill(SkillID , UserId) VALUES (4,1)
+insert into DeveloperSkill(SkillID , UserId) VALUES (10,1)
+insert into DeveloperSkill(SkillID , UserId) VALUES (1,3)
+insert into DeveloperSkill(SkillID , UserId) VALUES (1,3)
+insert into DeveloperSkill(SkillID , UserId) VALUES (3,3)
+insert into DeveloperSkill(SkillID , UserId) VALUES (9,3)
+
+select * from DeveloperSkill
+
+select s.SkillName from Skills s JOIN DeveloperSkill ds ON s.SkillID=ds.SkillID where UserId=1
 
 create table Certification(
 	CertificateID int not null primary key identity(1,1),
@@ -125,4 +166,6 @@ create table PaymentDetails(
 INSERT INTO Project (ProjectTitle, Description, PaymentAmount, ClientID, Level, Duration, SkillSet, CompanyName) VALUES
 ('Website Redesign', 'Complete overhaul of the company website.', 5000, 1, 3, 8, 'HTML, CSS, JavaScript', 'Tech Innovators')
 
-select * from Users;
+select u.UserId , c.ClientID , u.FirstName , u.LastName , u.UserEmail , u.UserPhone , u.UserAddress , u.UserType , u.UserPhoto ,
+                    c.CompanyName , c.ClientDescription , u.Country , u.DOB , c.Facebook , c.Linkedin , u.Languagee 
+                    from Users u JOIN Client c ON u.UserId=c.UserId where u.UserId=2

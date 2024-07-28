@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ALlyHub.Data;
 using ALlyHub.Models;
+
 
 namespace ALlyHub.Controllers
 {
@@ -102,7 +106,7 @@ namespace ALlyHub.Controllers
                     if (model.UserType == "Client")
                     {
                         // Assuming you have companyName and clientLocation fields in your RegisterModel
-                        databaseHelper.RegisterClient(userId, "abc", "Dhaka");
+                        databaseHelper.RegisterClient(userId, "", "");
                     }
                     else if (model.UserType == "Developer")
                     {
@@ -115,85 +119,62 @@ namespace ALlyHub.Controllers
         }
 
         [HttpGet]
-        
         public ActionResult Profile()
         {
+            ProfileModel profileModel = new ProfileModel();
             if (Session["userID"] == null)
             {
                 return RedirectToAction("Login", "Home"); // Redirect to Login if user is not logged in
             }
 
             int userId = (int)Session["userID"];
-            ProfileModel profile = ProfileHelper.GetProfileById(userId);
+            if((string)Session["UserType"]=="Client")
+            {
+                profileModel = ProfileHelper.GetClientById(userId);
+            }
+            else if((string)Session["UserType"] == "Developer")
+            {
+                profileModel = ProfileHelper.GetProfileById(userId);
+            }
 
-            if (profile == null)
+            if (profileModel == null)
             {
                 return HttpNotFound();
             }
 
-            return View(profile);
+            return View(profileModel);
         }
-
-
-
-        public ActionResult Task()
+        [HttpPost]
+        public ActionResult Profile(ProfileModel model , HttpPostedFileBase Photo)
         {
             if (Session["userID"] == null)
             {
                 return RedirectToAction("Login", "Home"); // Redirect to Login if user is not logged in
             }
 
-            int userId = (int)Session["userID"];
-            ProfileModel profile = ProfileHelper.GetProfileById(userId);
-
-            if (profile == null)
+            if (ModelState.IsValid)
             {
-                return HttpNotFound();
-            }
+                if (Photo != null && Photo.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(Photo.FileName);
 
-            return View(profile);
+                    // Optionally, save the path to the database
+                    model.UserPhoto = fileName;
+                }
+                int rowsAffected = ProfileHelper.UpdateUser(model.UserId , model.FirstName , model.LastName , model.UserEmail , model.UserAddress , model.UserPhone , model.Country , model.Languagee ,model.DOB , model.UserPhoto);
+                if(rowsAffected > 0)
+                {
+                    return RedirectToAction("Profile");
+                }
+                else
+                {
+                    ModelState.AddModelError("","Error");
+                }
+
+
+            }
+            return View(model);
         }
-
-        public ActionResult Team()
-        {
-            if (Session["userID"] == null)
-            {
-                return RedirectToAction("Login", "Home"); // Redirect to Login if user is not logged in
-            }
-
-            int userId = (int)Session["userID"];
-            ProfileModel profile = ProfileHelper.GetProfileById(userId);
-
-            if (profile == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(profile);
-        }
-
-        public ActionResult Edit_Profile()
-        {
-            if (Session["userID"] == null)
-            {
-                return RedirectToAction("Login", "Home"); // Redirect to Login if user is not logged in
-            }
-
-            int userId = (int)Session["userID"];
-            ProfileModel profile = ProfileHelper.GetProfileById(userId);
-
-            if (profile == null)
-            {
-                return HttpNotFound();
-            }
-
-            return View(profile);
-        }
-
-
-        //profile showcase
-        
-
         public ActionResult Logout()
         {
             // Clear session on logout

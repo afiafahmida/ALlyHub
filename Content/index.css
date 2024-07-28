@@ -55,7 +55,7 @@
         letter-spacing: 1px;
         text-decoration: none;
         display: inline-block;
-        padding: 10px 28px 12px 28px;
+        padding: 12px 28px 12px 28px;
         border-radius: 50px;
         transition: 0.5s;
     }
@@ -71,11 +71,13 @@
         transition: 0.5s;
         font-family: var(--main-font);
         margin-left: 25px;
-        color: var(--default-color);
+        color: var(--second-color);
         font-weight: 600;
         padding: 10px 28px 12px 28px;
         border-radius: 50px;
         text-decoration: none;
+        border:1px solid var(--second-color);
+        background:transparent;
     }
 
         .hero .btn-watch-video:hover {
@@ -241,7 +243,6 @@
             background: var(--second-color);
             color:white;
         }
-
 @media (max-width: 768px) {
     .content {
         flex-direction: column;
