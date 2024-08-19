@@ -144,7 +144,9 @@ create table Handshake(
 	foreign key (ProjectID) references Project (ProjectID),
 	DeveloperID int not null,
 	foreign key (DeveloperID) references Developer (DeveloperID),
-	HandshakeDate date 
+	HandshakeDate date,
+	Status varchar(100),
+	Duration varchar(100)
 );
 
 create table Payment(
@@ -162,6 +164,26 @@ create table PaymentDetails(
 	Merchant varchar(100),
 	AccountNumber int
 );
+
+
+create table Applicants(
+	
+	ApplicantID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	ProjectID int not null,
+	foreign key(ProjectID) references Project (ProjectID),
+    ClientID INT NOT NULL,
+    FOREIGN KEY (ClientID) REFERENCES Client(ClientID),
+	DeveloperID int not null,
+	foreign key (DeveloperID) references Developer (DeveloperID),
+	ApplicantsName varchar(100),
+	ApplicantsEmail varchar(100),
+	ApplicantsWebsite varchar(100),
+	ApplicantsFile varchar(100),
+	ApplicantsCoverLetter varchar(1000)
+
+);
+
+
 
 INSERT INTO Project (ProjectTitle, Description, PaymentAmount, ClientID, Level, Duration, SkillSet, CompanyName) VALUES
 ('Website Redesign', 'Complete overhaul of the company website.', 5000, 1, 3, 8, 'HTML, CSS, JavaScript', 'Tech Innovators')

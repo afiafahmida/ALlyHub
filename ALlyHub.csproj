@@ -127,7 +127,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Applicant.cs" />
     <Compile Include="Models\FindTalentModel.cs" />
+    <Compile Include="Models\Handshake.cs" />
+    <Compile Include="Models\HandshakeProjectViewModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Models\Project.cs" />
@@ -226,8 +229,10 @@
     <Content Include="Views\Home\ProjectDetails.cshtml" />
     <Content Include="Views\Home\TalentDetails.cshtml" />
     <Content Include="Views\Home\PostJobs.cshtml" />
+    <Content Include="Views\Home\ViewApplicants.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ApplicantFiles\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

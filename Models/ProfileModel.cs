@@ -26,5 +26,19 @@ namespace ALlyHub.Models
         public string Languagee { get; set; }
         public string DOB { get; set; }
 
+        public List<ProfileModel> Projects { get; set; }
+
+
+
+
+
+
+        public int DeveloperID { get; set; }
+        public int ClientID { get; set; }
+        public int ProjectID { get; set; }
+        public DateTime HandshakeDate { get; set; }
+        public string Status { get; set; }
+        public string ProjectTitle { get; set; }
+        public string Duration { get; set; }
     }
 }

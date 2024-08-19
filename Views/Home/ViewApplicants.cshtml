@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "ViewApplicants";
+}
+
+@model List<ALlyHub.Models.Applicant>
+
+<h2>Applicants</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Website</th>
+            <th>Cover Letter</th>
+            <th>Resume</th>
+            <th>Actions</th> <!-- Add this column for actions -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var applicant in Model)
+        {
+            <tr>
+                <td>@applicant.ApplicantsName</td>
+                <td>@applicant.ApplicantsEmail</td>
+                <td>@applicant.ApplicantsWebsite</td>
+                <td>@applicant.ApplicantsCoverLetter</td>
+                <td>
+                    <a href="@Url.Content("~/Uploads/" + applicant.ApplicantsFile)" target="_blank">View Resume</a>
+                </td>
+                <td>
+                    @using (Html.BeginForm("AcceptApplicant", "Home", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("DeveloperID", applicant.DeveloperID)
+                        @Html.Hidden("ProjectID", applicant.ProjectID)
+                        <button type="submit" class="btn btn-success">Accept</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

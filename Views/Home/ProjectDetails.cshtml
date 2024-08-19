@@ -5,8 +5,9 @@
 }
 @model ALlyHub.Models.Project
 
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="~/Content/ProjectDetails.css"/>
+<link rel="stylesheet" href="~/Content/ProjectDetails.css" />
 <!-- Job Detail Start -->
 <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
@@ -25,51 +26,73 @@
                     <h4 class="mb-3">Job description</h4>
                     <p>@Model.Description</p>
                     <!----<h4 class="mb-3">Responsibility</h4>
-                    <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
-                    <ul class="list-unstyled">
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
-                    </ul>
-                    <h4 class="mb-3">Qualifications</h4>
-                    <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
-                    <ul class="list-unstyled">
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
-                    </ul>--->
+        <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
+        <ul class="list-unstyled">
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
+        </ul>
+        <h4 class="mb-3">Qualifications</h4>
+        <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
+        <ul class="list-unstyled">
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
+        </ul>--->
                 </div>
 
-                <div class="application">
-                    <h4 class="mb-4">Apply For The Job</h4>
-                    <form>
-                        <div class="row g-3">
-                            <div class="col-12 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Your Name">
+                @if ((string)Session["UserType"] == "Client")
+                {
+                    if (Model.ClientID == (int)Session["userID"]) // Check if the current user is the owner of the project
+                    {
+                        <a href="@Url.Action("ViewApplicants", "Home", new { projectId = Model.ProjectID })" class="btn btn-primary">View Applicants</a>
+                    }
+                }
+                else if ((string)Session["UserType"] == "Developer" || Session["userID"] == null) // If no user is logged in
+                {
+                    <div class="application">
+                        <h4 class="mb-4">Apply For The Job</h4>
+                        @using (Html.BeginForm("ApplyForJob", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => m.ProjectID)
+
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-6">
+                                    @Html.LabelFor(m => m.ApplicantsName, new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.ApplicantsName, new { @class = "form-control", placeholder = "Your Name" })
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    @Html.LabelFor(m => m.ApplicantsEmail, new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.ApplicantsEmail, new { @class = "form-control", placeholder = "Your Email", type = "email" })
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    @Html.LabelFor(m => m.ApplicantsWebsite, new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.ApplicantsWebsite, new { @class = "form-control", placeholder = "Portfolio Website" })
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    @Html.LabelFor(m => m.ApplicantsFile, new { @class = "form-label" })
+                                    <input type="file" name="file" class="form-control bg-white" />
+                                </div>
+                                <div class="col-12">
+                                    @Html.LabelFor(m => m.ApplicantsCoverLetter, new { @class = "form-label" })
+                                    @Html.TextAreaFor(m => m.ApplicantsCoverLetter, new { @class = "form-control", rows = 5, placeholder = "Cover letter" })
+                                </div>
+                                <div class="col-12">
+                                    <button class="w-100 applyBtn" type="submit">Apply Now</button>
+                                </div>
                             </div>
-                            <div class="col-12 col-sm-6">
-                                <input type="email" class="form-control" placeholder="Your Email">
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Portfolio Website">
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <input type="file" class="form-control bg-white">
-                            </div>
-                            <div class="col-12">
-                                <textarea class="form-control" rows="5" placeholder="Coverletter"></textarea>
-                            </div>
-                            <div class="col-12">
-                                <button class="w-100 applyBtn" type="submit">Apply Now</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                        }
+                    </div>
+                }
+
+
             </div>
+
 
             <div class="col-lg-4">
                 <div class="p-5 mb-4 wow slideInUp jobSummary" data-wow-delay="0.1s">

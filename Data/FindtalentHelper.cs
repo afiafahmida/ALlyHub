@@ -59,7 +59,7 @@ namespace ALlyHub.Data
             FindTalentModel findTalentModel = null;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "select u.FirstName , u.LastName, u.UserAddress, u.UserPhoto , u.UserPhone , u.UserEmail , d.DeveloperID, d.UserId ,d.DevDescription , d.AreaofExpertise , d.PortfolioLink , d.LinkedIn ,d.Facebook, d.Country , d.Languagee , d.DOB " +
+                string query = "select u.FirstName , u.LastName, u.UserAddress, u.UserPhoto , u.UserPhone , u.UserEmail , d.DeveloperID, d.UserId ,d.DevDescription , d.AreaofExpertise , d.PortfolioLink , d.LinkedIn ,d.Facebook, u.Country , u.Languagee , u.DOB " +
                     "from Developer d " +
                     "JOIN Users u ON d.UserId = u.UserId where DeveloperID=@DeveloperID";
 

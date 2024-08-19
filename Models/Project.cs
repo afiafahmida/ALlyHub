@@ -26,5 +26,20 @@ namespace ALlyHub.Models
         public string ClientName { get; set; }
         public string ClientLocation { get; set; }
 
+
+
+        public int ApplicantID { get; set; }
+        public int DeveloperID { get; set; }
+        public string ApplicantsName { get; set; }
+        public string ApplicantsEmail { get; set; }
+        public string ApplicantsWebsite { get; set; }
+        public string ApplicantsFile { get; set; }
+        public string ApplicantsCoverLetter { get; set; }
+        public virtual ICollection<Project> Applicants { get; set; }
+
+        
+          
+        public DateTime HandshakeDate { get; set; }
+        public string Status { get; set; }
     }
 }
