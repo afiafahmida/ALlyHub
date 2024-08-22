@@ -169,9 +169,9 @@ namespace ALlyHub.Data
             return rowsAffected;
         }
 
-        public static List<Project> GetProjectsByClientId(int clientId)
+        public static List<ProfileModel> GetProjectsByClientId(int clientId)
         {
-            List<Project> projects = new List<Project>();
+            List<ProfileModel> projects = new List<ProfileModel>();
             string connectionString = ConnectDB.connect;
 
             string query = "SELECT * FROM Project WHERE ClientID = @ClientID";
@@ -184,7 +184,7 @@ namespace ALlyHub.Data
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    projects.Add(new Project
+                    projects.Add(new ProfileModel
                     {
                         ProjectID = (int)reader["ProjectID"],
                         ProjectTitle = reader["ProjectTitle"].ToString(),

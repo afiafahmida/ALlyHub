@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
@@ -76,15 +77,17 @@ namespace ALlyHub.Controllers
                 bool isLoggedIn = DatabaseHelper.AuthenticateUser(model.Email, model.Password, out userId, out UserType );
                 if (isLoggedIn)
                 {
-                    Session["userID"] = userId;
+                   
                     Session["UserType"] = UserType;
                     if(UserType == "Developer")
                     {
                         Session["developerID"] = DatabaseHelper.GetDeveloperIdByUserId(userId);
+                        Session["userID"] = userId;
                     }
                     else
                     {
                         Session["clientID"] = DatabaseHelper.GetClientIdByUserId(userId);
+                        Session["userID"] = userId;
                     }
                     return RedirectToAction("Profile", "Home");
                 }
@@ -145,7 +148,7 @@ namespace ALlyHub.Controllers
             {
                 int clientId = (int)Session["clientID"];
                 profileModel = ProfileHelper.GetClientById(userId);
-                profileModel.Projects = ProfileHelper.GetHandshakedProjectsByClientId(clientId);
+                profileModel.Projects = ProfileHelper.GetProjectsByClientId(clientId);
             }
             else if (Session["userID"] != null && (string)Session["UserType"] == "Developer")
             {
@@ -325,7 +328,7 @@ namespace ALlyHub.Controllers
         public ActionResult ViewApplicants(int projectId)
         {
             // Assuming you have a method to get the current user's ID
-            var currentUserId = Session["userID"];
+            var currentUserId = Session["clientID"];
             var project = DatabaseHelper.GetProjectById(projectId); // Replace with your method to get the project
 
             if (project == null)
@@ -358,12 +361,8 @@ namespace ALlyHub.Controllers
             }
 
             // Safely cast session value to integer
-            int clientid;
-            if (!int.TryParse(Session["UserID"].ToString(), out clientid))
-            {
-                TempData["Error"] = "Invalid user ID.";
-                return RedirectToAction("ViewApplicants", new { projectId = applicant.ProjectID });
-            }
+            int clientid = (int) Session["clientID"];
+           
 
             // Define the handshake model
             var handshake = new ALlyHub.Models.Handshake

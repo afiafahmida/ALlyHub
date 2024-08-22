@@ -349,7 +349,7 @@ namespace ALlyHub.Data
         public static bool InsertHandshake(Handshake handshake)
         {
             string query = "INSERT INTO Handshake (ProjectID,ClientID, DeveloperID, HandshakeDate, Status, Duration) " +
-                           "VALUES (@ProjectID, @DeveloperID, @ClientID, @HandshakeDate, @Status, @Duration)";
+                           "VALUES (@ProjectID, @ClientID, @DeveloperID, @HandshakeDate, @Status, @Duration)";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {

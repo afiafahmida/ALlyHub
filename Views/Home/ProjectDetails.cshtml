@@ -47,7 +47,7 @@
 
                 @if ((string)Session["UserType"] == "Client")
                 {
-                    if (Model.ClientID == (int)Session["userID"]) // Check if the current user is the owner of the project
+                    if (Model.ClientID == (int)Session["clientID"]) // Check if the current user is the owner of the project
                     {
                         <a href="@Url.Action("ViewApplicants", "Home", new { projectId = Model.ProjectID })" class="btn btn-primary">View Applicants</a>
                     }
