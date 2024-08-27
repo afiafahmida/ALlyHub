@@ -17,8 +17,6 @@ create table Users(
 	Languagee varchar(255)
 );
 
-select * from Users
-
 create table Client(
 	ClientID int not null primary key identity(1,1),
 	CompanyName varchar(50),
@@ -29,7 +27,6 @@ create table Client(
 	Facebook varchar(255),
 	Linkedin varchar(255)
 );
-select * from Client
 
 select u.UserId , c.ClientID , u.FirstName , u.LastName , u.UserEmail , u.UserPhone , u.UserAddress , u.UserType , u.UserPhoto ,
 c.CompanyName , c.ClientDescription , u.Country , u.DOB , c.Facebook , c.Linkedin , u.Languagee from Users u JOIN Client c ON u.UserId=c.UserId where u.UserId=2
@@ -37,13 +34,6 @@ c.CompanyName , c.ClientDescription , u.Country , u.DOB , c.Facebook , c.Linkedi
 select u.FirstName , u.LastName, u.UserAddress , u.UserPhone , u.UserEmail, u.UserPhoto , d.DeveloperID, d.UserId ,d.DevDescription , 
                     d.AreaofExpertise , d.PortfolioLink , d.LinkedIn ,d.Facebook, d.Country , d.Languagee , d.DOB from Developer d 
                     JOIN Users u ON d.UserId = u.UserId where u.UserId=1
-
-
-select * from Project;
-select * from Developer;
-select* from Users;
-select * from Client
-drop table Developer
 
 create table Developer(
 	DeveloperID int not null primary key identity(1,1),
@@ -121,7 +111,6 @@ INSERT INTO Project (ProjectTitle,ShortDescription ,Description, PaymentAmount, 
 ('Customer Portal', 'Develop a customer portal for managing health records.','Complete overhaul of the company website.' ,12000, 1, 'Expert', '3-6 Months', 'Angular, .NET, SQL Server', 'Health Solutions'),
 ('Green Building Design', 'Design a green building project for urban development.', 'Complete overhaul of the company website.',9000, 1, 'Beginner', '3-6 Months', 'AutoCAD, Revit, BIM', 'Eco Builders');
 
-
 CREATE TABLE Project(
     ProjectID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     ProjectTitle VARCHAR(100),
@@ -136,7 +125,6 @@ CREATE TABLE Project(
 	PostedOn DATE DEFAULT GETDATE(),
     CompanyName VARCHAR(100) -- New field for company name
 );
-
 
 create table Handshake(
 	HandshakeID int not null primary key identity(1,1),
@@ -165,7 +153,6 @@ create table PaymentDetails(
 	AccountNumber int
 );
 
-
 create table Applicants(
 	
 	ApplicantID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
@@ -179,11 +166,9 @@ create table Applicants(
 	ApplicantsEmail varchar(100),
 	ApplicantsWebsite varchar(100),
 	ApplicantsFile varchar(100),
-	ApplicantsCoverLetter varchar(1000)
+	ApplicantsCoverLetter varchar(2500)
 
 );
-
-
 
 INSERT INTO Project (ProjectTitle, Description, PaymentAmount, ClientID, Level, Duration, SkillSet, CompanyName) VALUES
 ('Website Redesign', 'Complete overhaul of the company website.', 5000, 1, 3, 8, 'HTML, CSS, JavaScript', 'Tech Innovators')
@@ -191,3 +176,18 @@ INSERT INTO Project (ProjectTitle, Description, PaymentAmount, ClientID, Level, 
 select u.UserId , c.ClientID , u.FirstName , u.LastName , u.UserEmail , u.UserPhone , u.UserAddress , u.UserType , u.UserPhoto ,
                     c.CompanyName , c.ClientDescription , u.Country , u.DOB , c.Facebook , c.Linkedin , u.Languagee 
                     from Users u JOIN Client c ON u.UserId=c.UserId where u.UserId=2
+
+
+select * from Project ORDER BY PostedOn DESC;
+
+ALTER TABLE Applicants
+ALTER COLUMN ApplicantsCoverLetter varchar(2500);
+
+select * from Developer;
+select* from Users;
+select * from Client
+select * from Applicants
+select * from Handshake
+drop table Developer
+
+select * from Applicants

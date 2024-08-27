@@ -1,43 +1,53 @@
 ﻿@{
     ViewBag.Title = "ViewApplicants";
+    int applicationNumber = 1;
 }
 
 @model List<ALlyHub.Models.Applicant>
+<link rel="stylesheet" href="~/Content/ViewApplicant.css" />
+<h2 class="title">Applicants</h2>
+@foreach (var applicant in Model)
+{
+    <section>
+        <div class="applicantList">
+            <h2>@applicant.ApplicantsName</h2>
+            <a class="show-modal">Show Application</a>
+        </div>
+        <span class="overlay"></span>
+        <div class="modal-box">
+            <i class="fa-solid fa-x close-btn"></i>
+            <h2>Application # @applicationNumber</h2>
+            <h3>Applicant Name : @applicant.ApplicantsName</h3>
+            <h3>Applicant Email : @applicant.ApplicantsEmail</h3>
+            <h3>Applicant Portfolio : <a href="@applicant.ApplicantsWebsite" target="_blank">@applicant.ApplicantsWebsite</a> </h3>
+            <h3>Applicant Portfolio : <a href="@Url.Content("~/ApplicantFiles/"+applicant.ApplicantsFile)" target="_blank">View Resume</a> </h3>
+            <h3>Cover Letter : </h3>
+            <p style="max-width: 450px;">
+                @applicant.ApplicantsCoverLetter
+            </p>
+            <div class="buttons">
+                @using (Html.BeginForm("AcceptApplicant", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("DeveloperID", applicant.DeveloperID)
+                    @Html.Hidden("ProjectID", applicant.ProjectID)
+                    <button type="submit" class="">Accept</button>
+                }
+            </div>
+        </div>
+    </section>
+    applicationNumber++;
+}
 
-<h2>Applicants</h2>
+<script>
+    document.querySelectorAll('.show-modal').forEach((showBtn, index) => {
+        const section = showBtn.closest('section');
+        const overlay = section.querySelector('.overlay');
+        const closeBtn = section.querySelector('.close-btn');
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Website</th>
-            <th>Cover Letter</th>
-            <th>Resume</th>
-            <th>Actions</th> <!-- Add this column for actions -->
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var applicant in Model)
-        {
-            <tr>
-                <td>@applicant.ApplicantsName</td>
-                <td>@applicant.ApplicantsEmail</td>
-                <td>@applicant.ApplicantsWebsite</td>
-                <td>@applicant.ApplicantsCoverLetter</td>
-                <td>
-                    <a href="@Url.Content("~/Uploads/" + applicant.ApplicantsFile)" target="_blank">View Resume</a>
-                </td>
-                <td>
-                    @using (Html.BeginForm("AcceptApplicant", "Home", FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.Hidden("DeveloperID", applicant.DeveloperID)
-                        @Html.Hidden("ProjectID", applicant.ProjectID)
-                        <button type="submit" class="btn btn-success">Accept</button>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        showBtn.addEventListener('click', () => section.classList.add('active'));
+        overlay.addEventListener('click', () => section.classList.remove('active'));
+        closeBtn.addEventListener('click', () => section.classList.remove('active'));
+    });
+</script>
+

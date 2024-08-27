@@ -12,9 +12,6 @@ namespace ALlyHub.Data
     {
         private static readonly string connectionString = ConnectDB.connect;
 
-        //private static readonly string connectionString = "Data Source=USER\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
-        //private static readonly string connectionString = "Data Source=DESKTOP-O5HM1C3\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
-
         public static int RegisterUser(string FirstName,string LastName, string email, string password, string address, string phone , string UserType)
         {
             int newUserId = 0;
@@ -110,7 +107,7 @@ namespace ALlyHub.Data
                 string query = @"
                 SELECT p.ProjectID, p.ProjectTitle, p.ShortDescription, p.PaymentAmount, p.ClientID, p.ExpertiseLevel, p.Duration, p.SkillSet, p.CompanyName , p.PostedOn
                 FROM Project p
-                JOIN Client c ON p.ClientID = c.ClientID";
+                JOIN Client c ON p.ClientID = c.ClientID ORDER BY PostedOn DESC";
 
                 SqlCommand command = new SqlCommand(query, connection);
                 connection.Open();
@@ -129,7 +126,8 @@ namespace ALlyHub.Data
                             ExpertiseLevel = reader["ExpertiseLevel"].ToString(),
                             Duration = reader["Duration"].ToString(),
                             SkillSet = reader["SkillSet"].ToString(),
-                            CompanyName = reader["CompanyName"].ToString(), // New field
+                            CompanyName = reader["CompanyName"].ToString(),
+                            // New field
                            // PostedOn = reader["PostedOn"].ToString()
                         };
 
@@ -150,7 +148,7 @@ namespace ALlyHub.Data
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string query = @"
-                SELECT p.ProjectID, p.ProjectTitle, p.Description, p.PaymentAmount, p.ClientID, p.ExpertiseLevel, p.Duration, p.SkillSet, p.CompanyName , p.PostedOn
+                SELECT p.ProjectID, p.ProjectTitle, p.Description, p.PaymentAmount, p.ClientID, p.ExpertiseLevel, p.Duration, p.SkillSet, p.CompanyName , p.PostedOn , p.JobNature , c.ClientLocation , c.ClientDescription , c.Facebook , c.Linkedin
                 FROM Project p
                 INNER JOIN Client c ON p.ClientID = c.ClientID
                 WHERE p.ProjectID = @ProjectID";
@@ -173,8 +171,12 @@ namespace ALlyHub.Data
                         ExpertiseLevel = reader["ExpertiseLevel"].ToString(),
                         Duration = reader["Duration"].ToString(),
                         SkillSet = reader["SkillSet"].ToString(),
-                        CompanyName = reader["CompanyName"].ToString(), // New field
-                       // PostedOn = reader["PostedOn"].ToString()
+                        CompanyName = reader["CompanyName"].ToString(),
+                        JobNature = reader["JobNature"].ToString(),
+                        ClientLocation = reader["ClientLocation"].ToString(),
+                        ClientDescription = reader["ClientDescription"].ToString(),
+                        // New field
+                        // PostedOn = reader["PostedOn"].ToString()
                     };
                 }
 
@@ -243,8 +245,6 @@ namespace ALlyHub.Data
 
             return clientId;
         }
-
-
 
 
         public static void InsertApplicant(Project applicant)

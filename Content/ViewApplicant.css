@@ -1,0 +1,143 @@
+﻿/* Google Fonts - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --navBg: #dcf2f1;
+    --first-color: #7ab2b2;
+    --second-color: #135d66;
+    --third-color: #003c43;
+    --main-font: "Kanit", sans-serif;
+}
+
+button {
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    padding: 14px 22px;
+    border: none;
+    background: #4070f4;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--main-font);
+}
+
+.modal-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    font-family: var(--main-font);
+}
+
+.applicantList {
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: space-around;
+    background: var(--navBg);
+    padding-top: 10px;
+    font-family: var(--main-font);
+}
+
+    .applicantList h2 {
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--third-color);
+        font-family: var(--main-font);
+        font-family: var(--main-font);
+    }
+
+    .applicantList a {
+        text-decoration: none;
+        cursor: pointer;
+        font-family: var(--main-font);
+        color: var(--second-color);
+        font-family: var(--main-font);
+    }
+
+.title {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-family: var(--main-font);
+}
+
+section.active .show-modal {
+    display: none;
+}
+
+.overlay {
+    position:absolute;
+    height: 100%;
+    top:0;
+    left:0;
+    bottom:0;
+    width: 100%;
+    background: rgba(170, 169, 169, 0);
+    backdrop-filter: blur(15px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+section.active .overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 600px;
+    padding: 30px 20px;
+    border-radius: 24px;
+    background-color: #fff;
+    opacity: 0;
+    z-index:1000;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+section.active .modal-box {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-box i {
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--second-color);
+}
+
+.modal-box h2 {
+    margin-top: 20px;
+    font-size: 25px;
+    font-weight: 500;
+    color: #333;
+    font-family: var(--main-font);
+}
+
+.modal-box h3 {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    text-align: center;
+    font-family: var(--main-font);
+}
+.modal-box a {
+    color: var(--second-color);
+    font-family: var(--main-font);
+}
+
+.modal-box .buttons {
+    margin-top: 25px;
+}
+
+.modal-box button {
+    font-size: 14px;
+    padding: 6px 12px;
+    margin: 0 10px;
+    background:var(--second-color);
+    color:white;
+    font-family:var(--main-font);
+}

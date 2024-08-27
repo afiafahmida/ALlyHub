@@ -134,7 +134,6 @@ namespace ALlyHub.Controllers
         }
 
         [HttpGet]
-     
         public ActionResult Profile()
         {
             ProfileModel profileModel = new ProfileModel();
@@ -164,6 +163,8 @@ namespace ALlyHub.Controllers
 
             return View(profileModel);
         }
+
+        //Update Profile
         [HttpPost]
         public ActionResult Profile(ProfileModel model, HttpPostedFileBase Photo)
         {

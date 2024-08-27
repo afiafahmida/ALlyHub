@@ -68,9 +68,34 @@
     border:none;
     border-radius:30px;
 }
+.viewApply {
+    background:var(--second-color) !important;
+    border:none;
+    color:white;
+    font-family:var(--main-font);
+    transition:0.4s;
+}
+
+.viewApply:hover{
+    background:transparent !important;
+    border: 1px solid var(--second-color);
+    color:black;
+}
+
 .companyDetail p {
     font-weight: 300;
 }
+.successMsg {
+    background: var(--navBg);
+    font-family: var(--main-font);
+}
+
+    .successMsg li {
+        list-style-type: none;
+        text-align: center;
+        padding: 10px;
+        font-size: 16px;
+    }
 @media (max-width: 768px) {
     .container {
         width: 90%;

@@ -25,6 +25,8 @@ namespace ALlyHub.Models
         public string CompanyName { get; set; }
         public string ClientName { get; set; }
         public string ClientLocation { get; set; }
+        public string ClientDescription { get; set; }
+        public string JobNature { get; set; }
 
 
 

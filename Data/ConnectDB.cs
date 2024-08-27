@@ -7,7 +7,7 @@ namespace ALlyHub.Data
 {
     public class ConnectDB
     {
-        public static string connect { get; set; } = "Data Source=DESKTOP-O5HM1C3\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
+        public static string connect { get; set; } = "Data Source=ASHIK\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
 
         public ConnectDB() { }
     }
