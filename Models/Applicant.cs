@@ -21,5 +21,7 @@ namespace ALlyHub.Models
 
         [ForeignKey("ProjectID")]
         public virtual Project Project { get; set; }
+
+        public string ProjectName { get; set; }
     }
 }

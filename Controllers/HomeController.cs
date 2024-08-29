@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 using ALlyHub.Data;
 using ALlyHub.Models;
+using static System.Collections.Specialized.BitVector32;
 
 
 namespace ALlyHub.Controllers
@@ -74,12 +75,12 @@ namespace ALlyHub.Controllers
             {
                 int userId;
                 string UserType;
-                bool isLoggedIn = DatabaseHelper.AuthenticateUser(model.Email, model.Password, out userId, out UserType );
+                bool isLoggedIn = DatabaseHelper.AuthenticateUser(model.Email, model.Password, out userId, out UserType);
                 if (isLoggedIn)
                 {
-                   
+
                     Session["UserType"] = UserType;
-                    if(UserType == "Developer")
+                    if (UserType == "Developer")
                     {
                         Session["developerID"] = DatabaseHelper.GetDeveloperIdByUserId(userId);
                         Session["userID"] = userId;
@@ -122,10 +123,20 @@ namespace ALlyHub.Controllers
                     {
                         // Assuming you have companyName and clientLocation fields in your RegisterModel
                         databaseHelper.RegisterClient(userId, "", "");
+                        // Send email notification
+                        string subject = "You have successfully registered";
+                        string body = "Congratulations! You have been successfully registered as a Client in our website. We hope to work with you in future.";
+                        SendMessage.SendEmail(model.Email, subject, body);
+
                     }
                     else if (model.UserType == "Developer")
                     {
                         databaseHelper.RegisterDeveloper(userId);
+                        // Send email notification
+                        string subject = "You have successfully registered";
+                        string body = "Congratulations! You have been successfully registered as a Developer in our website. We hope to work with you in future.";
+                        SendMessage.SendEmail(model.Email, subject, body);
+
                     }
                     return RedirectToAction("Login", "Home");
                 }
@@ -201,6 +212,11 @@ namespace ALlyHub.Controllers
 
                     if (rowsAffected > 0)
                     {
+                        // Send email notification
+                        string subject = "You have successfully Updated Your Profile";
+                        string body = "Hey there User! You have sucessfully updated your profile.";
+                        SendMessage.SendEmail(model.UserEmail, subject, body);
+
                         return RedirectToAction("Profile");
                     }
                     else
@@ -271,6 +287,7 @@ namespace ALlyHub.Controllers
                     // Save the project to the database
                     DatabaseHelper.InsertProject(project);
 
+
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
@@ -313,7 +330,9 @@ namespace ALlyHub.Controllers
 
                 // Database insertion
                 DatabaseHelper.InsertApplicant(project);
-
+                string subject = "You have successfully Applied";
+                string body = "Hey there User! You have sucessfully applied for the post. We will let you know if you get accepted for the job";
+                SendMessage.SendEmail(project.ApplicantsEmail, subject, body);
                 System.Diagnostics.Debug.WriteLine("Application successfully inserted.");
                 return RedirectToAction("ProjectDetails", new { projectId = project.ProjectID });
             }
@@ -352,7 +371,7 @@ namespace ALlyHub.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult AcceptApplicant(Applicant applicant)
+        public ActionResult AcceptApplicant(Applicant applicant, string applicantEmail)
         {
             // Check if the session contains a valid UserID
             if (Session["UserID"] == null)
@@ -362,8 +381,8 @@ namespace ALlyHub.Controllers
             }
 
             // Safely cast session value to integer
-            int clientid = (int) Session["clientID"];
-           
+            int clientid = (int)Session["clientID"];
+
 
             // Define the handshake model
             var handshake = new ALlyHub.Models.Handshake
@@ -376,9 +395,14 @@ namespace ALlyHub.Controllers
                 Duration = "To be determined"
             };
 
+
+            string projectName = DatabaseHelper.GetProjectNameById(applicant.ProjectID);
+
             // Call the method in DatabaseHelper to insert the handshake record
             bool success = DatabaseHelper.InsertHandshake(handshake);
-
+            string subject = "You have been accepted";
+            string body = "Hey there User! You have been accepted for doing the job of "+projectName+". The client will contact you very soon.";
+            SendMessage.SendEmail(applicantEmail, subject, body);
             if (success)
             {
                 TempData["Message"] = "Applicant accepted successfully!";
@@ -392,5 +416,76 @@ namespace ALlyHub.Controllers
             return RedirectToAction("ViewApplicants", new { projectId = applicant.ProjectID });
         }
 
+
+
+        [HttpPost]
+        public ActionResult SendOtp(ProfileModel profile)
+        {
+            if (!string.IsNullOrEmpty(profile.UserEmail))
+            {
+                if (DatabaseHelper.DoesEmailExist((string)profile.UserEmail))
+                {
+                    var random = new Random();
+                    string randomNumber = string.Empty;
+
+                    for (int i = 0; i < 8; i++)
+                    {
+                        // Generate a random digit between 0 and 9
+                        int digit = random.Next(0, 10);
+                        randomNumber += digit.ToString();
+                    }
+
+                    string subject = "Your Temporary OTP";
+                    string body = "Here is your OTP to change Password " + (string)randomNumber;
+                    SendMessage.SendEmail(profile.UserEmail, subject, body);
+                    Session["TempOTP"] = (string)randomNumber;
+                    Session["TempEmail"] = (string)profile.UserEmail;
+                    return RedirectToAction("EnterOtp");
+                }
+            }
+            ModelState.AddModelError("", "Please enter a valid email.");
+            return View("ForgotPassword");
+        }
+
+        public ActionResult EnterOtp()
+        {
+            return View();
+        }
+
+        public ActionResult VerifyOtp(ProfileModel profile)
+        {
+            if ((string)profile.UserOtp == (string)Session["TempOTP"])
+            {
+                return RedirectToAction("ChangePassword");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Please enter correct OTP.");
+                return RedirectToAction("ForgotPassword");
+            }
+        }
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ChangePass(ProfileModel profile)
+        {
+            if (profile.UserPassword != null)
+            {
+                string email = (string)Session["TempEmail"];
+                DatabaseHelper.ChangePassword(email, (string)profile.UserPassword);
+                Session.Clear();
+                return RedirectToAction("Login");
+
+
+            }
+            else
+            {
+                ModelState.AddModelError("", "Please enter a password.");
+                return RedirectToAction("ForgotPassword");
+            }
+        }
     }
+
 }

@@ -140,6 +140,50 @@ namespace ALlyHub.Data
 
             return projects;
         }
+        public static string GetProjectNameById(int projectId)
+        {
+            string projectName = string.Empty;
+
+            // Define the SQL query to select the project name by project ID
+            string query = "SELECT ProjectTitle FROM Project WHERE ProjectID = @ProjectID";
+
+            // Create a connection to the database
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                // Create a SqlCommand to execute the query
+                SqlCommand cmd = new SqlCommand(query, conn);
+                // Add the projectId parameter to the SqlCommand
+                cmd.Parameters.AddWithValue("@ProjectID", projectId);
+
+                try
+                {
+                    // Open the database connection
+                    conn.Open();
+
+                    // Execute the query and retrieve the project name
+                    object result = cmd.ExecuteScalar();
+
+                    // Check if result is not null, then convert it to string
+                    if (result != null)
+                    {
+                        projectName = result.ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle any errors that occur during the database operation
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    // Ensure the connection is always closed, even if an error occurs
+                    conn.Close();
+                }
+            }
+
+            // Return the project name
+            return projectName;
+        }
 
         public static Project GetProjectById(int projectId)
         {
@@ -375,6 +419,37 @@ namespace ALlyHub.Data
                 }
             }
         }
+        public static bool DoesEmailExist(string email)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand("SELECT COUNT(1) FROM Users WHERE UserEmail = @Email", connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+                    int count = (int)command.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+
+
+        public static void ChangePassword(string email, string newPassword)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+
+                string query = "UPDATE Users SET UserPassword = @Password WHERE UserEmail = @Email";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Password", newPassword);
+                connection.Open();
+                command.ExecuteNonQuery();
+
+
+            }
+        }
 
     }
+
 }

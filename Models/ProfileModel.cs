@@ -49,11 +49,11 @@ namespace ALlyHub.Models
 
 
 
+        public string UserOtp { get; set; }
+        public string UserPassword{ get; set; }
 
 
 
-     
-      
         public string ShortDescription { get; set; }
         public string Description { get; set; }
         public int PaymentAmount { get; set; }
