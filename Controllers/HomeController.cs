@@ -26,6 +26,7 @@ namespace ALlyHub.Controllers
             return View();
         }
 
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -44,7 +45,6 @@ namespace ALlyHub.Controllers
             List<FindTalentModel> findTalents = FindtalentHelper.FetchTalents();
             return View(findTalents);
         }
-        
         public ActionResult TalentDetails(int DeveloperID)
         {
             FindTalentModel find = FindtalentHelper.FetchTalentByID(DeveloperID);
@@ -58,7 +58,7 @@ namespace ALlyHub.Controllers
         public ActionResult FindJobs()
         {
             ViewBag.Message = "Find Jobs";
-            List<Project> projects = ProjectHelper.GrabProjects();
+            List<Project> projects = DatabaseHelper.GrabProjects();
             return View(projects);
         }
 
@@ -248,23 +248,8 @@ namespace ALlyHub.Controllers
 
         public ActionResult ProjectDetails(int projectId)
         {
-            Project project = ProjectHelper.GetProjectById(projectId);
-
             // Fetch the project details from the database based on projectId
-            if (Session["userID"] != null)
-            {
-                int userId = (int)Session["userID"];
-                int devId = DatabaseHelper.GetDeveloperIdByUserId(userId);
-                ProjectHelper projectHelper = new ProjectHelper();
-
-                bool hasApplied = true;
-
-                if (projectHelper.hasApplied(devId, projectId))
-                {
-                    Session["hasApplied"] = hasApplied;
-                }
-            }
-            
+            Project project = DatabaseHelper.GetProjectById(projectId);
 
             if (project == null)
             {
@@ -273,6 +258,9 @@ namespace ALlyHub.Controllers
 
             return View(project);
         }
+
+
+
         public ActionResult PostJobs()
         {
             return View();
@@ -297,7 +285,7 @@ namespace ALlyHub.Controllers
                     project.PostedOn = DateTime.Now;
 
                     // Save the project to the database
-                    ProjectHelper.InsertProject(project);
+                    DatabaseHelper.InsertProject(project);
 
 
                     return RedirectToAction("Index");
@@ -309,31 +297,23 @@ namespace ALlyHub.Controllers
             }
             return View(project);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ApplyForJob(Project project, HttpPostedFileBase file)
         {
-            int userId ;
-            int clientId;
-            int devId;
-            int projectId = project.ProjectID;
-            ProjectHelper projectHelper = new ProjectHelper();
             // Validate user type
             if (Session["userID"] == null || (string)Session["UserType"] != "Developer")
             {
                 System.Diagnostics.Debug.WriteLine("User is not authenticated or not a developer.");
                 return RedirectToAction("Login", "Home");
             }
-            else
-            {
-                userId = (int)Session["userID"];
-                clientId = DatabaseHelper.GetClientIdByProject(project.ProjectID);
-                devId = DatabaseHelper.GetDeveloperIdByUserId(userId);
 
-            }
             try
             {
+                int userId = (int)Session["userID"];
+                int clientId = DatabaseHelper.GetClientIdByProject(project.ProjectID);
+                int devId = DatabaseHelper.GetDeveloperIdByUserId(userId);
+
                 // File handling
                 string fileName = null;
                 if (file != null && file.ContentLength > 0)
@@ -349,18 +329,11 @@ namespace ALlyHub.Controllers
                 project.ApplicantsFile = fileName;
 
                 // Database insertion
-                if(projectHelper.hasApplied(devId , projectId)){
-                    
-                    ModelState.AddModelError("", "User Already Applied");
-                }
-                else
-                {
-                    ApplicationHelper.InsertApplicant(project);
-                    string subject = "You have successfully Applied";
-                    string body = "Hey there User! You have sucessfully applied for the post. We will let you know if you get accepted for the job";
-                    SendMessage.SendEmail(project.ApplicantsEmail, subject, body);
-                    System.Diagnostics.Debug.WriteLine("Application successfully inserted.");
-                }
+                DatabaseHelper.InsertApplicant(project);
+                string subject = "You have successfully Applied";
+                string body = "Hey there User! You have sucessfully applied for the post. We will let you know if you get accepted for the job";
+                SendMessage.SendEmail(project.ApplicantsEmail, subject, body);
+                System.Diagnostics.Debug.WriteLine("Application successfully inserted.");
                 return RedirectToAction("ProjectDetails", new { projectId = project.ProjectID });
             }
             catch (Exception ex)
@@ -371,11 +344,12 @@ namespace ALlyHub.Controllers
             }
         }
 
+
         public ActionResult ViewApplicants(int projectId)
         {
             // Assuming you have a method to get the current user's ID
             var currentUserId = Session["clientID"];
-            var project = ProjectHelper.GetProjectById(projectId); // Replace with your method to get the project
+            var project = DatabaseHelper.GetProjectById(projectId); // Replace with your method to get the project
 
             if (project == null)
             {
@@ -385,7 +359,7 @@ namespace ALlyHub.Controllers
             // Check if the logged-in developer is the one who posted the project
             if ((string)Session["UserType"] == "Client" && project.ClientID == (int)currentUserId)
             {
-                var applicants = ApplicationHelper.GetApplicantsByProjectId(projectId); // Replace with your method to get the applicants
+                var applicants = DatabaseHelper.GetApplicantsByProjectId(projectId); // Replace with your method to get the applicants
                 return View(applicants);
             }
             else
@@ -422,10 +396,10 @@ namespace ALlyHub.Controllers
             };
 
 
-            string projectName = ProjectHelper.GetProjectNameById(applicant.ProjectID);
+            string projectName = DatabaseHelper.GetProjectNameById(applicant.ProjectID);
 
             // Call the method in DatabaseHelper to insert the handshake record
-            bool success = ApplicationHelper.InsertHandshake(handshake);
+            bool success = DatabaseHelper.InsertHandshake(handshake);
             string subject = "You have been accepted";
             string body = "Hey there User! You have been accepted for doing the job of "+projectName+". The client will contact you very soon.";
             SendMessage.SendEmail(applicantEmail, subject, body);
@@ -441,6 +415,8 @@ namespace ALlyHub.Controllers
             // Redirect back to the ViewApplicants page
             return RedirectToAction("ViewApplicants", new { projectId = applicant.ProjectID });
         }
+
+
 
         [HttpPost]
         public ActionResult SendOtp(ProfileModel profile)
@@ -510,7 +486,6 @@ namespace ALlyHub.Controllers
                 return RedirectToAction("ForgotPassword");
             }
         }
-        
     }
 
 }

@@ -23,8 +23,8 @@ namespace ALlyHub.Models
         public string SkillSet { get; set; }
         public DateTime PostedOn { get; set; }
         public string CompanyName { get; set; }
+        public string ClientName { get; set; }
         public string ClientLocation { get; set; }
-        public string JobLocation { get; set; }
         public string ClientDescription { get; set; }
         public string JobNature { get; set; }
 

@@ -10,7 +10,7 @@
     --first-color: #7AB2B2;
     --second-color: #135D66;
     --third-color: #003C43;
-    --main-font: 'Kanit', sans-serif;
+    --main-font : 'Kanit', sans-serif;
 }
 
 /*--------------------------------------------------------------
@@ -76,8 +76,8 @@
         padding: 10px 28px 12px 28px;
         border-radius: 50px;
         text-decoration: none;
-        border: 1px solid var(--second-color);
-        background: transparent;
+        border:1px solid var(--second-color);
+        background:transparent;
     }
 
         .hero .btn-watch-video:hover {
@@ -143,120 +143,13 @@
     }
 }
 
-
-/*----------Navbar Search----------------*/
-.search-bar {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    border-radius: 50px;
-    background-color: white;
-    margin-bottom:20px;
-    border: 1px solid var(--third-color);
-}
-
-.dropdown {
-    position: relative;
-    width: 300px;
-    border-radius: 50px;
-    background-color: var(--third-color);
-    border: 1px solid var(--third-color);
-    cursor: pointer;
-    z-index: 100;
-    text-align:center;
-}
-.search_title{
-    font-family:var(--main-font);
-    color:var(--third-color);
-    text-align:center;
-    margin-bottom:20px;
-}
-.dropdown-text {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    font-weight: 500;
-    background-color: transparent;
-    padding: 0.5rem 1.5rem;
-    color: white;
-}
-
-.dropdown-list {
-    display: block;
-    position: absolute;
-    top: 3rem;
-    left: 0;
-    width: 100%;
-    border-radius: 15px;
-    max-height: 0;
-    overflow: hidden;
-    background-color: white;
-    transition: max-height 0.5s;
-    list-style: none;
-    background-color: var(--third-color);
-    color: white;
-}
-
-.dropdown-list-item {
-    font-size: 0.9rem;
-    font-weight: 500;
-    border-radius: 15px;
-    padding: 1rem 0rem;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.3s ease, margin-left 0.2s ease;
-}
-
-    .dropdown-list-item:hover {
-        margin-left: 0.5rem;
-        color: var(--navBg);
-    }
-
-#list.show {
-    max-height: 300px;
-}
-
-.search-box {
-    display: flex;
-    align-items: center;
-    padding-right: 1rem;
-    width: 100%;
-    color: var(--third-color);
-}
-
-    .search-box input {
-        padding: 0.5rem;
-        width: 100%;
-        font-size: 0.8rem;
-        font-weight: 500;
-        color: var(--third-color);
-        border: 0;
-        outline: 0;
-        border-radius: 50px;
-    }
-
-    .search-box i {
-        font-size: 0.8rem;
-        cursor: pointer;
-    }
-
-    .search-box input::placeholder {
-        font-size: 0.8rem;
-        font-weight: 500;
-        color: var(--third-color);
-    }
-
-/*-----------Navbar Search Ends-------------*/
-
-
-
 /*--------------------------About------------------------------------*/
 
 
 .work-game {
     border-radius: 10px;
     padding: 20px;
-    margin-bottom: 20px;
+    margin-bottom:20px;
 }
 
 .content {
@@ -278,16 +171,16 @@
     .info h1 {
         font-size: 34px;
         margin-bottom: 20px;
-        color: var(--second-color);
-        font-family: var(--main-font);
-        font-weight: 500;
+        color:var(--second-color);
+        font-family:var(--main-font);
+        font-weight:500;
     }
 
     .info ul {
         list-style: none;
         margin-bottom: 20px;
-        font-family: var(--main-font);
-        font-weight: 300;
+        font-family:var(--main-font);
+        font-weight:300;
     }
 
     .info li {
@@ -299,14 +192,14 @@
     .info .icon {
         font-size: 24px;
         margin-right: 15px;
-        color: var(--second-color);
+        color:var(--second-color);
     }
 
     .info h2 {
         font-size: 18px;
         margin-bottom: 5px;
-        font-family: var(--main-font);
-        font-weight: 400;
+        font-family:var(--main-font);
+        font-weight:400;
     }
 
     .info p {
@@ -317,8 +210,8 @@
 .buttons {
     display: flex;
     gap: 10px;
-    font-family: var(--main-font);
-    font-weight: 300;
+    font-family:var(--main-font);
+    font-weight:300;
 }
 
     .buttons .btn {
@@ -348,9 +241,8 @@
 
         .buttons .secondary:hover {
             background: var(--second-color);
-            color: white;
+            color:white;
         }
-
 @media (max-width: 768px) {
     .content {
         flex-direction: column;
@@ -378,28 +270,28 @@
 
 .browse-talent {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom:30px;
 }
 
     .browse-talent h1 {
         margin-bottom: 10px;
         font-size: 34px;
-        color: var(--second-color);
-        font-family: var(--main-font);
-        font-weight: 600;
+        color:var(--second-color);
+        font-family:var(--main-font);
+        font-weight:600;
     }
 
     .browse-talent p {
         margin-bottom: 20px;
-        font-family: var(--main-font);
-        font-weight: 300;
+        font-family:var(--main-font);
+        font-weight:300;
     }
 
     .browse-talent a {
         color: var(--second-color);
         text-decoration: none;
-        font-family: var(--main-font);
-        font-weight: 300;
+        font-family:var(--main-font);
+        font-weight:300;
     }
 
 .categories {
@@ -425,7 +317,7 @@
 
     .category p {
         font-size: 18px;
-        font-family: var(--main-font);
+        font-family:var(--main-font);
         font-weight: 500;
         margin-bottom: 10px;
     }
@@ -433,8 +325,8 @@
     .category span {
         display: block;
         margin-bottom: 5px;
-        font-family: var(--main-font);
-        font-weight: 300;
+        font-family:var(--main-font);
+        font-weight:300;
     }
 
 @media (max-width: 768px) {
@@ -454,15 +346,13 @@
 .whychooseus {
     margin-top: 50px;
     margin-bottom: 50px;
-    font-family: var(--main-font);
+    font-family:var(--main-font);
 }
-
 .rounded-circle {
     max-width: 100px;
     height: 100px;
     vertical-align: top;
 }
-
 .center-circle {
     max-width: 100%;
     height: auto;
@@ -491,6 +381,7 @@
     z-index: 1001;
     opacity: 0.8;
     opacity: .80;
+    
 }
 
 .light {
@@ -543,22 +434,20 @@
 --------------------------------------------------------------*/
 .faq-2 {
     --background-color: color-mix(in srgb, var(--second-color), transparent 95%);
-    margin-bottom: 50px;
-    margin-top: 30px;
+    margin-bottom:50px;
+    margin-top:30px;
 }
 
     .faq-2 .faq-container {
         margin-top: 15px;
     }
-
-    .faq-2 .section-title h2 {
-        color: var(--second-color);
-        font-family: var(--main-font);
+    .faq-2 .section-title h2{
+        color:var(--second-color);
+        font-family:var(--main-font);
     }
-
-    .faq-2 .section-title p {
-        font-family: var(--main-font);
-        font-weight: 300;
+    .faq-2 .section-title p{
+        font-family:var(--main-font);
+        font-weight:300;
     }
 
     .faq-2 .faq-container .faq-item {
@@ -569,81 +458,81 @@
         overflow: hidden;
     }
 
-        .faq-2 .faq-container .faq-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .faq-2 .faq-container .faq-item h3 {
-            font-weight: 600;
-            font-size: 18px;
-            line-height: 24px;
-            margin: 0 30px 0 32px;
-            transition: 0.3s;
-            cursor: pointer;
-            font-family: var(--main-font);
-        }
-
-            .faq-2 .faq-container .faq-item h3 span {
-                color: var(--first-color);
-                padding-right: 5px;
+            .faq-2 .faq-container .faq-item:last-child {
+                margin-bottom: 0;
             }
 
-            .faq-2 .faq-container .faq-item h3:hover {
+            .faq-2 .faq-container .faq-item h3 {
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 24px;
+                margin: 0 30px 0 32px;
+                transition: 0.3s;
+                cursor: pointer;
+                font-family:var(--main-font);
+            }
+
+                .faq-2 .faq-container .faq-item h3 span {
+                    color: var(--first-color);
+                    padding-right: 5px;
+                }
+
+                .faq-2 .faq-container .faq-item h3:hover {
+                    color: var(--second-color);
+                }
+
+            .faq-2 .faq-container .faq-item .faq-content {
+                display: grid;
+                grid-template-rows: 0fr;
+                transition: 0.3s ease-in-out;
+                visibility: hidden;
+                opacity: 0;
+            }
+
+                .faq-2 .faq-container .faq-item .faq-content p {
+                    margin-bottom: 0;
+                    overflow: hidden;
+                    font-family:var(--main-font);
+                    font-weight:300;
+                }
+
+            .faq-2 .faq-container .faq-item .faq-icon {
+                position: absolute;
+                top: 32px;
+                left: 20px;
+                font-size: 20px;
+                line-height: 0;
+                transition: 0.3s;
                 color: var(--second-color);
             }
 
-        .faq-2 .faq-container .faq-item .faq-content {
-            display: grid;
-            grid-template-rows: 0fr;
-            transition: 0.3s ease-in-out;
-            visibility: hidden;
-            opacity: 0;
-        }
-
-            .faq-2 .faq-container .faq-item .faq-content p {
-                margin-bottom: 0;
-                overflow: hidden;
-                font-family: var(--main-font);
-                font-weight: 300;
+            .faq-2 .faq-container .faq-item .faq-toggle {
+                position: absolute;
+                top: 30px;
+                right: 20px;
+                font-size: 16px;
+                line-height: 0;
+                transition: 0.3s;
+                cursor: pointer;
             }
 
-        .faq-2 .faq-container .faq-item .faq-icon {
-            position: absolute;
-            top: 32px;
-            left: 20px;
-            font-size: 20px;
-            line-height: 0;
-            transition: 0.3s;
-            color: var(--second-color);
+                .faq-2 .faq-container .faq-item .faq-toggle:hover {
+                    color: var(--first-color);
+                }
+
+        .faq-2 .faq-container .faq-active h3 {
+            color: var(--first-color);
+            font-family:var(--main-font);
         }
 
-        .faq-2 .faq-container .faq-item .faq-toggle {
-            position: absolute;
-            top: 30px;
-            right: 20px;
-            font-size: 16px;
-            line-height: 0;
-            transition: 0.3s;
-            cursor: pointer;
+        .faq-2 .faq-container .faq-active .faq-content {
+            grid-template-rows: 1fr;
+            visibility: visible;
+            opacity: 1;
+            padding-top: 10px;
         }
 
-            .faq-2 .faq-container .faq-item .faq-toggle:hover {
-                color: var(--first-color);
-            }
-
-    .faq-2 .faq-container .faq-active h3 {
-        color: var(--first-color);
-        font-family: var(--main-font);
-    }
-
-    .faq-2 .faq-container .faq-active .faq-content {
-        grid-template-rows: 1fr;
-        visibility: visible;
-        opacity: 1;
-        padding-top: 10px;
-    }
-
-    .faq-2 .faq-container .faq-active .faq-toggle {
-        transform: rotate(90deg);
-        color: var(--first-color);
-    }
+        .faq-2 .faq-container .faq-active .faq-toggle {
+            transform: rotate(90deg);
+            color: var(--first-color);
+        }
