@@ -19,7 +19,7 @@ namespace ALlyHub
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("allyhub324047@gmail.com", ""),
+                Credentials = new NetworkCredential("allyhub324047@gmail.com", "qqoy vkmz cvvf xmgg"),
                 EnableSsl = true,
             };
 

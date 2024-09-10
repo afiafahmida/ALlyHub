@@ -1,6 +1,6 @@
 create database Allyhub;
 
-use Allyhub;
+use db_aacb8e_allyhubdb;
 
 create table Users(
     UserId int not null primary key identity(1,1),
@@ -28,6 +28,7 @@ create table Client(
 	Linkedin varchar(255)
 );
 
+-------------------Sample Data-------------------------------------
 select u.UserId , c.ClientID , u.FirstName , u.LastName , u.UserEmail , u.UserPhone , u.UserAddress , u.UserType , u.UserPhoto ,
 c.CompanyName , c.ClientDescription , u.Country , u.DOB , c.Facebook , c.Linkedin , u.Languagee from Users u JOIN Client c ON u.UserId=c.UserId where u.UserId=2
 
@@ -35,6 +36,8 @@ select u.FirstName , u.LastName, u.UserAddress , u.UserPhone , u.UserEmail, u.Us
                     d.AreaofExpertise , d.PortfolioLink , d.LinkedIn ,d.Facebook, d.Country , d.Languagee , d.DOB from Developer d 
                     JOIN Users u ON d.UserId = u.UserId where u.UserId=1
 
+
+-------------------------------------------------------------------
 create table Developer(
 	DeveloperID int not null primary key identity(1,1),
 	UserId int not null,
@@ -50,7 +53,7 @@ create table Skills(
 SkillID int not null primary key identity(1,1),
 SkillName varchar(255)
 );
-
+--------------Sample Data--------------------------
 select * from Skills
 insert into Skills (SkillName) VALUES ('HTML')
 insert into Skills (SkillName) VALUES ('CSS')
@@ -62,6 +65,8 @@ insert into Skills (SkillName) VALUES ('Python')
 insert into Skills (SkillName) VALUES ('Django')
 insert into Skills (SkillName) VALUES ('React Native')
 insert into Skills (SkillName) VALUES ('Bootstrap')
+
+--------------------------------------------------------
 
 create table DeveloperSkill (
 	SkillID int not null ,
@@ -79,7 +84,7 @@ insert into DeveloperSkill(SkillID , UserId) VALUES (1,3)
 insert into DeveloperSkill(SkillID , UserId) VALUES (3,3)
 insert into DeveloperSkill(SkillID , UserId) VALUES (9,3)
 
-select * from DeveloperSkill
+----------------------------------------------------------------------
 
 select s.SkillName from Skills s JOIN DeveloperSkill ds ON s.SkillID=ds.SkillID where UserId=1
 
@@ -102,7 +107,6 @@ create table Review(
 	GivenTo varchar(100)
 );
 
-select * from Project;
 INSERT INTO Project (ProjectTitle,ShortDescription ,Description, PaymentAmount, ClientID, ExpertiseLevel, Duration, SkillSet, CompanyName) VALUES
 ('Website Redesign', 'Complete overhaul of the company website.', 'Complete overhaul of the company website.' ,5000, 1, 'Beginner', '3-6 Months', 'HTML, CSS, JavaScript', 'Tech Innovators'),
 ('Mobile App Development', 'Develop a mobile app for health tracking.', 'Complete overhaul of the company website.',10000, 1, 'Expert', '1-2 Months', 'Java, Kotlin, Android', 'Health Solutions'),
@@ -123,8 +127,10 @@ CREATE TABLE Project(
     Duration varchar(255),
     SkillSet VARCHAR(100),
 	PostedOn DATE DEFAULT GETDATE(),
-    CompanyName VARCHAR(100) -- New field for company name
+	JobNature varchar(255),
+	JobLocation varchar(255)
 );
+
 
 create table Handshake(
 	HandshakeID int not null primary key identity(1,1),
@@ -132,6 +138,8 @@ create table Handshake(
 	foreign key (ProjectID) references Project (ProjectID),
 	DeveloperID int not null,
 	foreign key (DeveloperID) references Developer (DeveloperID),
+	ClientID int not null,
+	foreign key (ClientID) references Client (ClientID),
 	HandshakeDate date,
 	Status varchar(100),
 	Duration varchar(100)
@@ -179,15 +187,11 @@ select u.UserId , c.ClientID , u.FirstName , u.LastName , u.UserEmail , u.UserPh
 
 
 select * from Project ORDER BY PostedOn DESC;
-
-ALTER TABLE Applicants
-ALTER COLUMN ApplicantsCoverLetter varchar(2500);
-
 select * from Developer;
 select* from Users;
 select * from Client
 select * from Applicants
 select * from Handshake
-drop table Developer
 
+update Project set JobLocation='Dhaka' where ProjectID=9
 select * from Applicants

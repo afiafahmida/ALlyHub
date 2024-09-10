@@ -1,7 +1,9 @@
 ﻿
 @{
     ViewBag.Title = Model.ProjectTitle;
-    ViewBag.Subtitle = "Detailed Information";
+    ViewBag.Subtitle = "Detailes";
+
+    bool hasApplied = Session["hasApplied"] != null && (bool)Session["hasApplied"];
 }
 @model ALlyHub.Models.Project
 
@@ -24,7 +26,7 @@
 
                 <div class="mb-5 description">
                     <h4 class="mb-3">Job Description</h4>
-                    <p>@Model.Description</p>
+                    <p style="white-space: pre-wrap;">@Model.Description</p>
                     <!----<h4 class="mb-3">Responsibility</h4>
                     <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
                     <ul class="list-unstyled">
@@ -65,27 +67,34 @@
 
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6">
-                                    @Html.Label("Name" , new {@class = "form-label"})
-                                    @Html.TextBoxFor(m => m.ApplicantsName, new { @class = "form-control", placeholder = "Your Name" })
+                                    @Html.Label("Name", new { @class = "form-label" })
+                                    @Html.TextBoxFor(m => m.ApplicantsName, new { @class = "form-control", placeholder = "Your Name", required = "required" })
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     @Html.Label("Email", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.ApplicantsEmail, new { @class = "form-control", placeholder = "Your Email", type = "email" })
+                                    @Html.TextBoxFor(m => m.ApplicantsEmail, new { @class = "form-control", placeholder = "Your Email", type = "email", required = "required" })
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     @Html.Label("Portfolio", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.ApplicantsWebsite, new { @class = "form-control", placeholder = "Portfolio Website" })
+                                    @Html.TextBoxFor(m => m.ApplicantsWebsite, new { @class = "form-control", placeholder = "Portfolio Website", required = "required" })
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     @Html.Label("Resume", new { @class = "form-label" })
-                                    <input type="file" name="file" class="form-control bg-white" />
+                                    <input type="file" name="file" class="form-control bg-white" required />
                                 </div>
                                 <div class="col-12">
                                     @Html.Label("Cover Letter", new { @class = "form-label" })
-                                    @Html.TextAreaFor(m => m.ApplicantsCoverLetter, new { @class = "form-control", rows = 5, placeholder = "Cover letter" })
+                                    @Html.TextAreaFor(m => m.ApplicantsCoverLetter, new { @class = "form-control", rows = 5, placeholder = "Cover letter", required = "required" })
                                 </div>
                                 <div class="col-12">
-                                    <button class="w-100 applyBtn" type="submit">Apply Now</button>
+                                    @if (hasApplied)
+                                    {
+                                        <button class="w-100 applyBtn" type="submit" disabled>You Have Already Applied</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="w-100 applyBtn" type="submit">Apply Now</button>
+                                    }
                                 </div>
                             </div>
                         }
