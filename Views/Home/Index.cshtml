@@ -2,6 +2,9 @@
     ViewBag.Title = "AllyHub";
     ViewBag.Subtitle = "A Platform for Job Seekers";
 }
+@model ALlyHub.Models.Search
+
+
 <link rel="stylesheet" href="~/Content/index.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- Hero Section -->
@@ -28,6 +31,22 @@
 </section>
 
 <!-- /Hero Section -->
+@using (Html.BeginForm("Search", "Home", FormMethod.Get, new { @class = "d-flex", role = "search" }))
+{
+    <select name="searchType" class="form-select me-2">
+        <option value="" disabled selected>Options</option> <!-- Placeholder option -->
+        <option value="Developers">Developers</option> <!-- Match case with controller -->
+        <option value="Projects">Projects</option> <!-- Match case with controller -->
+    </select>
+
+    @Html.TextBox("queryText", null, new { @class = "nav-search form-control me-2", placeholder = "Search", aria_label = "Search" })
+
+    <button type="submit" class="btn btn-outline-success">
+        <i class="fa fa-search"></i>
+    </button>
+}
+
+
 <!-- About Section -->
 <section class="work-game">
     <div class="content">
@@ -60,7 +79,7 @@
                 </li>
             </ul>
             <div class="buttons">
-                <a href="#" class="btn primary">Sign up for free</a>
+                <a href="@Url.Action("Register","Home")" class="btn primary">Sign up for free</a>
                 <a href="#" class="btn secondary">Learn how to hire</a>
             </div>
         </div>

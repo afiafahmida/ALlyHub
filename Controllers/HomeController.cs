@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Discovery;
 using System.Web.UI;
 using ALlyHub.Data;
 using ALlyHub.Models;
@@ -485,6 +486,77 @@ namespace ALlyHub.Controllers
                 ModelState.AddModelError("", "Please enter a password.");
                 return RedirectToAction("ForgotPassword");
             }
+        }
+
+        SearchHelper searchHelper = new SearchHelper();
+
+        public ActionResult Search(string queryText, string searchType)
+        {
+            Console.WriteLine("Search query: " + queryText);
+            Console.WriteLine("Search type: " + searchType);
+
+            if (string.IsNullOrWhiteSpace(queryText))
+            {
+                return RedirectToAction("Index");
+            }
+
+           
+            searchType = searchType?.ToLower();
+
+           
+            if (searchType == "developers")
+            {
+                var developerResults = searchHelper.SearchUsers(queryText);
+                if (developerResults == null || developerResults.Count == 0)
+                {
+                    return RedirectToAction("NoResult");
+                }
+                ViewBag.SearchUserResults = developerResults;
+            }
+            else if (searchType == "projects")
+            {
+                var projectResults = searchHelper.SearchProjects(queryText);
+                if (projectResults == null || projectResults.Count == 0)
+                {
+                    return RedirectToAction("NoResult");
+                }
+                ViewBag.SearchProjectResults = projectResults;
+            }
+
+            return View("SearchResults");
+        }
+
+
+        public ActionResult SearchResults()
+        {
+            return View();
+        }
+        public ActionResult TalentDetailsFromSearch(int UserID)
+        {
+            int userid = UserID;
+            int DeveloperID = DatabaseHelper.GetDeveloperIdByUserId(userid);
+            FindTalentModel find = FindtalentHelper.FetchTalentByID((int) DeveloperID);
+            if (find == null)
+            {
+                return HttpNotFound();
+            }
+            return View(find);
+        }
+        public ActionResult ClientDetailsFromSearch(int UserID)
+        {
+            int userid = UserID;
+            int ClientID = DatabaseHelper.GetClientIdByUserId(userid);
+            Search find = SearchHelper.FetchClientsByID((int)ClientID);
+            if (find == null)
+            {
+                return HttpNotFound();
+            }
+            return View(find);
+        }
+
+      public ActionResult NoResult()
+        {
+            return View();  
         }
     }
 

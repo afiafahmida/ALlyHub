@@ -324,6 +324,7 @@ namespace ALlyHub.Data
 
         public static int GetDeveloperIdByUserId(int userId)
         {
+            int DevId = 0;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string query = "SELECT DeveloperID FROM Developer WHERE UserID = @UserID";
@@ -331,8 +332,13 @@ namespace ALlyHub.Data
                 cmd.Parameters.AddWithValue("@UserID", userId);
 
                 conn.Open();
-                return (int)cmd.ExecuteScalar();
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    DevId = Convert.ToInt32(result);
+                }
             }
+            return DevId;
         }
 
         public static int GetClientIdByUserId(int UserID)

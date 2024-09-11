@@ -25,6 +25,8 @@ namespace ALlyHub.Models
         public string Languagee { get; set; }
         public string DOB { get; set; }
         public string UserPhoto { get; set; }
+
+        
         
     }
 }

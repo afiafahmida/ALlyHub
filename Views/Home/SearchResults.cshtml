@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Search Results";
+    var users = ViewBag.SearchUserResults as List<ALlyHub.Models.Search>;
+    var projects = ViewBag.SearchProjectResults as List<ALlyHub.Models.Search>;
+}
+
+<link rel="stylesheet" href="~/Content/FintTalent.css" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- Users Section -->
+
+<div class="content">
+    <div class="container">
+        <!-- Search Results Row -->
+        <div class="row">
+            @if (users != null && users.Count > 0)
+            {<h4 class="text-center">Users</h4>
+                foreach (var findTalent in users)
+                {
+                    <div class="col-lg-4">
+                        <div class="text-center card-box">
+                            <div class="member-card pt-2 pb-2">
+                                <div class="thumb-lg member-thumb mx-auto">
+                                    <img src="~/Images/@findTalent.UserPhoto" class="rounded-circle img-thumbnail" alt="profile-image">
+                                </div>
+                                <div class="">
+                                    <h4>@findTalent.FirstName @findTalent.LastName</h4>
+                                    <p class="text-muted"><strong>User Type:</strong> @findTalent.UserType</p> <!-- Display UserType -->
+                                </div>
+                                @if (findTalent.UserType == "Developer")
+                                {
+                                    <a href="@Url.Action("TalentDetailsFromSearch", "Home", new { UserId = findTalent.UserId })" class="btn mt-3 btn-rounded waves-effect w-md waves-light">
+                                        View Profile
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("ClientDetailsFromSearch", "Home", new { UserId = findTalent.UserId })" class="btn mt-3 btn-rounded waves-effect w-md waves-light">
+                                        View Profile
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                if (projects != null && projects.Count > 0)
+                {
+                    <h4 class="text-center">Projects</h4>
+
+                    <div class="row">
+                        @foreach (var project in projects)
+                        {
+                            <div class="col-lg-4">
+                                <div class="card-box">
+                                    <a href="@Url.Action("ProjectDetails", "Home", new { projectId = project.ProjectID })">
+                                        <h4>@project.ProjectTitle</h4>
+                                    </a>
+                                    <h5>@project.ShortDescription</h5>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+            </div>
+        <!-- end row -->
+    </div>
+    <!-- container -->
+</div>
+
+<!-- Projects Section -->
+

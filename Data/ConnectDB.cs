@@ -10,7 +10,7 @@ namespace ALlyHub.Data
 
         //Use this String to connect
         //Data Source=DESKTOP-O5HM1C3\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True
-        public static string connect { get; set; } = "";
+        public static string connect { get; set; } = "Data Source=DESKTOP-O5HM1C3\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
 
         public ConnectDB() { }
     }
