@@ -170,6 +170,17 @@ create table Applicants(
 
 );
 
+create table Experience(
+	ExpID int not null primary key identity(1,1),
+	UserId int not null,
+	foreign key (UserId) references Users (UserId),
+	CompanyName varchar(255),
+	Position varchar(255),
+	StartingYear varchar(255),
+	EndingYear varchar(255),
+	JobDescription varchar(255)
+);
+
 INSERT INTO Project (ProjectTitle, Description, PaymentAmount, ClientID, Level, Duration, SkillSet, CompanyName) VALUES
 ('Website Redesign', 'Complete overhaul of the company website.', 5000, 1, 3, 8, 'HTML, CSS, JavaScript', 'Tech Innovators')
 
@@ -180,8 +191,7 @@ select u.UserId , c.ClientID , u.FirstName , u.LastName , u.UserEmail , u.UserPh
 
 select * from Project ORDER BY PostedOn DESC;
 
-ALTER TABLE Applicants
-ALTER COLUMN ApplicantsCoverLetter varchar(2500);
+update Users SET UserPhoto='Zenun.jpg' where UserId=5;
 
 select * from Developer;
 select* from Users;
@@ -189,5 +199,6 @@ select * from Client
 select * from Applicants
 select * from Handshake
 drop table Developer
-
+SELECT CompanyName,Position,StartingYear,EndingYear,JobDescription FROM Experience where UserId=1
+select * from Experience
 select * from Applicants

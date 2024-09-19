@@ -14,10 +14,10 @@ public class SearchHelper
         List<Search> users = new List<Search>();
 
         // Create SQL query with LIKE operator for keyword search
-        string sqlQuery = @"SELECT UserId, FirstName, LastName, UserEmail, UserPhone, ISNULL(UserPhoto, '') AS UserPhoto, UserType
-                             FROM Users 
-                             WHERE (FirstName LIKE @query OR LastName LIKE @query 
-                             OR UserEmail LIKE @query OR UserPhone LIKE @query) AND UserType = 'Developer'";
+        string sqlQuery = @"SELECT u.UserId, u.FirstName, u.LastName, u.UserEmail, u.UserPhone, ISNULL(u.UserPhoto, '') AS UserPhoto, u.UserType,d.AreaofExpertise
+                             FROM Users as u INNER JOIN Developer as d ON u.UserID = d.UserID
+                             WHERE (u.FirstName LIKE @query OR u.LastName LIKE @query 
+                             OR u.UserEmail LIKE @query OR u.UserPhone LIKE @query OR d.AreaofExpertise LIKE @query) AND u.UserType = 'Developer'";
 
         // Use SqlConnection and SqlCommand to query the database
         try
@@ -40,7 +40,8 @@ public class SearchHelper
                         UserEmail = reader.GetString(3),
                         UserPhone = reader.GetString(4),
                         UserPhoto = reader.IsDBNull(5) ? string.Empty : reader.GetString(5), // Handle null photo
-                        UserType = reader.GetString(6) // Read the UserType value
+                        UserType = reader.GetString(6), // Read the UserType value
+                        AreaofExpertise = reader.GetString(7),
                     };
                     users.Add(user);
                 }
@@ -100,7 +101,7 @@ public class SearchHelper
     public List<Search> SearchProjects(string query)
     {
         List<Search> projects = new List<Search>();
-        string sqlQuery = @"SELECT ProjectID, ProjectTitle, ClientID, ShortDescription
+        string sqlQuery = @"SELECT ProjectID, ProjectTitle, ClientID, ShortDescription,PaymentAmount,ExpertiseLevel,PostedOn,JobNature,JobLocation,SkillSet
                         FROM Project
                         WHERE ProjectTitle LIKE @query OR ShortDescription LIKE @query";
 
@@ -121,7 +122,13 @@ public class SearchHelper
                         ProjectID = reader.GetInt32(0),
                         ProjectTitle = reader.GetString(1),
                         ClientID = reader.GetInt32(2),
-                        ShortDescription = reader.GetString(3) 
+                        ShortDescription = reader.GetString(3),
+                        PaymentAmount = reader.GetInt32(4),
+                        ExpertiseLevel = reader.GetString(5),
+                        PostedOn = reader.GetDateTime(6),
+                        JobNature = reader.GetString(7),
+                        JobLocation = reader.GetString(8),
+                        SkillSet = reader["SkillSet"].ToString()
                     };
                     projects.Add(project);
                 }

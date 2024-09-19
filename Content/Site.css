@@ -60,14 +60,6 @@ a{
     transition: 0.4s;
     color: var(--third-color) !important;
 }
-
-.nav-search {
-    border-radius: 20px !important;
-    width: 260px;
-    background: transparent !important;
-    border: 1px solid var(--second-color);
-}
-
 .navLogin, .navSignup {
     width: 80px;
     height: 35px;
@@ -111,10 +103,6 @@ a{
     }
 
     .navBtns {
-        margin-bottom: 20px;
-    }
-
-    .nav-search {
         margin-bottom: 20px;
     }
 }
@@ -389,7 +377,7 @@ a{
 .footer .copyright {
     padding-top: 25px;
     padding-bottom: 25px;
-    border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    border-top: 1px solid var(--third-color);
 }
 
     .footer .copyright p {

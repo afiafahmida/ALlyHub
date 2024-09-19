@@ -13,21 +13,12 @@ namespace ALlyHub.Models
         public List<Search> Users { get; set; }
         public List<Search> Clients { get; set; }
         public List<Project> Projects { get; set; }
-
         public string queryText { get; set; }
-
-
-
-
 
 
         List<Search> userids {  get; set; }
         List<Search> devids { get; set; }
         List<Search> clientids { get; set; }
-
-
-
-
 
 
         public int DeveloperID { get; set; }
@@ -75,16 +66,14 @@ namespace ALlyHub.Models
             public string Duration { get; set; }
             public string SkillSet { get; set; }
             public DateTime PostedOn { get; set; }
-      
             public string ClientName { get; set; }
             public string ClientLocation { get; set; }
-        
             public string JobNature { get; set; }
+            public string JobLocation { get; set; }
 
 
 
-            public int ApplicantID { get; set; }
-            
+        public int ApplicantID { get; set; }
             public string ApplicantsName { get; set; }
             public string ApplicantsEmail { get; set; }
             public string ApplicantsWebsite { get; set; }

@@ -103,7 +103,7 @@
         <div class="card hideTab" id="projects">
             <div class="tab-content p-4">
                 <div class="tab-pane active" id="team-tab">
-                    <h4 class="card-title mb-4">Projects</h4>
+                    <h4 class="card-title mb-4">On Going Projects</h4>
                     <div class="row">
                         @if (Model.Projects != null && Model.Projects.Any())
                         {
@@ -177,7 +177,7 @@
         <!----------End Review Section------------>
         <!-----------Update Profile-------------->
         <div class="card hideTab" id="editProfile" style="border:0px solid;">
-            <h2 class="text-center">Personal Info</h2>
+            <h2 class="text-center card-title">Personal Info</h2>
             @using (Html.BeginForm("Profile", "Home", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
             {
                 @Html.HiddenFor(m => m.UserId)
@@ -227,8 +227,8 @@
             }
 
 
-            <h2 class="text-center mt-5">Specialized Info</h2>
-            @using (Html.BeginForm("ActionName", "ControllerName", FormMethod.Post, new { @class = "form-horizontal mt-5" }))
+            <h2 class="text-center mt-5 card-title">Specialized Info</h2>
+            @using (Html.BeginForm("DevProfile", "Home", FormMethod.Post, new { @class = "form-horizontal mt-5" }))
             {
                 <div class="row">
                     <div class="col-md-6 mt-2">
@@ -238,7 +238,7 @@
                                     <i class="fa-brands fa-facebook" style="font-size: 20px; padding: 5px;"></i>
                                 </div>
                             </div>
-                            @Html.TextBoxFor(m => m.Facebook, new { @class = "form-control", placeholder = "Facebook Url" })
+                            @Html.TextBoxFor(m => m.Facebook, new { @class = "form-control", required = "required", placeholder = "Facebook Url" })
                         </div>
                     </div>
                     <div class="col-md-6 mt-2">
@@ -248,44 +248,28 @@
                                     <i class="fa-brands fa-linkedin" style="font-size: 20px; padding: 5px;"></i>
                                 </div>
                             </div>
-                            @Html.TextBoxFor(m => m.LinkedIn, new { @class = "form-control", placeholder = "Linkedin Url" })
+                            @Html.TextBoxFor(m => m.LinkedIn, new { @class = "form-control", required = "required", placeholder = "Linkedin Url" })
                         </div>
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col">
-                        @Html.TextBoxFor(m => m.AreaofExpertise, new { @class = "form-control", placeholder = "Title" })
+                    <div class="col-md-6 mt-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fa-solid fa-globe" style="font-size: 20px; padding: 5px;"></i>
+                                </div>
+                            </div>
+                            @Html.TextBoxFor(m => m.PortfolioLink, new { @class = "form-control", required = "required", placeholder = "Linkedin Url" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-2">
+                        @Html.TextBoxFor(m => m.AreaofExpertise, new { @class = "form-control", required = "required", placeholder = "Title" })
                     </div>
                 </div>
-                @Html.TextAreaFor(m => m.ClientDescription, 8, 80, new { @class = "form-control mt-3 mb-3", placeholder = "Enter Your Biography" })
-                <div class="custom-select">
-                    <div class="select-box">
-                        <input type="text" class="tags_input" name="tags" hidden />
-                        <div class="selected-options">
-                            <span class="placeholder">Select the tags</span>
-                        </div>
-                        <div class="arrow">
-                            <i class="fa fa-angle-down"></i>
-                        </div>
-                    </div>
-                    <div class="options">
-                        <div class="option-search-tags">
-                            <input type="text" class="search-tags" placeholder="Search tags....." />
-                            <button type="button" class="clear">Clear</button>
-                        </div>
-                        <div class="option" data-value="HTML">HTML</div>
-                        <div class="option" data-value="CSS">CSS</div>
-                        <div class="option" data-value="JavaScript">JavaScript</div>
-                        <div class="option" data-value="PHP">PHP</div>
-                        <div class="option" data-value="Python">Python</div>
-                        <div class="option" data-value="Java">Java</div>
-                        <div class="option" data-value="React">React</div>
-                        <div class="option" data-value="Django">Django</div>
-                        <div class="option" data-value="ASP">ASP .NET</div>
-                        <div class="no-result-message" style="display: none;">No Result Message</div>
-                    </div>
-                    <span class="tag_error_msg error"></span>
-                </div>
+                @Html.TextAreaFor(m => m.DevDescription, 8, 80, new { @class = "form-control mt-3 mb-3", required = "required", placeholder = "Enter Your Biography" })
+
                 <div class="row mt-3 mb-3">
                     <div class="col">
                         <button type="submit" class="btn btn-lg rounded-0 fs-6 logBtn" style="width: 100%;">Update</button>
@@ -293,6 +277,69 @@
                 </div>
             }
 
+            <h2 class="text-center mt-5 card-title">Add Work Experience</h2>
+            @using (Html.BeginForm("AddWorkExperience", "Home", FormMethod.Post, new { @class = "form-horizontal mt-5" }))
+            {
+                <div class="row">
+                    <div class="col-md-6 mt-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fa-solid fa-building" style="font-size: 20px; padding: 5px;"></i>
+                                </div>
+                            </div>
+                            @Html.TextBoxFor(m => m.CompanyInput, new { @class = "form-control", required = "required", placeholder = "Company Name" })
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fa-solid fa-briefcase" style="font-size: 20px; padding: 5px;"></i>
+                                </div>
+                            </div>
+                            @Html.TextBoxFor(m => m.PositionInput, new { @class = "form-control", required = "required", placeholder = "Designation" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6 mt-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fa-solid fa-calendar-days" style="font-size: 20px; padding: 5px;"></i>
+                                </div>
+                            </div>
+                            @Html.TextBoxFor(m => m.StartDateInput, new { @class = "form-control", type = "date", required = "required", placeholder = "Linkedin Url" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-2">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fa-solid fa-calendar-days" style="font-size: 20px; padding: 5px;"></i>
+                                </div>
+                            </div>
+                            @Html.TextBoxFor(m => m.EndDateInput, new { @class = "form-control", type = "date", required = "required", placeholder = "Linkedin Url", id = "endingYear" })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <input type="checkbox" id="currentlyWorking" />
+                        <label for="currentlyWorking">Currently working here</label>
+                    </div>
+                </div>
+                @Html.TextAreaFor(m => m.JobDescriptionInput, 8, 80, new { @class = "form-control mt-3 mb-3", required = "required", placeholder = "Enter Your Job Description" })
+
+                <div class="row mt-3 mb-3">
+                    <div class="col">
+                        <button type="submit" class="btn btn-lg rounded-0 fs-6 logBtn" style="width: 100%;">Update</button>
+                    </div>
+                </div>
+            }
         </div>
         <!-- end card -->
     </div>
@@ -349,40 +396,62 @@
             <!-- end card body -->
         </div>
         <!-- end card -->
+        <!------Work Experience------>
+        @if ((string)Session["UserType"] == "Developer")
+        {
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h4 class="card-title mb-4">Work Experince</h4>
+                        <ul class="list-unstyled work-activity mb-0">
+                            @if (Model.Experiences != null && Model.Experiences.Any())
+                            {
+                                foreach (var workexperience in Model.Experiences)
+                                {
+                                    <li class="work-item">
+                                        <div class="experienceHead">
+                                            <div>
+                                                <h6 class="lh-base mb-0">@workexperience.CompanyName</h6>
+                                            </div>
+                                            <div>
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <p class="font-size-13 mb-2">@workexperience.Position</p>
+                                        <p class="font-size-13 mb-2">@workexperience.StartDate -> @workexperience.EndDate</p>
+                                        <p>
+                                            @workexperience.JobDescription
+                                        </p>
+                                        
+                                    </li>
+                                }
+                            }
 
-        <div class="card">
-            <div class="card-body">
-                <div>
-                    <h4 class="card-title mb-4">Work Experince</h4>
-                    <ul class="list-unstyled work-activity mb-0">
-                        <li class="work-item" data-date="2020-21">
-                            <h6 class="lh-base mb-0">ABCD Company</h6>
-                            <p class="font-size-13 mb-2">Web Designer</p>
-                            <p>
-                                To achieve this, it would be necessary to have uniform
-                                grammar, and more common words.
-                            </p>
-                        </li>
-                        <li class="work-item" data-date="2019-20">
-                            <h6 class="lh-base mb-0">XYZ Company</h6>
-                            <p class="font-size-13 mb-2">Graphic Designer</p>
-                            <p class="mb-0">
-                                It will be as simple as occidental in fact, it will be
-                                Occidental person, it will seem like simplified.
-                            </p>
-                        </li>
-                    </ul>
-                    <!-- end ul -->
+                        </ul>
+                        <!-- end ul -->
+                    </div>
                 </div>
+                <!-- end card-body -->
             </div>
-            <!-- end card-body -->
-        </div>
+        }
+
         <!-- end card -->
     </div>
     <!-- end col -->
 </div>
 <!-- end row -->
-
+<script>
+    document.getElementById('currentlyWorking').addEventListener('change', function () {
+        var endingYearInput = document.getElementById('endingYear');
+        if (this.checked) {
+            endingYearInput.value = '';  // Clear the ending year
+            endingYearInput.disabled = true;  // Disable the field
+        } else {
+            endingYearInput.disabled = false;  // Enable the field
+        }
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const projectBtn = document.getElementById('projectBtn');

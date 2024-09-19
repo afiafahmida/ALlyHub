@@ -120,10 +120,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Data\ApplicationHelper.cs" />
     <Compile Include="Data\ConnectDB.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\FindtalentHelper.cs" />
     <Compile Include="Data\ProfileHelper.cs" />
+    <Compile Include="Data\ProjectHelper.cs" />
     <Compile Include="Data\SearchHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

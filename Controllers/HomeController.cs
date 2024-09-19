@@ -26,20 +26,16 @@ namespace ALlyHub.Controllers
         {
             return View();
         }
-
-
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
             return View();
         }
-
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
             return View();
         }
-
         public ActionResult FindTalent()
         {
             ViewBag.Message = "Find Talent";
@@ -55,19 +51,17 @@ namespace ALlyHub.Controllers
             }
             return View(find);
         }
-
         public ActionResult FindJobs()
         {
             ViewBag.Message = "Find Jobs";
-            List<Project> projects = DatabaseHelper.GrabProjects();
+            List<Project> projects = ProjectHelper.GrabProjects();
             return View(projects);
         }
-
         public ActionResult Login()
         {
             return View();
         }
-
+        //User Authentication
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model)
@@ -100,13 +94,12 @@ namespace ALlyHub.Controllers
             }
             return View(model);
         }
-
         [HttpGet]
         public ActionResult Register()
         {
             return View();
         }
-
+        //User Registration
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
@@ -144,11 +137,12 @@ namespace ALlyHub.Controllers
             }
             return View(model);
         }
-
+        //Fetch User Data to Profile
         [HttpGet]
         public ActionResult Profile()
         {
             ProfileModel profileModel = new ProfileModel();
+            ProfileModel experience = new ProfileModel();
             if (Session["userID"] == null)
             {
                 return RedirectToAction("Login", "Home"); // Redirect to Login if user is not logged in
@@ -164,8 +158,9 @@ namespace ALlyHub.Controllers
             else if (Session["userID"] != null && (string)Session["UserType"] == "Developer")
             {
                 int devId = (int)Session["developerID"];
-                profileModel = ProfileHelper.GetDeveloperById(userId);
+                profileModel = ProfileHelper.GetProfileById(userId);
                 profileModel.Projects = ProfileHelper.GetHandshakedProjectsByDeveloperId(devId);
+                profileModel.Experiences = ProfileHelper.FetchExperience(userId);
             }
 
             if (profileModel == null)
@@ -234,7 +229,62 @@ namespace ALlyHub.Controllers
 
             return View(model);
         }
-
+        public ActionResult DevProfile(ProfileModel model)
+        {
+            string userId = Session["userID"].ToString();
+            if (Session["userID"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    int rowsAffected = ProfileHelper.UpdateDeveloper(userId, model.DevDescription, model.AreaofExpertise, model.PortfolioLink, model.LinkedIn, model.Facebook);
+                    if (rowsAffected > 0)
+                    {
+                        return RedirectToAction("Profile");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"An error occurred: {ex.Message}");
+                    // Optionally log the exception
+                }
+            }
+            return View(model);
+        }
+        public ActionResult AddWorkExperience(ProfileModel model)
+        {
+            string EndYEar=model.EndDateInput;
+            int userId = (int)Session["userID"];
+            if (Session["userID"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            if(ModelState.IsValid)
+            {
+                if(string.IsNullOrEmpty(model.EndDateInput))
+                {
+                    EndYEar = "Present";
+                }
+                
+                try
+                {
+                    int rowsAffected = ProfileHelper.AddWorkExperience(userId, model.CompanyInput, model.PositionInput, model.StartDateInput, EndYEar, model.JobDescriptionInput);
+                    if (rowsAffected > 0)
+                    {
+                        return RedirectToAction("Profile");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"An error occurred: {ex.Message}");
+                    // Optionally log the exception
+                }
+            }
+            return View(model);
+        }
         public ActionResult Logout()
         {
             // Clear session on logout
@@ -250,17 +300,27 @@ namespace ALlyHub.Controllers
         public ActionResult ProjectDetails(int projectId)
         {
             // Fetch the project details from the database based on projectId
-            Project project = DatabaseHelper.GetProjectById(projectId);
+            Project project = ProjectHelper.GetProjectById(projectId);
 
             if (project == null)
             {
                 return HttpNotFound(); // Handle if project with given ID is not found
             }
+            if (Session["userID"] != null && (string)Session["UserType"] == "Developer")
+            {
+                int userID = (int)Session["userID"];
+                int devID = DatabaseHelper.GetDeveloperIdByUserId(userID);
+                ProjectHelper projectHelper = new ProjectHelper();
+                bool hasApplied = true;
+                if(projectHelper.hasApplied(devID, projectId))
+                {
+                    Session["hasApplied"] = hasApplied;
+                }
+
+            }
 
             return View(project);
         }
-
-
 
         public ActionResult PostJobs()
         {
@@ -286,7 +346,7 @@ namespace ALlyHub.Controllers
                     project.PostedOn = DateTime.Now;
 
                     // Save the project to the database
-                    DatabaseHelper.InsertProject(project);
+                    ProjectHelper.InsertProject(project);
 
 
                     return RedirectToAction("Index");
@@ -312,7 +372,7 @@ namespace ALlyHub.Controllers
             try
             {
                 int userId = (int)Session["userID"];
-                int clientId = DatabaseHelper.GetClientIdByProject(project.ProjectID);
+                int clientId = ApplicationHelper.GetClientIdByProject(project.ProjectID);
                 int devId = DatabaseHelper.GetDeveloperIdByUserId(userId);
 
                 // File handling
@@ -330,7 +390,7 @@ namespace ALlyHub.Controllers
                 project.ApplicantsFile = fileName;
 
                 // Database insertion
-                DatabaseHelper.InsertApplicant(project);
+                ApplicationHelper.InsertApplicant(project);
                 string subject = "You have successfully Applied";
                 string body = "Hey there User! You have sucessfully applied for the post. We will let you know if you get accepted for the job";
                 SendMessage.SendEmail(project.ApplicantsEmail, subject, body);
@@ -344,13 +404,11 @@ namespace ALlyHub.Controllers
                 return RedirectToAction("ProjectDetails", new { projectId = project.ProjectID });
             }
         }
-
-
         public ActionResult ViewApplicants(int projectId)
         {
             // Assuming you have a method to get the current user's ID
             var currentUserId = Session["clientID"];
-            var project = DatabaseHelper.GetProjectById(projectId); // Replace with your method to get the project
+            var project = ProjectHelper.GetProjectById(projectId); // Replace with your method to get the project
 
             if (project == null)
             {
@@ -360,7 +418,7 @@ namespace ALlyHub.Controllers
             // Check if the logged-in developer is the one who posted the project
             if ((string)Session["UserType"] == "Client" && project.ClientID == (int)currentUserId)
             {
-                var applicants = DatabaseHelper.GetApplicantsByProjectId(projectId); // Replace with your method to get the applicants
+                var applicants = ApplicationHelper.GetApplicantsByProjectId(projectId); // Replace with your method to get the applicants
                 return View(applicants);
             }
             else
@@ -369,7 +427,7 @@ namespace ALlyHub.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
-
+        // Accept an applicant
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult AcceptApplicant(Applicant applicant, string applicantEmail)
@@ -397,10 +455,10 @@ namespace ALlyHub.Controllers
             };
 
 
-            string projectName = DatabaseHelper.GetProjectNameById(applicant.ProjectID);
+            string projectName = ProjectHelper.GetProjectNameById(applicant.ProjectID);
 
             // Call the method in DatabaseHelper to insert the handshake record
-            bool success = DatabaseHelper.InsertHandshake(handshake);
+            bool success = ApplicationHelper.InsertHandshake(handshake);
             string subject = "You have been accepted";
             string body = "Hey there User! You have been accepted for doing the job of "+projectName+". The client will contact you very soon.";
             SendMessage.SendEmail(applicantEmail, subject, body);
@@ -416,8 +474,6 @@ namespace ALlyHub.Controllers
             // Redirect back to the ViewApplicants page
             return RedirectToAction("ViewApplicants", new { projectId = applicant.ProjectID });
         }
-
-
 
         [HttpPost]
         public ActionResult SendOtp(ProfileModel profile)
@@ -448,11 +504,11 @@ namespace ALlyHub.Controllers
             return View("ForgotPassword");
         }
 
+        //OTP for Password Reset
         public ActionResult EnterOtp()
         {
             return View();
         }
-
         public ActionResult VerifyOtp(ProfileModel profile)
         {
             if ((string)profile.UserOtp == (string)Session["TempOTP"])
@@ -487,9 +543,7 @@ namespace ALlyHub.Controllers
                 return RedirectToAction("ForgotPassword");
             }
         }
-
         SearchHelper searchHelper = new SearchHelper();
-
         public ActionResult Search(string queryText, string searchType)
         {
             Console.WriteLine("Search query: " + queryText);
@@ -525,8 +579,6 @@ namespace ALlyHub.Controllers
 
             return View("SearchResults");
         }
-
-
         public ActionResult SearchResults()
         {
             return View();
@@ -553,8 +605,7 @@ namespace ALlyHub.Controllers
             }
             return View(find);
         }
-
-      public ActionResult NoResult()
+        public ActionResult NoResult()
         {
             return View();  
         }

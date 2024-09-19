@@ -31,20 +31,30 @@
 </section>
 
 <!-- /Hero Section -->
-@using (Html.BeginForm("Search", "Home", FormMethod.Get, new { @class = "d-flex", role = "search" }))
-{
-    <select name="searchType" class="form-select me-2">
-        <option value="" disabled selected>Options</option> <!-- Placeholder option -->
-        <option value="Developers">Developers</option> <!-- Match case with controller -->
-        <option value="Projects">Projects</option> <!-- Match case with controller -->
-    </select>
 
-    @Html.TextBox("queryText", null, new { @class = "nav-search form-control me-2", placeholder = "Search", aria_label = "Search" })
+<h1 class="title">Search What You Want</h1>
+<div class="searchBox">
+    @using (Html.BeginForm("Search", "Home", FormMethod.Get, new { @class = "d-flex", role = "search" }))
+    {
+        <div class="select_container">
+            <select name="searchType" class="searchtype" required>
+                <option value="" disabled selected>Options</option> <!-- Placeholder option -->
+                <option value="Developers">Developers</option> <!-- Match case with controller -->
+                <option value="Projects">Projects</option> <!-- Match case with controller -->
+            </select>
+            
+        </div>
+        <div class="searchInput">
+            @Html.TextBox("queryText", null, new { @class = "search", placeholder = "Search" })
+            <button type="submit" class="srchbtn">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
 
-    <button type="submit" class="btn btn-outline-success">
-        <i class="fa fa-search"></i>
-    </button>
-}
+
+    }
+
+</div>
 
 
 <!-- About Section -->

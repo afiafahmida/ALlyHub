@@ -144,6 +144,12 @@
     color: #74788d;
 }
 
+/*-----Work Experience---------*/
+
+.experienceHead {
+    display: flex !important;
+    justify-content: space-between !important;
+}
 .work-activity {
     position: relative;
     color: #74788d;

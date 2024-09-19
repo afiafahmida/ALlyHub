@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = Model.ProjectTitle;
     ViewBag.Subtitle = "Detailed Information";
+    bool hasApplied = Session["hasApplied"] != null && (bool)Session["hasApplied"];
 }
 @model ALlyHub.Models.Project
 
@@ -65,7 +66,7 @@
 
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6">
-                                    @Html.Label("Name" , new {@class = "form-label"})
+                                    @Html.Label("Name", new { @class = "form-label" })
                                     @Html.TextBoxFor(m => m.ApplicantsName, new { @class = "form-control", placeholder = "Your Name" })
                                 </div>
                                 <div class="col-12 col-sm-6">
@@ -85,7 +86,15 @@
                                     @Html.TextAreaFor(m => m.ApplicantsCoverLetter, new { @class = "form-control", rows = 5, placeholder = "Cover letter" })
                                 </div>
                                 <div class="col-12">
-                                    <button class="w-100 applyBtn" type="submit">Apply Now</button>
+                                    
+                                    @if (hasApplied)
+                                    {
+                                        <button class="w-100 applyBtn" type="submit" disabled>You Have Already Applied</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="w-100 applyBtn" type="submit">Apply Now</button>
+                                    }
                                 </div>
                             </div>
                         }

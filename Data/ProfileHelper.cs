@@ -14,8 +14,6 @@ namespace ALlyHub.Data
     public class ProfileHelper 
     {
         private static readonly string connectionString = ConnectDB.connect;
-
-        //private static readonly string connectionString = "Data Source=USER\\SQLEXPRESS;Initial Catalog=Allyhub;Integrated Security=True";
         public static ProfileModel GetProfileById(int userId)
         {
             ProfileModel profile = null;
@@ -168,7 +166,44 @@ namespace ALlyHub.Data
 
             return rowsAffected;
         }
+        public static int UpdateDeveloper(string UserId, string DevDescription, string AreaofExpertise, string PortfolioLink, string LinkedIn, string Facebook)
+        {
+            int rowsAffected = 0;
+            // Connection string from web.config
+            string connectionString = ConnectDB.connect;
 
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = "UPDATE Developer SET DevDescription = @DevDescription, AreaofExpertise = @AreaofExpertise, PortfolioLink = @PortfolioLink, LinkedIn = @LinkedIn, Facebook = @Facebook WHERE UserId = @Id";
+
+                    SqlCommand command = new SqlCommand(query, connection);
+
+                    command.Parameters.AddWithValue("@DevDescription", DevDescription);
+                    command.Parameters.AddWithValue("@AreaofExpertise", AreaofExpertise);
+                    command.Parameters.AddWithValue("@PortfolioLink", PortfolioLink);
+                    command.Parameters.AddWithValue("@LinkedIn", LinkedIn);
+                    command.Parameters.AddWithValue("@Facebook", Facebook);
+                    command.Parameters.AddWithValue("@Id", UserId);
+
+                    connection.Open();
+                    rowsAffected = command.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                // Log or handle the exception
+                Console.WriteLine("SQL Error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception
+                Console.WriteLine("Error: " + ex.Message);
+            }
+
+            return rowsAffected;
+        }
         public static List<ProfileModel> GetProjectsByClientId(int clientId)
         {
             List<ProfileModel> projects = new List<ProfileModel>();
@@ -267,5 +302,66 @@ namespace ALlyHub.Data
             return handshakedProjects;
         }
 
+        public static int AddWorkExperience(int UserID , string CompanyName , string Position , string startDate , string Enddate , string JobDescription)
+        {
+            int rowsAffected = 0;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = "INSERT INTO Experience (UserId , CompanyName , Position , StartingYear , EndingYear , JobDescription) VALUES (@UserId,@CompanyName,@Position,@StartingYear,@EndingYear,@JobDescription)";
+
+                    SqlCommand command = new SqlCommand(query, connection);
+
+                    command.Parameters.AddWithValue("@CompanyName", CompanyName);
+                    command.Parameters.AddWithValue("@Position", Position);
+                    command.Parameters.AddWithValue("@StartingYear", startDate);
+                    command.Parameters.AddWithValue("@EndingYear", Enddate);
+                    command.Parameters.AddWithValue("@UserId", UserID);
+                    command.Parameters.AddWithValue("@JobDescription", JobDescription);
+
+                    connection.Open();
+                    rowsAffected = command.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                // Log or handle the exception
+                Console.WriteLine("SQL Error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception
+            }
+
+                return rowsAffected;
+        }
+
+        public static List<ProfileModel> FetchExperience(int userID)
+        {
+            List<ProfileModel> experiences = new List<ProfileModel>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT CompanyName,Position,StartingYear,EndingYear,JobDescription FROM Experience where UserId=@userID";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userID", userID);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    ProfileModel experience = new ProfileModel
+                    {
+                        CompanyName = reader["CompanyName"].ToString(),
+                        Position = reader["Position"].ToString(),
+                        StartDate = reader["StartingYear"].ToString(),
+                        EndDate = reader["EndingYear"].ToString(),
+                        JobDescription = reader["JobDescription"].ToString()
+                    };
+                    experiences.Add(experience);
+                }
+            }
+
+            return experiences;
+        }
     }
 }
