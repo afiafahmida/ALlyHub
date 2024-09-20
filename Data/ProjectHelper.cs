@@ -243,15 +243,15 @@ namespace ALlyHub.Data
                 }
             }
         }
-        public bool hascompleteddev(int devID, int projectID)
+        public bool hascompleted( int projectID)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "select COUNT(1) from ProjectFile where DeveloperID=@devID and ProjectID=@projectID";
+                string query = "select COUNT(1) from ProjectFile where ProjectID=@projectID";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@devID", devID);
+                   // cmd.Parameters.AddWithValue("@devID", devID);
                     cmd.Parameters.AddWithValue("@projectID", projectID);
                     int count = (int)cmd.ExecuteScalar();
                     return count > 0;

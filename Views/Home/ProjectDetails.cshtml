@@ -49,7 +49,7 @@
             <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
         </ul>--->
                 </div>
-                @if (Session["userID"] == null)
+                @if (Session["userID"] == null && (string)Session["UserType"] == null)
                 {
                     if (projectcompleted)
                     {

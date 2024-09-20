@@ -307,11 +307,15 @@ namespace ALlyHub.Controllers
                 Session["HasBeenHandshaked"] = hasbeenhandshaked;
             }
             // Fetch the project details from the database based on projectId
-            
+            bool hasCompleted = true;
             Session["projectId"] = projectId;
             if (project == null)
             {
                 return HttpNotFound(); // Handle if project with given ID is not found
+            }
+            if (projectHelper.hascompleted(projectId))
+            {
+                Session["HasCompleted"] = hasCompleted;
             }
             if (Session["userID"] != null && (string)Session["UserType"] == "Developer")
             {
@@ -321,7 +325,7 @@ namespace ALlyHub.Controllers
                 bool hasApplied = true;
                 bool devhasHandshaked = true;
                 //bool hasbeenhandshaked = true;
-                bool hasCompleted = true;
+               
                 if (projectHelper.hasApplied(devID, projectId))
                 {
                     Session["hasApplied"] = hasApplied;
@@ -330,10 +334,7 @@ namespace ALlyHub.Controllers
                 {
                     Session["DevhasHandshaked"] = devhasHandshaked;
                 }
-                if (projectHelper.hascompleteddev(devID, projectId))
-                {
-                    Session["HasCompleted"] = hasCompleted;
-                }
+              
               
 
             }
@@ -344,17 +345,13 @@ namespace ALlyHub.Controllers
                // ProjectHelper projectHelper = new ProjectHelper();
 
                 bool clienthasHandshaked = true;
-                bool hasCompleted = true;
+              
             
                 if (projectHelper.clienthasHandshaked(clientID, projectId))
                 {
                     Session["ClienthasHandshaked"] = clienthasHandshaked;
                 }
-                if (projectHelper.hascompletedclient(clientID, projectId))
-                {
-                    Session["HasCompleted"] = hasCompleted;
-                }
-                
+             
             }
 
             return View(project);
