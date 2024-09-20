@@ -28,7 +28,9 @@ namespace ALlyHub.Models
         public string ClientDescription { get; set; }
         public string JobNature { get; set; }
 
-
+        public string DeveloperReview { get; set; }
+        public string ClientReview { get; set; }
+        public string SubmittedFileName { get; set; }
 
         public int ApplicantID { get; set; }
         public int DeveloperID { get; set; }

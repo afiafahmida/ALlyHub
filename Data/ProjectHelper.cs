@@ -1,6 +1,7 @@
 ﻿using ALlyHub.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -182,5 +183,276 @@ namespace ALlyHub.Data
                 }
             }
         }
+        public bool devhasHandshaked(int devID, int projectID)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "select COUNT(1) from Handshake where DeveloperID=@devID and ProjectID=@projectID";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@devID", devID);
+                    cmd.Parameters.AddWithValue("@projectID", projectID);
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+        public bool hasbeenhandshaked(int projectID)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "select COUNT(1) from Handshake where ProjectID=@projectID";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    //cmd.Parameters.AddWithValue("@devID", devID);
+                    cmd.Parameters.AddWithValue("@projectID", projectID);
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+        public bool clienthasHandshaked(int clientID, int projectID)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "select COUNT(1) from Handshake where ClientID=@clientID and ProjectID=@projectID";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@clientID", clientID);
+                    cmd.Parameters.AddWithValue("@projectID", projectID);
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+        public bool hascompletedclient(int clientID, int projectID)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "select COUNT(1) from ProjectFile where ClientID=@clientID and ProjectID=@projectID";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@clientID", clientID);
+                    cmd.Parameters.AddWithValue("@projectID", projectID);
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+        public bool hascompleteddev(int devID, int projectID)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "select COUNT(1) from ProjectFile where DeveloperID=@devID and ProjectID=@projectID";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@devID", devID);
+                    cmd.Parameters.AddWithValue("@projectID", projectID);
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
+            }
+        }
+        public static bool InsertProjectFile(int projectID, int developerID, int clientID, string fileName)
+        {
+            int rowsAffected = 0;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = @"INSERT INTO ProjectFile (ProjectId, DeveloperID, ClientID, ProjectFileName) 
+                         VALUES (@ProjectID, @DeveloperID, @ClientID, @ProjectFileName)";
+
+                SqlCommand command = new SqlCommand(query, connection);
+
+                // Use explicit data types instead of AddWithValue for better performance
+                command.Parameters.Add(new SqlParameter("@ProjectID", SqlDbType.Int) { Value = projectID });
+                command.Parameters.Add(new SqlParameter("@DeveloperID", SqlDbType.Int) { Value = developerID });
+                command.Parameters.Add(new SqlParameter("@ClientID", SqlDbType.Int) { Value = clientID });
+                command.Parameters.Add(new SqlParameter("@ProjectFileName", SqlDbType.VarChar, 100) { Value = fileName });
+
+                try
+                {
+                    connection.Open();
+                    rowsAffected = command.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    // Log or handle the exception
+                    Console.WriteLine("SQL Error: " + ex.Message);
+                    // Consider logging the error properly in production code.
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle the exception
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+            return rowsAffected > 0;
+        }
+        public static int GetClientIdByProject(int id)
+        {
+            int DevId = 0;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT ClientID FROM Project WHERE ProjectID = @UserID";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserID", id);
+
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    DevId = Convert.ToInt32(result);
+                }
+            }
+            return DevId;
+        }
+        public static int GetDevIdByProject(int id)
+        {
+            int DevId = 0;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT DeveloperID FROM Handshake WHERE ProjectID = @UserID";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserID", id);
+
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    DevId = Convert.ToInt32(result);
+                }
+            }
+            return DevId;
+        }
+        public static int GetUserIdByClientId(int ID)
+        {
+            int clientId = 0;
+            string query = "SELECT UserID FROM Client WHERE ClientID = @UserId";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserId", ID);
+
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    clientId = Convert.ToInt32(result);
+                }
+            }
+
+            return clientId;
+        }
+        public static int GetUserIdByDevId(int ID)
+        {
+            int clientId = 0;
+            string query = "SELECT UserID FROM Developer WHERE DeveloperID = @UserId";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@UserId", ID);
+
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    clientId = Convert.ToInt32(result);
+                }
+            }
+
+            return clientId;
+        }
+        public static bool InsertReview(int userId, int reviewerId, string reviewText)
+        {
+            int rowsAffected = 0;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = @"INSERT INTO Reviews (UserId, ReviewerId, ReviewText,CreatedAt)
+                         VALUES (@UserId, @ReviewerId, @ReviewText,@CreatedAt)";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    // Use SqlParameter for better performance and to avoid SQL injection
+                    command.Parameters.Add(new SqlParameter("@UserId", SqlDbType.Int) { Value = userId });
+                    command.Parameters.Add(new SqlParameter("@ReviewerId", SqlDbType.Int) { Value = reviewerId });
+                    command.Parameters.Add(new SqlParameter("@ReviewText", SqlDbType.NVarChar, -1) { Value = reviewText });
+                    command.Parameters.AddWithValue("@CreatedAt", DateTime.Now);
+                    try
+                    {
+                        connection.Open();
+                        rowsAffected = command.ExecuteNonQuery(); // Execute the query
+                    }
+                    catch (SqlException ex)
+                    {
+                        // Log SQL exception (consider using a logging framework here)
+                        Console.WriteLine("SQL Error: " + ex.Message);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log general exception
+                        Console.WriteLine("Error: " + ex.Message);
+                    }
+                }
+            }
+
+            return rowsAffected > 0; // Return true if one or more rows are affected
+        }
+        public static string GetFileNameByProjectId(int projectId)
+        {
+            string fileName = null;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT ProjectFileName FROM ProjectFile WHERE ProjectId = @ProjectID";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.Add(new SqlParameter("@ProjectID", SqlDbType.Int) { Value = projectId });
+
+                    try
+                    {
+                        connection.Open();
+                        var result = command.ExecuteScalar();
+
+                        if (result != null)
+                        {
+                            fileName = result.ToString(); // Convert the result to a string
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        // Log SQL exception
+                        Console.WriteLine("SQL Error: " + ex.Message);
+                        return null; // Indicate an error occurred
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log general exception
+                        Console.WriteLine("Error: " + ex.Message);
+                        return null; // Indicate an error occurred
+                    }
+                }
+            }
+
+            return fileName;
+        }
+
+
+
     }
+
 }

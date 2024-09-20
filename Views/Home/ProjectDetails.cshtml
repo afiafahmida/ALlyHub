@@ -3,6 +3,10 @@
     ViewBag.Title = Model.ProjectTitle;
     ViewBag.Subtitle = "Detailed Information";
     bool hasApplied = Session["hasApplied"] != null && (bool)Session["hasApplied"];
+    bool devhasHandshaked = Session["DevhasHandshaked"] != null && (bool)Session["DevhasHandshaked"];
+    bool clienthasHandshaked = Session["ClienthasHandshaked"] != null && (bool)Session["ClienthasHandshaked"];
+    bool projectcompleted = Session["HasCompleted"] != null && (bool)Session["HasCompleted"];
+    bool hasbeenhandshaked = Session["HasBeenHandshaked"] != null && (bool)Session["HasBeenHandshaked"];
 }
 @model ALlyHub.Models.Project
 
@@ -27,100 +31,181 @@
                     <h4 class="mb-3">Job Description</h4>
                     <p>@Model.Description</p>
                     <!----<h4 class="mb-3">Responsibility</h4>
-                    <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
-                    <ul class="list-unstyled">
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
-                    </ul>
-                    <h4 class="mb-3">Qualifications</h4>
-                    <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
-                    <ul class="list-unstyled">
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
-                        <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
-                    </ul>--->
+        <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
+        <ul class="list-unstyled">
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
+        </ul>
+        <h4 class="mb-3">Qualifications</h4>
+        <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
+        <ul class="list-unstyled">
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
+            <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
+        </ul>--->
                 </div>
-
-                @if ((string)Session["UserType"] == "Client")
+                @if (Session["userID"] == null)
                 {
-                    if (Model.ClientID == (int)Session["clientID"]) // Check if the current user is the owner of the project
+                    if (projectcompleted)
+                    {
+                        <button class="w-100 applyBtn" type="submit" disabled>Project is Complete</button>
+                    }
+                    else if (hasbeenhandshaked)
+                    {
+                        <button class="w-100 applyBtn" type="submit" disabled>Project is in progress</button>
+                    }
+
+                }
+                else if ((string)Session["UserType"] == "Client")
+                {
+
+                    if (Model.ClientID == (int)Session["clientID"] && projectcompleted)
+                    {
+                        <div class="form-group">
+                            <p>Click the button below to download the file:</p>
+
+                            <!-- Link to download the file -->
+                            <a href="@Url.Action("DownloadFile", "Home", new { projectId = Model.ProjectID })" class="btn btn-primary">
+                                Download File
+                            </a>
+                        </div>
+                        <div class="application">
+                            @using (Html.BeginForm("SubmitReviewByClient", "Home", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <!-- Hidden field to pass project ID -->
+                                @Html.HiddenFor(m => m.ProjectID)
+
+                                <!-- Text area for the developer to write the review -->
+                                <div class="form-group">
+                                    <label for="DeveloperReview">Your Review for the Developer:</label>
+                                    @Html.TextAreaFor(m => m.ClientReview, new { @class = "form-control", rows = 5, placeholder = "Write your review here" })
+                                </div>
+
+                                <!-- Submit button -->
+                                <div class="form-group mt-3">
+                                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else if (Model.ClientID == (int)Session["clientID"] && !clienthasHandshaked) // Check if the current user is the owner of the project
                     {
                         <a href="@Url.Action("ViewApplicants", "Home", new { projectId = Model.ProjectID })" class="btn btn-lg rounded-0 fs-6 viewApply" style="width:100%;">View Applicants</a>
                     }
-                }
-                else if ((string)Session["UserType"] == "Developer" || Session["userID"] == null) // If no user is logged in
-                {
-                    <div class="application">
-                        <h4 class="mb-4">Apply For The Job</h4>
-                        @using (Html.BeginForm("ApplyForJob", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+                    else if (Model.ClientID != (int)Session["clientID"])
+                    {
+                        if (projectcompleted)
                         {
-                            @Html.AntiForgeryToken()
-                            @Html.HiddenFor(m => m.ProjectID)
-                            // Display validation summary
-                            @Html.ValidationSummary(true, "", new { @class = "text-success successMsg" })
-
-                            <div class="row g-3">
-                                <div class="col-12 col-sm-6">
-                                    @Html.Label("Name", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.ApplicantsName, new { @class = "form-control", placeholder = "Your Name" })
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    @Html.Label("Email", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.ApplicantsEmail, new { @class = "form-control", placeholder = "Your Email", type = "email" })
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    @Html.Label("Portfolio", new { @class = "form-label" })
-                                    @Html.TextBoxFor(m => m.ApplicantsWebsite, new { @class = "form-control", placeholder = "Portfolio Website" })
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    @Html.Label("Resume", new { @class = "form-label" })
-                                    <input type="file" name="file" class="form-control bg-white" />
-                                </div>
-                                <div class="col-12">
-                                    @Html.Label("Cover Letter", new { @class = "form-label" })
-                                    @Html.TextAreaFor(m => m.ApplicantsCoverLetter, new { @class = "form-control", rows = 5, placeholder = "Cover letter" })
-                                </div>
-                                <div class="col-12">
-                                    
-                                    @if (hasApplied)
-                                    {
-                                        <button class="w-100 applyBtn" type="submit" disabled>You Have Already Applied</button>
-                                    }
-                                    else
-                                    {
-                                        <button class="w-100 applyBtn" type="submit">Apply Now</button>
-                                    }
-                                </div>
-                            </div>
+                            <button class="w-100 applyBtn" type="submit" disabled>Project is Complete</button>
                         }
-                    </div>
+                        else if (hasbeenhandshaked)
+                        {
+                            <button class="w-100 applyBtn" type="submit" disabled>Project is in progress</button>
+                        }
+                    }
                 }
 
+                else if ((string)Session["UserType"] == "Developer" || Session["userID"] != null) // If no user is logged in
+                {
+                    if (!devhasHandshaked)
+                    {
+                        <div class="application">
+                            <h4 class="mb-4">Apply For The Job</h4>
+                            @using (Html.BeginForm("ApplyForJob", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(m => m.ProjectID)
+                                // Display validation summary
+                                @Html.ValidationSummary(true, "", new { @class = "text-success successMsg" })
 
+                                <div class="row g-3">
+                                    <div class="col-12 col-sm-6">
+                                        @Html.Label("Name", new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.ApplicantsName, new { @class = "form-control", placeholder = "Your Name" })
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        @Html.Label("Email", new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.ApplicantsEmail, new { @class = "form-control", placeholder = "Your Email", type = "email" })
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        @Html.Label("Portfolio", new { @class = "form-label" })
+                                        @Html.TextBoxFor(m => m.ApplicantsWebsite, new { @class = "form-control", placeholder = "Portfolio Website" })
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        @Html.Label("Resume", new { @class = "form-label" })
+                                        <input type="file" name="file" class="form-control bg-white" />
+                                    </div>
+                                    <div class="col-12">
+                                        @Html.Label("Cover Letter", new { @class = "form-label" })
+                                        @Html.TextAreaFor(m => m.ApplicantsCoverLetter, new { @class = "form-control", rows = 5, placeholder = "Cover letter" })
+                                    </div>
+                                    <div class="col-12">
+
+                                        @if (hasApplied)
+                                        {
+                                            <button class="w-100 applyBtn" type="submit" disabled>You Have Already Applied</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="w-100 applyBtn" type="submit">Apply Now</button>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    { <div class="application">
+                            @using (Html.BeginForm("ProjectSubmit", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                @Html.HiddenFor(m => m.ProjectID) @* Hidden field for Project ID *@
+
+                                <!-- Display validation summary -->
+                                @Html.ValidationSummary(true, "", new { @class = "text-success successMsg" })
+
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        @Html.Label("uploadedFile", "Upload Project File", new { @class = "form-label" })
+                                        <input type="file" class="form-control bg-white" name="uploadedFile" />
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary">Submit Project</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    }
+                }
             </div>
 
 
-            <div class="col-lg-4">
-                <div class="p-5 mb-4 wow slideInUp jobSummary" data-wow-delay="0.1s">
-                    <h4 class="mb-4">Job Summery</h4>
-                    <p><i class="fa fa-angle-right text-primary me-2"></i>Published On: @Model.PostedOn</p>
-                    <p><i class="fa fa-angle-right text-primary me-2"></i>Expertise Level: @Model.ExpertiseLevel</p>
-                    <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: @Model.JobNature</p>
-                    <p><i class="fa fa-angle-right text-primary me-2"></i>Payment: $@Model.PaymentAmount</p>
-                </div>
-                <div class="p-5 wow slideInUp companyDetail" data-wow-delay="0.1s">
-                    <h4 class="mb-4">Company Detail</h4>
-                    <h5 class="mb-3">@Model.CompanyName</h5>
-                    <p>Company Description : <br /> @Model.ClientDescription</p>
+                    <div class="col-lg-4">
+                        <div class="p-5 mb-4 wow slideInUp jobSummary" data-wow-delay="0.1s">
+                            <h4 class="mb-4">Job Summery</h4>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i>Published On: @Model.PostedOn</p>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i>Expertise Level: @Model.ExpertiseLevel</p>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: @Model.JobNature</p>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i>Payment: $@Model.PaymentAmount</p>
+                        </div>
+                        <div class="p-5 wow slideInUp companyDetail" data-wow-delay="0.1s">
+                            <h4 class="mb-4">Company Detail</h4>
+                            <h5 class="mb-3">@Model.CompanyName</h5>
+                            <p>Company Description : <br /> @Model.ClientDescription</p>
 
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
     </div>
 </div>
 <!-- Job Detail End -->

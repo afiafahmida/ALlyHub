@@ -236,7 +236,7 @@ namespace ALlyHub.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -256,19 +256,19 @@ namespace ALlyHub.Controllers
         }
         public ActionResult AddWorkExperience(ProfileModel model)
         {
-            string EndYEar=model.EndDateInput;
+            string EndYEar = model.EndDateInput;
             int userId = (int)Session["userID"];
             if (Session["userID"] == null)
             {
                 return RedirectToAction("Login", "Home");
             }
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                if(string.IsNullOrEmpty(model.EndDateInput))
+                if (string.IsNullOrEmpty(model.EndDateInput))
                 {
                     EndYEar = "Present";
                 }
-                
+
                 try
                 {
                     int rowsAffected = ProfileHelper.AddWorkExperience(userId, model.CompanyInput, model.PositionInput, model.StartDateInput, EndYEar, model.JobDescriptionInput);
@@ -299,9 +299,16 @@ namespace ALlyHub.Controllers
 
         public ActionResult ProjectDetails(int projectId)
         {
-            // Fetch the project details from the database based on projectId
+            ProjectHelper projectHelper = new ProjectHelper();
             Project project = ProjectHelper.GetProjectById(projectId);
-
+            bool hasbeenhandshaked = true;
+            if (projectHelper.hasbeenhandshaked(projectId))
+            {
+                Session["HasBeenHandshaked"] = hasbeenhandshaked;
+            }
+            // Fetch the project details from the database based on projectId
+            
+            Session["projectId"] = projectId;
             if (project == null)
             {
                 return HttpNotFound(); // Handle if project with given ID is not found
@@ -310,13 +317,44 @@ namespace ALlyHub.Controllers
             {
                 int userID = (int)Session["userID"];
                 int devID = DatabaseHelper.GetDeveloperIdByUserId(userID);
-                ProjectHelper projectHelper = new ProjectHelper();
+                //ProjectHelper projectHelper = new ProjectHelper();
                 bool hasApplied = true;
-                if(projectHelper.hasApplied(devID, projectId))
+                bool devhasHandshaked = true;
+                //bool hasbeenhandshaked = true;
+                bool hasCompleted = true;
+                if (projectHelper.hasApplied(devID, projectId))
                 {
                     Session["hasApplied"] = hasApplied;
                 }
+                if (projectHelper.devhasHandshaked(devID, projectId))
+                {
+                    Session["DevhasHandshaked"] = devhasHandshaked;
+                }
+                if (projectHelper.hascompleteddev(devID, projectId))
+                {
+                    Session["HasCompleted"] = hasCompleted;
+                }
+              
 
+            }
+            if (Session["userID"] != null && (string)Session["UserType"] == "Client")
+            {
+                int userID = (int)Session["userID"];
+                int clientID = DatabaseHelper.GetClientIdByUserId(userID);
+               // ProjectHelper projectHelper = new ProjectHelper();
+
+                bool clienthasHandshaked = true;
+                bool hasCompleted = true;
+            
+                if (projectHelper.clienthasHandshaked(clientID, projectId))
+                {
+                    Session["ClienthasHandshaked"] = clienthasHandshaked;
+                }
+                if (projectHelper.hascompletedclient(clientID, projectId))
+                {
+                    Session["HasCompleted"] = hasCompleted;
+                }
+                
             }
 
             return View(project);
@@ -460,7 +498,7 @@ namespace ALlyHub.Controllers
             // Call the method in DatabaseHelper to insert the handshake record
             bool success = ApplicationHelper.InsertHandshake(handshake);
             string subject = "You have been accepted";
-            string body = "Hey there User! You have been accepted for doing the job of "+projectName+". The client will contact you very soon.";
+            string body = "Hey there User! You have been accepted for doing the job of " + projectName + ". The client will contact you very soon.";
             SendMessage.SendEmail(applicantEmail, subject, body);
             if (success)
             {
@@ -554,10 +592,10 @@ namespace ALlyHub.Controllers
                 return RedirectToAction("Index");
             }
 
-           
+
             searchType = searchType?.ToLower();
 
-           
+
             if (searchType == "developers")
             {
                 var developerResults = searchHelper.SearchUsers(queryText);
@@ -587,7 +625,7 @@ namespace ALlyHub.Controllers
         {
             int userid = UserID;
             int DeveloperID = DatabaseHelper.GetDeveloperIdByUserId(userid);
-            FindTalentModel find = FindtalentHelper.FetchTalentByID((int) DeveloperID);
+            FindTalentModel find = FindtalentHelper.FetchTalentByID((int)DeveloperID);
             if (find == null)
             {
                 return HttpNotFound();
@@ -607,8 +645,222 @@ namespace ALlyHub.Controllers
         }
         public ActionResult NoResult()
         {
-            return View();  
+            return View();
         }
-    }
 
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult ProjectSubmit(int projectId, HttpPostedFileBase uploadedFile)
+        {
+            try
+            {
+                // Check if a file is uploaded
+                if (uploadedFile != null && uploadedFile.ContentLength > 0)
+                {
+                    // Get the file name
+                    string fileName = Path.GetFileName(uploadedFile.FileName);
+
+                 
+                 
+
+                    // Define the folder path where the file will be stored
+                    string folderPath = Server.MapPath("~/UploadedFiles/");
+
+                    // Ensure the directory exists
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+
+                    // Define the file path where the file will be saved
+                    string filePath = Path.Combine(folderPath, fileName);
+
+                    // Save the file to the specified folder
+                    uploadedFile.SaveAs(filePath);
+
+                    // Retrieve user and project-related IDs
+                    int userId = (int)Session["userID"];
+                    int clientId = ApplicationHelper.GetClientIdByProject(projectId);
+                    int devId = DatabaseHelper.GetDeveloperIdByUserId(userId);
+
+                
+
+                    // Use ProjectHelper to insert file information into the database
+                    bool isInserted = ProjectHelper.InsertProjectFile(projectId, devId, clientId, fileName);
+
+                    if (isInserted)
+                    {
+                        return RedirectToAction("ReviewByDev", new { projectId = projectId });
+                    }
+                    else
+                    {
+                        ViewBag.Message = "File uploaded, but database insertion failed.";
+                        var project = ProjectHelper.GetProjectById(projectId);  // Load project details
+                        return RedirectToAction("Index");  // Return to ProjectDetails view with project data
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = "Please upload a valid file.";
+                    var project = ProjectHelper.GetProjectById(projectId);  // Load project details
+                    return View("ProjectDetails", project);  // Return to ProjectDetails view with project data
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (log them and display error message)
+                ViewBag.Message = "Error: " + ex.Message;
+                var project = ProjectHelper.GetProjectById(projectId);  // Load project details
+                return View("ProjectDetails", project);  // Return to ProjectDetails view with project data
+            }
+        }
+        public ActionResult ReviewByDev(int projectId)
+        {
+            var project = ProjectHelper.GetProjectById(projectId);
+            return View();
+        }
+
+
+        [ValidateAntiForgeryToken]
+        public ActionResult SubmitReviewByDev(int projectid, Project project)
+        {
+            try
+            {
+                // Get ClientId by ProjectId
+                int? clientId = ProjectHelper.GetClientIdByProject(projectid);
+                if (!clientId.HasValue)
+                {
+                    ViewBag.Message = "Client not found for the given project.";
+                    return RedirectToAction("ReviewByDev", new { projectid });
+                }
+
+                // Get UserId by ClientId
+                int? userId = ProjectHelper.GetUserIdByClientId(clientId.Value);
+                if (!userId.HasValue)
+                {
+                    ViewBag.Message = "User not found for the given client.";
+                    return RedirectToAction("ReviewByDev", new { projectid });
+                }
+
+                // Get DeveloperId and ReviewerId
+                int? devId = ProjectHelper.GetDevIdByProject(projectid);
+                if (!devId.HasValue)
+                {
+                    ViewBag.Message = "Developer not found for the given project.";
+                    return RedirectToAction("ReviewByDev", new { projectid });
+                }
+
+                int? reviewer = ProjectHelper.GetUserIdByDevId(devId.Value);
+                if (!reviewer.HasValue)
+                {
+                    ViewBag.Message = "Reviewer not found.";
+                    return RedirectToAction("ReviewByDev", new { projectid });
+                }
+
+                // Insert the review
+                bool isInserted = ProjectHelper.InsertReview(userId.Value, reviewer.Value, project.DeveloperReview);
+
+                if (isInserted)
+                {
+                    TempData["Message"] = "Review submitted successfully!";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Message = "There was an issue submitting the review.";
+                    return RedirectToAction("ReviewByDev", new { projectid });
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "Error: " + ex.Message;
+                return RedirectToAction("ReviewByDev", new { projectid });
+            }
+        }
+        public ActionResult DownloadFile(int projectId)
+        {
+            string fileName = ProjectHelper.GetFileNameByProjectId(projectId);
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                ViewBag.Message = "File name not found for this project.";
+                return View("Error");
+            }
+
+            // Define the file path
+            string filePath = Server.MapPath("~/UploadedFiles/" + fileName);
+
+            // Check if the file exists
+            if (System.IO.File.Exists(filePath))
+            {
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            else
+            {
+                ViewBag.Message = "File not found.";
+                return View("Error");  // Show an error view or message
+            }
+        }
+
+        [ValidateAntiForgeryToken]
+        public ActionResult SubmitReviewByClient(int projectid, Project project)
+        {
+            try
+            {
+                // Get DeveloperId by ProjectId
+                int? devId = ProjectHelper.GetDevIdByProject(projectid);
+                if (!devId.HasValue)
+                {
+                    ViewBag.Message = "Developer not found for the given project.";
+                    return RedirectToAction("ProjectDetails", new { projectid });
+                }
+
+                // Get ClientId by ProjectId
+                int? clientId = ProjectHelper.GetClientIdByProject(projectid);
+                if (!clientId.HasValue)
+                {
+                    ViewBag.Message = "Client not found for the given project.";
+                    return RedirectToAction("ProjectDetails", new { projectid });
+                }
+
+                // Get UserId by ClientId (reviewer is the client in this case)
+                int? reviewer = ProjectHelper.GetUserIdByClientId(clientId.Value);
+                if (!reviewer.HasValue)
+                {
+                    ViewBag.Message = "User not found for the given client.";
+                    return RedirectToAction("ProjectDetails", new { projectid });
+                }
+
+                // Get Developer's UserId
+                int? userId = ProjectHelper.GetUserIdByDevId(devId.Value);
+                if (!userId.HasValue)
+                {
+                    ViewBag.Message = "User not found for the given developer.";
+                    return RedirectToAction("ProjectDetails", new { projectid });
+                }
+
+                // Insert the client review (note that userId is the developer's UserId, reviewer is the client)
+                bool isInserted = ProjectHelper.InsertReview(userId.Value, reviewer.Value, project.ClientReview);
+
+                if (isInserted)
+                {
+                    TempData["Message"] = "Review submitted successfully!";
+                    return RedirectToAction("Index", new { projectid });
+                }
+                else
+                {
+                    ViewBag.Message = "There was an issue submitting the review.";
+                    return RedirectToAction("ProjectDetails", new { projectid });
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "Error: " + ex.Message;
+                return RedirectToAction("ProjectDetails", new { projectid });
+            }
+        }
+
+    }
 }
+    

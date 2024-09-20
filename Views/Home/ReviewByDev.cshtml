@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Review by Developer";
+}
+@model ALlyHub.Models.Project
+
+<h2>Submit Your Review</h2>
+
+<!-- Review form starts here -->
+@using (Html.BeginForm("SubmitReviewByDev", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <!-- Hidden field to pass project ID -->
+    @Html.HiddenFor(m => m.ProjectID)
+
+    <!-- Text area for the developer to write the review -->
+    <div class="form-group">
+        <label for="DeveloperReview">Your Review for the Client:</label>
+        @Html.TextAreaFor(m => m.DeveloperReview, new { @class = "form-control", rows = 5, placeholder = "Write your review here" })
+    </div>
+
+    <!-- Submit button -->
+    <div class="form-group mt-3">
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+    </div>
+}

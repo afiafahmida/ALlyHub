@@ -202,3 +202,15 @@ drop table Developer
 SELECT CompanyName,Position,StartingYear,EndingYear,JobDescription FROM Experience where UserId=1
 select * from Experience
 select * from Applicants
+
+create table ProjectFile(
+ProjectId int,
+foreign key (ProjectId) references Project (ProjectID),
+DeveloperID int not null,
+foreign key (DeveloperID) references Developer (DeveloperID),
+ClientID int not null,
+foreign key (ClientID) references Client (ClientID),
+ProjectFileName varchar(100)
+
+
+);
