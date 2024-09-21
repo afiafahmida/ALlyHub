@@ -415,42 +415,43 @@ namespace ALlyHub.Data
         {
             string fileName = null;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                string query = "SELECT ProjectFileName FROM ProjectFile WHERE ProjectId = @ProjectID";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    command.Parameters.Add(new SqlParameter("@ProjectID", SqlDbType.Int) { Value = projectId });
+                    string query = "SELECT ProjectFileName FROM ProjectFile WHERE ProjectId = @ProjectID";
 
-                    try
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        command.Parameters.Add(new SqlParameter("@ProjectID", SqlDbType.Int) { Value = projectId });
+
                         connection.Open();
                         var result = command.ExecuteScalar();
 
-                        if (result != null)
+                        if (result != null && !string.IsNullOrWhiteSpace(result.ToString()))
                         {
-                            fileName = result.ToString(); // Convert the result to a string
+                            fileName = result.ToString();
                         }
                     }
-                    catch (SqlException ex)
-                    {
-                        // Log SQL exception
-                        Console.WriteLine("SQL Error: " + ex.Message);
-                        return null; // Indicate an error occurred
-                    }
-                    catch (Exception ex)
-                    {
-                        // Log general exception
-                        Console.WriteLine("Error: " + ex.Message);
-                        return null; // Indicate an error occurred
-                    }
                 }
+            }
+            catch (SqlException ex)
+            {
+                // Log SQL exception (use your preferred logging mechanism here)
+                // For example: Log.Error("SQL Error: " + ex.Message);
+                Console.WriteLine("SQL Error: " + ex.Message);
+                return null; // Or handle the exception as per your application requirements
+            }
+            catch (Exception ex)
+            {
+                // Log general exception
+                // For example: Log.Error("Error: " + ex.Message);
+                Console.WriteLine("Error: " + ex.Message);
+                return null; // Or handle the exception as per your application requirements
             }
 
             return fileName;
         }
-
 
 
     }

@@ -10,6 +10,5 @@ namespace ALlyHub.Data
 
         //Use this String to connect
         public static string connect { get; set; } = "";
-        public ConnectDB() { }
     }
 }

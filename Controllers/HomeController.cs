@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Profile;
 using System.Web.Services.Discovery;
 using System.Web.UI;
 using ALlyHub.Data;
@@ -44,11 +45,16 @@ namespace ALlyHub.Controllers
         }
         public ActionResult TalentDetails(int DeveloperID)
         {
+           
             FindTalentModel find = FindtalentHelper.FetchTalentByID(DeveloperID);
+            int userId = DatabaseHelper.GetUserIdByDeveloperID(DeveloperID);
             if (find == null)
             {
                 return HttpNotFound();
             }
+            find.Projects = FindtalentHelper.GetHandshakedProjectsByDeveloperId(DeveloperID);
+            find.Experiences = FindtalentHelper.FetchExperience(userId);
+            find.Reviews = FindtalentHelper.FetchReviews(userId);
             return View(find);
         }
         public ActionResult FindJobs()
@@ -143,7 +149,7 @@ namespace ALlyHub.Controllers
         {
             ProfileModel profileModel = new ProfileModel();
             ProfileModel experience = new ProfileModel();
-            ProfileModel reviews = new ProfileModel();
+           // ProfileModel reviews = new ProfileModel();
             if (Session["userID"] == null)
             {
                 return RedirectToAction("Login", "Home"); // Redirect to Login if user is not logged in
@@ -163,7 +169,8 @@ namespace ALlyHub.Controllers
                 profileModel.Projects = ProfileHelper.GetHandshakedProjectsByDeveloperId(devId);
                 profileModel.Experiences = ProfileHelper.FetchExperience(userId);
             }
-            reviews.Reviews = ProfileHelper.FetchReviews(userId);
+            profileModel.Reviews = ProfileHelper.FetchReviews(userId);
+            //profileModel.Reviews = ProfileHelper.FetchReviewers(userId);
             if (profileModel == null)
             {
                 return HttpNotFound();
@@ -767,29 +774,40 @@ namespace ALlyHub.Controllers
         }
         public ActionResult DownloadFile(int projectId)
         {
-            string fileName = ProjectHelper.GetFileNameByProjectId(projectId);
-
-            if (string.IsNullOrEmpty(fileName))
+            try
             {
-                ViewBag.Message = "File name not found for this project.";
+                string fileName = ProjectHelper.GetFileNameByProjectId(projectId);
+
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    ViewBag.Message = "File name not found for this project.";
+                    return View("Error");
+                }
+
+                string filePath = Server.MapPath("~/UploadedFiles/" + fileName);
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                    string contentType = MimeMapping.GetMimeMapping(fileName);
+                    return File(fileBytes, contentType, fileName);
+                }
+                else
+                {
+                    ViewBag.Message = "File not found.";
+                    return View("Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine("Error while processing file download: " + ex.Message);
+                ViewBag.Message = "An error occurred while processing the request: " + ex.Message;
                 return View("Error");
             }
-
-            // Define the file path
-            string filePath = Server.MapPath("~/UploadedFiles/" + fileName);
-
-            // Check if the file exists
-            if (System.IO.File.Exists(filePath))
-            {
-                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-            }
-            else
-            {
-                ViewBag.Message = "File not found.";
-                return View("Error");  // Show an error view or message
-            }
         }
+
+
         [ValidateAntiForgeryToken]
         public ActionResult SubmitReviewByClient(int projectid, Project project)
         {

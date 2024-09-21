@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -366,27 +367,47 @@ namespace ALlyHub.Data
         public static List<ProfileModel> FetchReviews(int userID)
         {
             List<ProfileModel> reviews = new List<ProfileModel>();
-            using(SqlConnection connection = new SqlConnection(connectionString))
+
+            try
             {
-                string query = "select r.ReviewID , r.UserID , r.ReviewerID , r.ReviewText , r.CreatedAt , u.FirstName , u.LastName from Reviews r JOIN Users u ON r.UserID=u.UserId where r.UserID=@userID";
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userID", userID);
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-                while(reader.Read())
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand(@"SELECT r.ReviewText, r.CreatedAt, 
+                                                     u.FirstName, u.LastName
+                                                     FROM Reviews r 
+                                                     INNER JOIN Users u ON u.UserId = r.ReviewerId
+                                                     WHERE r.UserID = @userID", connection))
                 {
-                    ProfileModel review = new ProfileModel
+                    command.Parameters.Add("@userID", SqlDbType.Int).Value = userID;
+
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        ReviewerFName = reader["FirstName"].ToString(),
-                        ReviewerLName = reader["LastName"].ToString(),
-                        ReviewText = reader["ReviewText"].ToString(),
-                        ReviewDate = reader["CreatedAt"].ToString(),
-                    };
-                    reviews.Add(review);
+                        while (reader.Read())
+                        {
+                            ProfileModel review = new ProfileModel
+                            {
+                                ReviewText = reader["ReviewText"]?.ToString(),
+                                ReviewDate = reader["CreatedAt"] is DateTime createdAt
+                                    ? createdAt.ToString("yyyy-MM-dd")
+                                    : null,
+                                ReviewerFName = reader["FirstName"]?.ToString(),
+                                ReviewerLName = reader["LastName"]?.ToString()
+                            };
+
+                            reviews.Add(review);
+                        }
+                    }
                 }
             }
-            return reviews;
+            catch (Exception ex)
+            {
+                // Log the exception (use a logger or handle appropriately)
+                throw new Exception("Error fetching reviews", ex);
+            }
 
+            return reviews;
         }
+
     }
 }

@@ -135,7 +135,27 @@ namespace ALlyHub.Data
 
             return clientId;
         }
-        
+        public static int GetUserIdByDeveloperID(int devID)
+        {
+            int clientId = 0;
+            string query = "SELECT UserId FROM Developer WHERE DeveloperID = @devId";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@devId", devID);
+
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    clientId = Convert.ToInt32(result);
+                }
+            }
+
+            return clientId;
+        }
+
         public static bool DoesEmailExist(string email)
         {
             using (var connection = new SqlConnection(connectionString))

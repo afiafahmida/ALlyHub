@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
 using ALlyHub.Models;
+using System.Data;
 
 namespace ALlyHub.Data
 {
@@ -94,6 +95,110 @@ namespace ALlyHub.Data
                 connection.Close();
             }
             return findTalentModel;
+        }
+        public static List<FindTalentModel> GetHandshakedProjectsByDeveloperId(int developerId)
+        {
+            List<FindTalentModel> handshakedProjects = new List<FindTalentModel>();
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                string query = @"
+            SELECT p.ProjectID, p.ProjectTitle, h.HandshakeDate, h.Status, h.Duration
+            FROM Handshake h
+            INNER JOIN Project p ON h.ProjectID = p.ProjectID
+            WHERE h.DeveloperID = @DeveloperID";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@DeveloperID", developerId);
+
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        handshakedProjects.Add(new FindTalentModel
+                        {
+                            ProjectID = (int)reader["ProjectID"],
+                            Duration = reader["Duration"].ToString(),
+                            ProjectTitle = reader["ProjectTitle"].ToString(),
+                            HandshakeDate = (DateTime)reader["HandshakeDate"],
+                            Status = reader["Status"].ToString()
+                        });
+                    }
+                }
+            }
+
+            return handshakedProjects;
+        }
+        public static List<FindTalentModel> FetchExperience(int userID)
+        {
+            List<FindTalentModel> experiences = new List<FindTalentModel>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT CompanyName,Position,StartingYear,EndingYear,JobDescription FROM Experience where UserId=@userID";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userID", userID);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    FindTalentModel experience = new FindTalentModel
+                    {
+                        CompanyName = reader["CompanyName"].ToString(),
+                        Position = reader["Position"].ToString(),
+                        StartDate = reader["StartingYear"].ToString(),
+                        EndDate = reader["EndingYear"].ToString(),
+                        JobDescription = reader["JobDescription"].ToString()
+                    };
+                    experiences.Add(experience);
+                }
+            }
+
+            return experiences;
+        }
+        public static List<FindTalentModel> FetchReviews(int userID)
+        {
+            List<FindTalentModel> reviews = new List<FindTalentModel>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand(@"SELECT r.ReviewText, r.CreatedAt, 
+                                                     u.FirstName, u.LastName
+                                                     FROM Reviews r 
+                                                     INNER JOIN Users u ON u.UserId = r.ReviewerId
+                                                     WHERE r.UserID = @userID", connection))
+                {
+                    command.Parameters.Add("@userID", SqlDbType.Int).Value = userID;
+
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            FindTalentModel review = new FindTalentModel
+                            {
+                                ReviewText = reader["ReviewText"]?.ToString(),
+                                ReviewDate = reader["CreatedAt"] is DateTime createdAt
+                                    ? createdAt.ToString("yyyy-MM-dd")
+                                    : null,
+                                ReviewerFName = reader["FirstName"]?.ToString(),
+                                ReviewerLName = reader["LastName"]?.ToString()
+                            };
+
+                            reviews.Add(review);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use a logger or handle appropriately)
+                throw new Exception("Error fetching reviews", ex);
+            }
+
+            return reviews;
         }
     }
 }
