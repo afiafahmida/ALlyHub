@@ -69,5 +69,16 @@ namespace ALlyHub.Models
         public string JobDescription { get; set; }
 
         public List<ProfileModel> Experiences { get; set; }
+
+        //Reviews
+        public int ReviewID { get; set; }
+        public string ReviewText { get; set; }
+        public int GivenBy { get; set; }
+        public int GivenTo { get; set; }
+        public string ReviewDate { get; set; }
+        public string ReviewerFName { get; set; }
+        public string ReviewerLName { get; set; }
+        public List<ProfileModel> Reviews { get; set; }
+
     }
 }

@@ -143,6 +143,7 @@ namespace ALlyHub.Controllers
         {
             ProfileModel profileModel = new ProfileModel();
             ProfileModel experience = new ProfileModel();
+            ProfileModel reviews = new ProfileModel();
             if (Session["userID"] == null)
             {
                 return RedirectToAction("Login", "Home"); // Redirect to Login if user is not logged in
@@ -162,7 +163,7 @@ namespace ALlyHub.Controllers
                 profileModel.Projects = ProfileHelper.GetHandshakedProjectsByDeveloperId(devId);
                 profileModel.Experiences = ProfileHelper.FetchExperience(userId);
             }
-
+            reviews.Reviews = ProfileHelper.FetchReviews(userId);
             if (profileModel == null)
             {
                 return HttpNotFound();
@@ -170,7 +171,6 @@ namespace ALlyHub.Controllers
 
             return View(profileModel);
         }
-
         //Update Profile
         [HttpPost]
         public ActionResult Profile(ProfileModel model, HttpPostedFileBase Photo)
@@ -291,12 +291,10 @@ namespace ALlyHub.Controllers
             Session.Clear();
             return RedirectToAction("Index");
         }
-
         public ActionResult ForgotPassword()
         {
             return View();
         }
-
         public ActionResult ProjectDetails(int projectId)
         {
             ProjectHelper projectHelper = new ProjectHelper();
@@ -356,12 +354,10 @@ namespace ALlyHub.Controllers
 
             return View(project);
         }
-
         public ActionResult PostJobs()
         {
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult PostJobs(Project project)
@@ -509,7 +505,6 @@ namespace ALlyHub.Controllers
             // Redirect back to the ViewApplicants page
             return RedirectToAction("ViewApplicants", new { projectId = applicant.ProjectID });
         }
-
         [HttpPost]
         public ActionResult SendOtp(ProfileModel profile)
         {
@@ -538,7 +533,6 @@ namespace ALlyHub.Controllers
             ModelState.AddModelError("", "Please enter a valid email.");
             return View("ForgotPassword");
         }
-
         //OTP for Password Reset
         public ActionResult EnterOtp()
         {
@@ -644,7 +638,6 @@ namespace ALlyHub.Controllers
         {
             return View();
         }
-
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult ProjectSubmit(int projectId, HttpPostedFileBase uploadedFile)
@@ -716,8 +709,6 @@ namespace ALlyHub.Controllers
             var project = ProjectHelper.GetProjectById(projectId);
             return View();
         }
-
-
         [ValidateAntiForgeryToken]
         public ActionResult SubmitReviewByDev(int projectid, Project project)
         {
@@ -799,7 +790,6 @@ namespace ALlyHub.Controllers
                 return View("Error");  // Show an error view or message
             }
         }
-
         [ValidateAntiForgeryToken]
         public ActionResult SubmitReviewByClient(int projectid, Project project)
         {

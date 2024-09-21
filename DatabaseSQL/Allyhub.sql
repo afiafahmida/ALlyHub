@@ -181,28 +181,6 @@ create table Experience(
 	JobDescription varchar(255)
 );
 
-INSERT INTO Project (ProjectTitle, Description, PaymentAmount, ClientID, Level, Duration, SkillSet, CompanyName) VALUES
-('Website Redesign', 'Complete overhaul of the company website.', 5000, 1, 3, 8, 'HTML, CSS, JavaScript', 'Tech Innovators')
-
-select u.UserId , c.ClientID , u.FirstName , u.LastName , u.UserEmail , u.UserPhone , u.UserAddress , u.UserType , u.UserPhoto ,
-                    c.CompanyName , c.ClientDescription , u.Country , u.DOB , c.Facebook , c.Linkedin , u.Languagee 
-                    from Users u JOIN Client c ON u.UserId=c.UserId where u.UserId=2
-
-
-select * from Project ORDER BY PostedOn DESC;
-
-update Users SET UserPhoto='Zenun.jpg' where UserId=5;
-
-select * from Developer;
-select* from Users;
-select * from Client
-select * from Applicants
-select * from Handshake
-drop table Developer
-SELECT CompanyName,Position,StartingYear,EndingYear,JobDescription FROM Experience where UserId=1
-select * from Experience
-select * from Applicants
-
 create table ProjectFile(
 ProjectId int,
 foreign key (ProjectId) references Project (ProjectID),
@@ -211,6 +189,29 @@ foreign key (DeveloperID) references Developer (DeveloperID),
 ClientID int not null,
 foreign key (ClientID) references Client (ClientID),
 ProjectFileName varchar(100)
-
-
 );
+
+INSERT INTO Project (ProjectTitle, Description, PaymentAmount, ClientID, Level, Duration, SkillSet, CompanyName) VALUES
+('Website Redesign', 'Complete overhaul of the company website.', 5000, 1, 3, 8, 'HTML, CSS, JavaScript', 'Tech Innovators')
+
+select u.UserId , c.ClientID , u.FirstName , u.LastName , u.UserEmail , u.UserPhone , u.UserAddress , u.UserType , u.UserPhoto ,
+                    c.CompanyName , c.ClientDescription , u.Country , u.DOB , c.Facebook , c.Linkedin , u.Languagee 
+                    from Users u JOIN Client c ON u.UserId=c.UserId where u.UserId=2
+
+
+
+
+select * from Project ORDER BY PostedOn DESC;
+
+select * from Developer;
+select* from Users;
+select * from Client
+select * from Applicants
+select * from Handshake
+drop table Developer
+select * from Experience
+select * from Applicants
+
+
+select * from Reviews
+select r.ReviewID , r.UserID , r.ReviewerID , r.ReviewText , r.CreatedAt , u.FirstName , u.LastName from Reviews r JOIN Users u on r.UserID=u.UserID where u.userID=1

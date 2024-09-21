@@ -363,5 +363,30 @@ namespace ALlyHub.Data
 
             return experiences;
         }
+        public static List<ProfileModel> FetchReviews(int userID)
+        {
+            List<ProfileModel> reviews = new List<ProfileModel>();
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "select r.ReviewID , r.UserID , r.ReviewerID , r.ReviewText , r.CreatedAt , u.FirstName , u.LastName from Reviews r JOIN Users u ON r.UserID=u.UserId where r.UserID=@userID";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userID", userID);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while(reader.Read())
+                {
+                    ProfileModel review = new ProfileModel
+                    {
+                        ReviewerFName = reader["FirstName"].ToString(),
+                        ReviewerLName = reader["LastName"].ToString(),
+                        ReviewText = reader["ReviewText"].ToString(),
+                        ReviewDate = reader["CreatedAt"].ToString(),
+                    };
+                    reviews.Add(review);
+                }
+            }
+            return reviews;
+
+        }
     }
 }

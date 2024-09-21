@@ -148,25 +148,34 @@
                 <div class="tab-pane active" id="team-tab">
                     <h4 class="card-title mb-4">Reviews</h4>
                     <div class="row">
-                        <div class="col-xl-4 col-md-6" id="team-1">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="d-flex mb-4">
-                                        <div class="flex-grow-1 align-items-start">
-                                            Project Title
+                        @if (Model.Reviews != null && Model.Reviews.Any())
+                        {
+                            foreach (var review in Model.Reviews)
+                            {
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="card projectCard">
+                                        <div class="card-body">
+                                            <div class="d-flex mb-4">
+                                                <div class="flex-grow-1 align-items-start">
+                                                    <a class="card-title" style="font-size:22px;" href="#">@review.ReviewerFName @review.ReviewerLName</a>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p class="mb-1 font-size-10">@review.ReviewText</p>
+                                                <p class="mb-1 font-size-10">@review.ReviewDate</p>
+                                            </div>
                                         </div>
-
+                                        <!-- end card-body -->
                                     </div>
-                                    <div>
-                                        <h5 class="mb-1 font-size-17">Short Description</h5>
-                                        <p class="text-muted font-size-13 mb-0">Date</p>
-                                    </div>
+                                    <!-- end card -->
                                 </div>
-                                <!-- end card-body -->
-                            </div>
-                            <!-- end card -->
-                        </div>
-                        <!-- end col -->
+                                <!-- end col -->
+                            }
+                        }
+                        else
+                        {
+                            <p>No Reviews yet.</p>
+                        }
                     </div>
                     <!-- end row -->
                 </div>
@@ -277,69 +286,73 @@
                 </div>
             }
 
-            <h2 class="text-center mt-5 card-title">Add Work Experience</h2>
-            @using (Html.BeginForm("AddWorkExperience", "Home", FormMethod.Post, new { @class = "form-horizontal mt-5" }))
+            @if ((string)Session["UserType"] == "Developer")
             {
-                <div class="row">
-                    <div class="col-md-6 mt-2">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <i class="fa-solid fa-building" style="font-size: 20px; padding: 5px;"></i>
+                <h2 class="text-center mt-5 card-title">Add Work Experience</h2>
+                using (Html.BeginForm("AddWorkExperience", "Home", FormMethod.Post, new { @class = "form-horizontal mt-5" }))
+                {
+                    <div class="row">
+                        <div class="col-md-6 mt-2">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa-solid fa-building" style="font-size: 20px; padding: 5px;"></i>
+                                    </div>
                                 </div>
+                                @Html.TextBoxFor(m => m.CompanyInput, new { @class = "form-control", required = "required", placeholder = "Company Name" })
                             </div>
-                            @Html.TextBoxFor(m => m.CompanyInput, new { @class = "form-control", required = "required", placeholder = "Company Name" })
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa-solid fa-briefcase" style="font-size: 20px; padding: 5px;"></i>
+                                    </div>
+                                </div>
+                                @Html.TextBoxFor(m => m.PositionInput, new { @class = "form-control", required = "required", placeholder = "Designation" })
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mt-2">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <i class="fa-solid fa-briefcase" style="font-size: 20px; padding: 5px;"></i>
+                    <div class="row mt-3">
+                        <div class="col-md-6 mt-2">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa-solid fa-calendar-days" style="font-size: 20px; padding: 5px;"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            @Html.TextBoxFor(m => m.PositionInput, new { @class = "form-control", required = "required", placeholder = "Designation" })
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-6 mt-2">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <i class="fa-solid fa-calendar-days" style="font-size: 20px; padding: 5px;"></i>
-                                </div>
-                            </div>
-                            @Html.TextBoxFor(m => m.StartDateInput, new { @class = "form-control", type = "date", required = "required", placeholder = "Linkedin Url" })
+                                @Html.TextBoxFor(m => m.StartDateInput, new { @class = "form-control", type = "date", required = "required", placeholder = "Linkedin Url" })
 
-                        </div>
-                    </div>
-                    <div class="col-md-6 mt-2">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <i class="fa-solid fa-calendar-days" style="font-size: 20px; padding: 5px;"></i>
-                                </div>
                             </div>
-                            @Html.TextBoxFor(m => m.EndDateInput, new { @class = "form-control", type = "date", required = "required", placeholder = "Linkedin Url", id = "endingYear" })
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa-solid fa-calendar-days" style="font-size: 20px; padding: 5px;"></i>
+                                    </div>
+                                </div>
+                                @Html.TextBoxFor(m => m.EndDateInput, new { @class = "form-control", type = "date", required = "required", placeholder = "Linkedin Url", id = "endingYear" })
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-12">
-                        <input type="checkbox" id="currentlyWorking" />
-                        <label for="currentlyWorking">Currently working here</label>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <input type="checkbox" id="currentlyWorking" />
+                            <label for="currentlyWorking">Currently working here</label>
+                        </div>
                     </div>
-                </div>
-                @Html.TextAreaFor(m => m.JobDescriptionInput, 8, 80, new { @class = "form-control mt-3 mb-3", required = "required", placeholder = "Enter Your Job Description" })
+                    @Html.TextAreaFor(m => m.JobDescriptionInput, 8, 80, new { @class = "form-control mt-3 mb-3", required = "required", placeholder = "Enter Your Job Description" })
 
-                <div class="row mt-3 mb-3">
-                    <div class="col">
-                        <button type="submit" class="btn btn-lg rounded-0 fs-6 logBtn" style="width: 100%;">Update</button>
+                    <div class="row mt-3 mb-3">
+                        <div class="col">
+                            <button type="submit" class="btn btn-lg rounded-0 fs-6 logBtn" style="width: 100%;">Update</button>
+                        </div>
                     </div>
-                </div>
+                }
             }
+
         </div>
         <!-- end card -->
     </div>
@@ -397,6 +410,7 @@
         </div>
         <!-- end card -->
         <!------Work Experience------>
+        <div class="overlay"></div>
         @if ((string)Session["UserType"] == "Developer")
         {
             <div class="card">
@@ -414,16 +428,82 @@
                                                 <h6 class="lh-base mb-0">@workexperience.CompanyName</h6>
                                             </div>
                                             <div>
-                                                <i class="fa-regular fa-pen-to-square"></i>
+                                                <i class="fa-regular fa-pen-to-square show-modal" data-id="1"></i>
                                             </div>
                                         </div>
-                                        
+
                                         <p class="font-size-13 mb-2">@workexperience.Position</p>
                                         <p class="font-size-13 mb-2">@workexperience.StartDate -> @workexperience.EndDate</p>
                                         <p>
                                             @workexperience.JobDescription
                                         </p>
-                                        
+                                        <div class="modal-box" data-id="1">
+                                            <i class="fa-solid fa-x close-btn" data-id="1"></i>
+                                            <h3>Update Experience</h3>
+                                            @using (Html.BeginForm("", "Home", FormMethod.Post, new { @class = "form-horizontal mt-2" }))
+                                            {
+                                                <div class="row">
+                                                    <div class="col-md-6 mt-1">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <i class="fa-solid fa-building" style="font-size: 20px; padding: 5px;"></i>
+                                                                </div>
+                                                            </div>
+                                                            @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control", required = "required", placeholder = workexperience.Company })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mt-2">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <i class="fa-solid fa-briefcase" style="font-size: 20px; padding: 5px;"></i>
+                                                                </div>
+                                                            </div>
+                                                            @Html.TextBoxFor(m => m.Position, new { @class = "form-control", required = "required", placeholder = "Designation" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-md-6 mt-2">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <i class="fa-solid fa-calendar-days" style="font-size: 20px; padding: 5px;"></i>
+                                                                </div>
+                                                            </div>
+                                                            @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", type = "date", required = "required", placeholder = "Linkedin Url" })
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 mt-2">
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <i class="fa-solid fa-calendar-days" style="font-size: 20px; padding: 5px;"></i>
+                                                                </div>
+                                                            </div>
+                                                            @Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", type = "date", required = "required", placeholder = "Linkedin Url", id = "endingYear" })
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <div class="col-12">
+                                                        <input type="checkbox" id="currentlyWorking" />
+                                                        <label for="currentlyWorking">Currently working here</label>
+                                                    </div>
+                                                </div>
+                                                @Html.TextAreaFor(m => m.JobDescription, 8, 80, new { @class = "form-control mt-3 mb-3", required = "required", placeholder = "Enter Your Job Description" })
+
+                                                <div class="row mt-3 mb-3">
+                                                    <div class="col">
+                                                        <button type="submit" class="btn btn-lg rounded-0 fs-6 logBtn" style="width: 100%;">Update</button>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        </div>
                                     </li>
                                 }
                             }
@@ -441,6 +521,7 @@
     <!-- end col -->
 </div>
 <!-- end row -->
+<!---------------Add Work Experience JS-------------------->
 <script>
     document.getElementById('currentlyWorking').addEventListener('change', function () {
         var endingYearInput = document.getElementById('endingYear');
@@ -452,6 +533,7 @@
         }
     });
 </script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const projectBtn = document.getElementById('projectBtn');
@@ -486,143 +568,46 @@
 </script>
 
 <script>
+
     document.addEventListener("DOMContentLoaded", function () {
-        const customSelects = document.querySelectorAll(".custom-select");
+        // Get all edit icons and close buttons
+        const editIcons = document.querySelectorAll('.show-modal');
+        const closeButtons = document.querySelectorAll('.close-btn');
+        const overlay = document.querySelector('.overlay');
 
-        function updateSelectedOptions(customSelect) {
-            const selectedOptions = Array.from(
-                customSelect.querySelectorAll(".option.active")
-            ).map(function (option) {
-                return {
-                    value: option.getAttribute("data-value"),
-                    text: option.textContent.trim(),
-                };
-            });
+        // Attach event listener for opening modals
+        editIcons.forEach(icon => {
+            icon.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const modal = document.querySelector(`.modal-box[data-id="${id}"]`);
 
-            const selectedValues = selectedOptions.map(function (option) {
-                return option.value;
-            });
+                // Activate the modal and overlay
+                modal.style.opacity = '1';
+                modal.style.pointerEvents = 'auto';
+                modal.style.transform = 'translate(-50%, -50%) scale(1)';
 
-            customSelect.querySelector(".tags_input").value = selectedValues.join(", ");
-
-            let tagsHTML = "";
-            if (selectedOptions.length === 0) {
-                tagsHTML = '<span class="placeholder">Select Skills</span>';
-            } else {
-                const maxTagsToShow = 4;
-                let additionalTagsCount = 0;
-
-                selectedOptions.forEach(function (option, index) {
-                    if (index < maxTagsToShow) {
-                        tagsHTML +=
-                            '<span class="tags">' +
-                            option.text +
-                            '<span class="remove-tag" data-value="' +
-                            option.value +
-                            '">x</span></span>';
-                    } else {
-                        additionalTagsCount++;
-                    }
-                });
-
-                if (additionalTagsCount > 0) {
-                    tagsHTML += '<span class="tags">+' + additionalTagsCount + "</span>";
-                }
-            }
-
-            customSelect.querySelector(".selected-options").innerHTML = tagsHTML;
-        }
-
-        customSelects.forEach(function (customSelect) {
-            const searchInput = customSelect.querySelector(".search-tags");
-            const optionsContainer = customSelect.querySelector(".options");
-            const noResultMessage = customSelect.querySelector(".no-result-message");
-            const options = customSelect.querySelectorAll(".option");
-            const clearButton = customSelect.querySelector(".clear");
-
-            clearButton.addEventListener("click", function () {
-                searchInput.value = "";
-                options.forEach(function (option) {
-                    option.style.display = "block";
-                });
-                noResultMessage.style.display = "none";
-            });
-
-            searchInput.addEventListener("input", function () {
-                const searchTerm = searchInput.value.toLowerCase();
-                options.forEach(function (option) {
-                    const optionText = option.textContent.trim().toLowerCase();
-                    const shouldShow = optionText.includes(searchTerm);
-                    option.style.display = shouldShow ? "block" : "none";
-                });
-
-                const anyOptionsMatch = Array.from(options).some(
-                    (option) => option.style.display === "block"
-                );
-                noResultMessage.style.display = anyOptionsMatch ? "none" : "block";
-
-                if (searchTerm) {
-                    optionsContainer.classList.add("option-search-active");
-                } else {
-                    optionsContainer.classList.remove("option-search-active");
-                }
-            });
-
-            options.forEach(function (option) {
-                option.addEventListener("click", function () {
-                    option.classList.toggle("active");
-                    updateSelectedOptions(customSelect);
-                });
+                overlay.classList.add('active');  // Activate the background blur
             });
         });
 
-        document.addEventListener("click", function (event) {
-            const removeTag = event.target.closest(".remove-tag");
-            if (removeTag) {
-                const customSelect = removeTag.closest(".custom-select");
-                const valueToRemove = removeTag.getAttribute("data-value");
-                const optionToRemove = customSelect.querySelector(
-                    ".option[data-value='" + valueToRemove + "']"
-                );
-                optionToRemove.classList.remove("active");
+        // Attach event listener for closing modals
+        closeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const modal = document.querySelector(`.modal-box[data-id="${id}"]`);
 
-                updateSelectedOptions(customSelect);
-            }
-        });
+                // Deactivate the modal and overlay
+                modal.style.opacity = '0';
+                modal.style.pointerEvents = 'none';
+                modal.style.transform = 'translate(-50%, -50%) scale(1.2)';
 
-        const selectBoxes = document.querySelectorAll(".select-box");
-        selectBoxes.forEach(function (selectBox) {
-            selectBox.addEventListener("click", function (event) {
-                if (!event.target.closest(".tags")) {
-                    selectBox.parentNode.classList.toggle("open");
-                }
+                overlay.classList.remove('active'); // Deactivate the background blur
             });
         });
-
-        document.addEventListener("click", function (event) {
-            if (
-                !event.target.closest(".custom-select") &&
-                !event.target.classList.contains("remove-tag")
-            ) {
-                customSelects.forEach(function (customSelect) {
-                    customSelect.classList.remove("open");
-                });
-            }
-        });
-
-        function resetCustomSelects() {
-            customSelects.forEach(function (customSelect) {
-                customSelect
-                    .querySelectorAll(".option.active")
-                    .forEach(function (option) {
-                        option.classList.remove("active");
-                    });
-                updateSelectedOptions(customSelect);
-            });
-        }
-
-        updateSelectedOptions(customSelects[0]);
     });
+
+
 </script>
+
 
 <script src="~/JS/Profile.js"></script>
