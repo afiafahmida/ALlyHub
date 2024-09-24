@@ -142,31 +142,46 @@ namespace ALlyHub.Data
 
             return project;
         }
-        public static void InsertProject(Project project)
+        public static int InsertProject(Project project)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            int rowsAffected = 0;
+            try
             {
-                string query = @"
-            INSERT INTO Project 
-            (ProjectTitle, ShortDescription, Description, PaymentAmount, ClientID, ExpertiseLevel, Duration, SkillSet, CompanyName) 
-            VALUES 
-            (@ProjectTitle, @ShortDescription, @Description, @PaymentAmount, @ClientID, @ExpertiseLevel, @Duration, @SkillSet, @CompanyName)";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"INSERT INTO Project 
+                    (ProjectTitle, ShortDescription, Description, PaymentAmount, ClientID, ExpertiseLevel, Duration, SkillSet, JobNature,JobLocation) 
+                    VALUES 
+                    (@ProjectTitle, @ShortDescription, @Description, @PaymentAmount, @ClientID, @ExpertiseLevel, @Duration, @SkillSet,@JobNature,@ClientLocation)";
 
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ProjectTitle", project.ProjectTitle);
-                command.Parameters.AddWithValue("@ShortDescription", project.ShortDescription);
-                command.Parameters.AddWithValue("@Description", project.Description);
-                command.Parameters.AddWithValue("@PaymentAmount", project.PaymentAmount);
-                command.Parameters.AddWithValue("@ClientID", project.ClientID);
-                command.Parameters.AddWithValue("@ExpertiseLevel", project.ExpertiseLevel);
-                command.Parameters.AddWithValue("@Duration", project.Duration);
-                command.Parameters.AddWithValue("@SkillSet", project.SkillSet);
-                command.Parameters.AddWithValue("@CompanyName", project.CompanyName);
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@ProjectTitle", project.ProjectTitle);
+                    command.Parameters.AddWithValue("@ShortDescription", project.ShortDescription);
+                    command.Parameters.AddWithValue("@Description", project.Description);
+                    command.Parameters.AddWithValue("@PaymentAmount", project.PaymentAmount);
+                    command.Parameters.AddWithValue("@ClientID", project.ClientID);
+                    command.Parameters.AddWithValue("@ExpertiseLevel", project.ExpertiseLevel);
+                    command.Parameters.AddWithValue("@Duration", project.Duration);
+                    command.Parameters.AddWithValue("@SkillSet", project.SkillSet);
+                    command.Parameters.AddWithValue("@ClientLocation", project.ClientLocation);
+                    command.Parameters.AddWithValue("@JobNature", project.JobNature);
 
-                connection.Open();
-                command.ExecuteNonQuery();
-                connection.Close();
+                    connection.Open();
+                    rowsAffected = command.ExecuteNonQuery();
+                }
             }
+            catch (SqlException ex)
+            {
+                // Log or handle the exception
+                Console.WriteLine("SQL Error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return rowsAffected;
+
         }
         public bool hasApplied(int devID, int projectID)
         {

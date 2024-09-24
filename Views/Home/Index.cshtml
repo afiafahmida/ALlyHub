@@ -288,11 +288,13 @@
 
         watchButton.addEventListener('click', () => {
             popupVideo.style.display = 'flex';
+            document.body.style.overflow = "hidden";
             videoElement.play();
         });
 
         closeVideo.addEventListener('click', () => {
             popupVideo.style.display = 'none';
+            document.body.style.overflow = "auto";
             videoElement.pause();
             videoElement.currentTime = 0;
         });

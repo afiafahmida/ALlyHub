@@ -384,10 +384,11 @@ namespace ALlyHub.Controllers
                     project.PostedOn = DateTime.Now;
 
                     // Save the project to the database
-                    ProjectHelper.InsertProject(project);
-
-
-                    return RedirectToAction("Index");
+                    int rowsAffected = ProjectHelper.InsertProject(project);
+                    if (rowsAffected > 0)
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -628,6 +629,9 @@ namespace ALlyHub.Controllers
             {
                 return HttpNotFound();
             }
+            find.Projects = FindtalentHelper.GetHandshakedProjectsByDeveloperId(DeveloperID);
+            find.Experiences = FindtalentHelper.FetchExperience(userid);
+            find.Reviews = FindtalentHelper.FetchReviews(userid);
             return View(find);
         }
         public ActionResult ClientDetailsFromSearch(int UserID)

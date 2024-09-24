@@ -214,4 +214,4 @@ select * from Applicants
 
 
 select * from Reviews
-select r.ReviewID , r.UserID , r.ReviewerID , r.ReviewText , r.CreatedAt , u.FirstName , u.LastName from Reviews r JOIN Users u on r.UserID=u.UserID where u.userID=1
+select r.ReviewID , r.UserID , r.ReviewerID , r.ReviewText , r.CreatedAt , u.FirstName , u.LastName from Reviews r JOIN Users u on r.UserID=u.UserID where r.UserID=2

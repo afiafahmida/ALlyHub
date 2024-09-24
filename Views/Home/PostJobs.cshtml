@@ -14,71 +14,64 @@
 @using (Html.BeginForm("PostJobs", "Home", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    <div class="row gy-3 overflow-hidden">
-        <div class="col-12">
-            <div class="form-floating mb-3">
-                @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Project Title", required = "required" })
-                @Html.LabelFor(m => m.ProjectTitle, new { @class = "form-label" })
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-floating mb-3">
-                @Html.TextBoxFor(m => m.ShortDescription, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Short Description", required = "required" })
-                @Html.LabelFor(m => m.ShortDescription, new { @class = "form-label" })
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-floating mb-3">
-                @Html.TextAreaFor(m => m.Description, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Description", required = "required", rows = 5 })
-                @Html.LabelFor(m => m.Description, new { @class = "form-label" })
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-floating mb-3">
-                @Html.TextBoxFor(m => m.PaymentAmount, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Payment Amount", required = "required" })
-                @Html.LabelFor(m => m.PaymentAmount, new { @class = "form-label" })
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-floating mb-3">
-                @Html.TextBoxFor(m => m.ExpertiseLevel, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Expertise Level", required = "required" })
-                @Html.LabelFor(m => m.ExpertiseLevel, new { @class = "form-label" })
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-floating mb-3">
-                @Html.TextBoxFor(m => m.Duration, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Duration", required = "required" })
-                @Html.LabelFor(m => m.Duration, new { @class = "form-label" })
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-floating mb-3">
-                @Html.TextBoxFor(m => m.SkillSet, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Skill Set", required = "required" })
-                @Html.LabelFor(m => m.SkillSet, new { @class = "form-label" })
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-floating mb-3">
-                @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Company Name", required = "required" })
-                @Html.LabelFor(m => m.CompanyName, new { @class = "form-label" })
-            </div>
-        </div>
-
-        <div class="col-12">
-            <div class="form-floating mb-3">
-                @Html.TextBoxFor(m => m.ClientName, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Client Name", required = "required" })
-                @Html.LabelFor(m => m.ClientName, new { @class = "form-label" })
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-floating mb-3">
-                @Html.TextBoxFor(m => m.ClientLocation, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Client Location", required = "required" })
-                @Html.LabelFor(m => m.ClientLocation, new { @class = "form-label" })
-            </div>
-        </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-lg rounded-0 fs-6 logBtn" style="width:100%;margin-top:20px;margin-bottom:30px">Post Project</button>
+<div class="row gy-3 overflow-hidden">
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Project Title", required = "required" })
+            @Html.LabelFor(m => m.ProjectTitle, new { @class = "form-label" })
         </div>
     </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            @Html.TextBoxFor(m => m.ShortDescription, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Short Description", required = "required" })
+            @Html.LabelFor(m => m.ShortDescription, new { @class = "form-label" })
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Description", required = "required", rows = 5 })
+            @Html.LabelFor(m => m.Description, new { @class = "form-label" })
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            @Html.TextBoxFor(m => m.PaymentAmount, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Payment Amount", required = "required" })
+            @Html.LabelFor(m => m.PaymentAmount, new { @class = "form-label" })
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            @Html.TextBoxFor(m => m.ExpertiseLevel, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Expertise Level", required = "required" })
+            @Html.LabelFor(m => m.ExpertiseLevel, new { @class = "form-label" })
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            @Html.TextBoxFor(m => m.Duration, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Duration", required = "required" })
+            @Html.LabelFor(m => m.Duration, new { @class = "form-label" })
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            @Html.TextBoxFor(m => m.SkillSet, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Skill Set", required = "required" })
+            @Html.LabelFor(m => m.SkillSet, new { @class = "form-label" })
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            @Html.TextBoxFor(m => m.ClientLocation, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Client Location", required = "required" })
+            @Html.LabelFor(m => m.ClientLocation, new { @class = "form-label" })
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            @Html.TextBoxFor(m => m.JobNature, new { @class = "form-control border-0 border-bottom rounded-0", placeholder = "Job Nature", required = "required" })
+            @Html.LabelFor(m => m.JobNature, new { @class = "form-label" })
+        </div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-lg rounded-0 fs-6 logBtn" style="width:100%;margin-top:20px;margin-bottom:30px">Post Project</button>
+    </div>
+</div>
 }
 

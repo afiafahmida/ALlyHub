@@ -92,7 +92,7 @@
 
 .popup-video {
     display: none;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -348,6 +348,7 @@
     margin-bottom: 50px;
     border: 1px solid var(--third-color);
     border-radius: 30px;
+    z-index:10;
 }
 .searchtype {
     font-family: var(--main-font);
